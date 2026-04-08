@@ -1,0 +1,47 @@
+{
+  "validation": {
+    "firstNameRequired": "First name is required.",
+    "lastNameRequired": "Last name is required.",
+    "invalidEmail": "Invalid email.",
+    "emailRequired": "Email is required",
+    "invalidPhoneNumber": "Invalid phone number",
+    "phoneNumberRequired": "Phone number is required.",
+    "stateRequired": "State is required.",
+    "designationRequired": "Designation is required.",
+    "invalidUrl": "Invalid url.",
+    "emailExists": "Email already exists.",
+    "passwordRequired": "Password is required",
+    "countryRequired": "Country is required.",
+    "phoneNumberExists": "Phone number already exits",
+    "titleRequired": "Job Title is required",
+    "companyNameRequired": "Company Name is required",
+    "roleRequired": "Role is required",
+    "invalidEmailPhone": "Invalid Email Or Phone No.",
+    "inputRequired": "Email Or Phone No required",
+    "minimum10": "Minimum 10 digits are required"
+  },
+  "header": {
+    "Home": "Home",
+    "Features": "Features",
+    "Tutorials": "Tutorials",
+    "Pricing": "Pricing",
+    "Howitworks": "How it works",
+    "Testimonial": "Testimonial",
+    "FAQ": "FAQ",
+    "ContactUs": "Contact Us",
+    "Signupin": "Sign up / in"
+  },
+  "frameComponentsNine": {
+    "EasySteps": "4 EASY STEPS",
+    "HowItWork": "How It Works?",
+    "UploadYourInformation": "Upload Your Information",
+    "UploadExistingResume": "Upload your existing resume or enter your details  using our AI-powered intuitive interface.",
+    "AiEnhancement": "AI Enhancement",
+    "LetAiAlgorithm": "Let our AI algorithm enhance your resume, highlighting key  skills and experiences.",
+    "Customisation": "Customization",
+    "TailoredYourResume": "Tailor your resume to fit the job description",
+    "Download": "Download",
+    "DownloadProfessionalyCrafted": "Download your professionally crafted resume and start applying for jobs.",
+    "CreateResumeButton": "Create Resume"
+  }
+}

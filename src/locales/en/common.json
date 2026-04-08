@@ -1,0 +1,142 @@
+{
+  "validation": {
+    "firstNameRequired": "First name is required.",
+    "lastNameRequired": "Last name is required.",
+    "invalidEmail": "Invalid email.",
+    "emailRequired": "Email is required",
+    "invalidPhoneNumber": "Invalid phone number",
+    "phoneNumberRequired": "Phone number is required.",
+    "stateRequired": "State is required.",
+    "designationRequired": "Designation is required.",
+    "invalidUrl": "Invalid url.",
+    "emailExists": "Email already exists.",
+    "passwordRequired": "Password is required",
+    "countryRequired": "Country is required.",
+    "phoneNumberExists": "Phone number already exits",
+    "titleRequired": "Job Title is required",
+    "companyNameRequired": "Company Name is required",
+    "roleRequired": "Role is required",
+    "invalidEmailPhone": "Invalid Email Or Phone No.",
+    "inputRequired": "Email Or Phone No required",
+    "minimum10": "Minimum 10 digits are required"
+  },
+  "header": {
+    "Home": "Home",
+    "Features": "Features",
+    "Tutorials": "Tutorials",
+    "Pricing": "Pricing",
+    "Howitworks": "How it works",
+    "Testimonial": "Testimonial",
+    "FAQ": "FAQ",
+    "ContactUs": "Contact Us",
+    "Signupin": "Sign up"
+  },
+  "modalPricing": {
+    "Pricing": "Pricing",
+    "Completelyfree": " It's Completely free",
+    "Todownload": "To download the resume just share on WhatsApp and Social media",
+    "Sharenow": " Share now"
+  },
+  "AiPowered": {
+    "ultimateFree": "ultimate Free",
+    "powered": "AI-powered",
+    "ResumeBuilder": "resume builder",
+    "Resumemaker": "Resume maker to generate a resume aligned with your job description",
+    "ResumeScore": "Get Your Resume Score",
+    "BuildResume": "Build Your Resume"
+  },
+  "LogoInterviewers": {
+    "Ourresumes": "Our resumes are mostly loved by interviewers at.."
+  },
+  "CraftsResume": {
+    "Welcometo": "Welcome to ResAI, your one stop platform for crafting professional resumes, cover letters, and portfolios with ease.",
+    "Ouradvanced": " Our advanced AI technology ensures a seamless experience . empowering you to showcase your skills and land your dream job. With ResAI, our online resume builder simplifying the process, offering",
+    "Betterthan": " Better than ChatGPT models for generating resumes",
+    "CraftResumeinMinutes": "Craft resume in minutes",
+    "EfficientSkillshowcasing": "Efficient skill showcasing",
+    "Highlightyourskills": "Highlight your skills effectively",
+    "SkillExtractionAlgorithm": "Skill extraction algorithm",
+    "Preciselyidentify": "Precisely identify your skills",
+    "EffortlessInformation": "Effortless information collection",
+    "AIDrivenUX": "Ai-driven ux for easy data input",
+    "NativeLanguageinputs": "Native language inputs",
+    "Inputinformation": "Input information in your native language",
+    "TailoredResumesusingAI": "Tailored resumes using ai",
+    "Customizeyourresume": "Customize your resume according to specific job descriptions",
+    "CourseRecommendations": "Course recommendations",
+    "Bridgeskillgaps": "Bridge skill gaps with tailored course suggestions"
+  },
+  "walkThroughVisual": {
+    "StillConfusing": "still having confusion?",
+    "CompletelWalkthrough": "Here's a complete walkthrough",
+    "OurResumeBuilder": "of our resume builder"
+  },
+  "whyChooseUs": {
+    "Special": "we are special",
+    "ChooseResAi": "Why Choose ResAI?",
+    "ProfessionalTailoredResume": "Professional tailored resumes",
+    "CreateCustomisedResume": "Create customized resumes that meet  industry standards.",
+    "BridgeSkillGap": "Bridge skill gaps",
+    "WithOurGetSkill": "With our \"Get Skill Course\" feature get access to personalized skill courses designed to enhance your professional abilities and boost your career prospects significantly",
+    "AccesibleAndFree": "Accessible and Free",
+    "UseOurFreeTools": "Use our free tools to build your resume without any  hassle.",
+    "PersonalisedSimilarityScore": "Personalized similarity score",
+    "BoostCareer": "Boost career with personalized skill courses for professional enhancement",
+    "NativeLanguageInput": "Native language Input",
+    "HavingProblemWithEnglish": "Having problems with English? No probs! Our resume builder lets you enter your personal info in your native language and its AI interface does the rest for you, from interpreting to processing. We have it all covered."
+  },
+  "successStories": {
+    "LetsGo": "Let's GO!!!",
+    "ResumesCrafted": "100,000+ Resumes Crafted,",
+    "CountlessSuccessStories": "Countless Success Stories.",
+    "TestimonialContent": "ResAI transformed my career journey! Thanks to this incredible platform, I landed my dream job as a Marketing Manager in Mumbai. Highly recommended!",
+    "AuthorName": "",
+    "Location": "Delhi",
+    "ViewAllReviewButton": "View All Reviews"
+  },
+  "frameComponentsNine": {
+    "EasySteps": "4 EASY STEPS",
+    "HowItWork": "How It Works?",
+    "UploadYourInformation": "Upload Your Information",
+    "UploadExistingResume": "Upload your existing resume or enter your details  using our AI-powered intuitive interface.",
+    "AiEnhancement": "AI Enhancement",
+    "LetAiAlgorithm": "Let our AI algorithm enhance your resume, highlighting key  skills and experiences.",
+    "Customisation": "Customization",
+    "TailoredYourResume": "Tailor your resume to fit the job description",
+    "Download": "Download",
+    "DownloadProfessionalyCrafted": "Download your professionally crafted resume and start applying for jobs.",
+    "CreateResumeButton": "Create Resume"
+  },
+  "chooseTemplate": {
+    "ChooseYourTemplates": "Choose your template",
+    "CraftResume": "Craft Resume in Minutes",
+    "Impress": "& Impress!",
+    "CreateResumeButton": "Create Resume",
+    "ResumeTemplateOne": "College Resume Template",
+    "ResumeTemplateColumnOne": "2 Column Layout",
+    "ResumeTemplateTwo": "College Resume Template",
+    "ResumeTemplateColumnTwo": "2 Column Layout",
+    "ResumeTemplateThree": "College Resume Template",
+    "ResumeTemplateColumnThree": "2 Column Layout",
+    "ResumeTemplateFour": "College Resume Template",
+    "ResumeTemplateColumnFour": "2 Column Layout"
+  },
+  "frameComponentsThirteen": {
+    "AIPoweredResumeBuilder": "Our AI-Powered Resume Builder, Helps you create, Standout resume aligned with your job description",
+    "WantToTalkUs": "Want to talk to us?",
+    "ShareSuccess": "Success",
+    "ShareSuccessMessage": "Thanks for sharing",
+    "ShareError": "Error",
+    "ShareErrorMessage": "Oops, error occurred. Please try again later.",
+    "MessageOnWhatsapp": "Message on WhatsApp",
+    "FeelfreeToGetInTouch": "Feel free to get in touch",
+    "ContactUsSuccess": "Success",
+    "ContactUsSuccessMessage": "Your message has been sent. Thank you!",
+    "ContactUsError": "Error",
+    "ContactUsErrorMessage": "Error in form submission",
+    "NameLabel": "Name",
+    "EmailLabel": "Email",
+    "MessageLabel": "Message",
+    "SendButtonName": "Send"
+  }
+}
