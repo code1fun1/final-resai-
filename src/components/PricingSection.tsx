@@ -215,12 +215,8 @@ const PricingSection: FunctionComponent = () => {
                     border_border="none"
                     position="relative"
                     margin="0"
-                    variant="filled"
-                    size="md"
                     onClick={() => { }}
-                    padding="12px 32px"
-                    layout_width="100%"
-                    className="w-full"
+                    className="w-full h-[47px] px-[13px]"
                   />
 
                   {plan.freeText && (
