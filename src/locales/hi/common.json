@@ -1,0 +1,47 @@
+{
+  "validation": {
+    "firstNameRequired": "पहला नाम आवश्यक है।",
+    "lastNameRequired": "अंतिम नाम आवश्यक है।",
+    "invalidEmail": "अवैध ईमेल।",
+    "emailRequired": "ईमेल आवश्यक है",
+    "invalidPhoneNumber": "अवैध फोन नंबर",
+    "phoneNumberRequired": "फोन नंबर आवश्यक है।",
+    "stateRequired": "राज्य आवश्यक है।",
+    "designationRequired": "पदनाम आवश्यक है।",
+    "invalidUrl": "अवैध यूआरएल।",
+    "emailExists": "ईमेल पहले से मौजूद है।",
+    "passwordRequired": "पासवर्ड आवश्यक है",
+    "countryRequired": "देश आवश्यक है।",
+    "phoneNumberExists": "फोन नंबर पहले से मौजूद है",
+    "titleRequired": "नौकरी शीर्षक आवश्यक है",
+    "companyNameRequired": "कंपनी का नाम आवश्यक है",
+    "roleRequired": "भूमिका आवश्यक है",
+    "invalidEmailPhone": "अवैध ईमेल या फोन नंबर।",
+    "inputRequired": "ईमेल या फोन नंबर आवश्यक है",
+    "minimum10": "न्यूनतम 10 अंक आवश्यक हैं"
+  },
+  "header": {
+    "Home": "होम",
+    "Features": "विशेषताएँ",
+    "Tutorials": "ट्यूटोरियल",
+    "Pricing": "प्राइसिंग",
+    "Howitworks": "हाउ इट्स वर्क्स",
+    "Testimonial": "टेस्टीमोनियल",
+    "FAQ": "सामान्य प्रश्न",
+    "ContactUs": "संपर्क करें",
+    "Signupin": "साइन अप"
+  },
+  "frameComponentsNine": {
+    "EasySteps": "4 आसान कदम",
+    "HowItWork": "यह कैसे काम करता है",
+    "UploadYourInformation": "अपनी जानकारी अपलोड करें",
+    "UploadExistingResume": "अपना मौजूदा बायोडाटा अपलोड करें या हमारे एआई-संचालित सहज इंटरफ़ेस का उपयोग करके अपना विवरण दर्ज करें।",
+    "AiEnhancement": "एआई संवर्धन",
+    "LetAiAlgorithm": "हमारे एआई एल्गोरिदम को प्रमुख कौशल और अनुभवों को उजागर करते हुए आपके बायोडाटा को बेहतर बनाने दें।",
+    "Customisation": "अनुकूलन",
+    "TailoredYourResume": "नौकरी विवरण के अनुरूप अपना बायोडाटा तैयार करें",
+    "Download": "डाउनलोड करना",
+    "DownloadProfessionalyCrafted": "अपना पेशेवर ढंग से तैयार किया गया बायोडाटा डाउनलोड करें और नौकरियों के लिए आवेदन करना शुरू करें।",
+    "CreateResumeButton": "बायोडाटा बनाएं"
+  }
+}
