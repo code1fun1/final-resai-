@@ -48,13 +48,13 @@ const ChallengesSection: FunctionComponent = () => {
           </div>
 
           {/* ================= CARDS ================= */}
-          <div className="flex flex-col lg:flex-row items-stretch gap-6 lg:gap-[24px] w-full mt-6 lg:mt-10">
+          <div className="flex flex-col lg:flex-row items-stretch gap-6 lg:gap-[24px] w-full mt-6 lg:mt-10 lg:items-end">
             
             {challenges.map((challenge, index) => (
               
 <div
   key={index}
-  className={`flex flex-col justify-between h-full min-h-[180px] w-full lg:w-[360px] border-b pb-4 ${
+  className={`flex flex-col justify-between w-full lg:w-[360px] border-b pb-16 ${
     index === 1 ? "border-[#dabf67]" : "border-[#dfdfdf]"
   }`}
 >
@@ -82,7 +82,10 @@ const ChallengesSection: FunctionComponent = () => {
               See Solution
             </p>
 
-                  <button className="w-[64px] h-[64px] lg:w-[80px] lg:h-[80px] bg-[#dabf67] rounded-full flex items-center justify-center hover:scale-105 transition-transform">
+                  <button
+                    className="w-[64px] h-[64px] lg:w-[80px] lg:h-[80px] bg-[#dabf67] rounded-full flex items-center justify-center hover:scale-105 transition-transform"
+                    onClick={() => document.getElementById('solution')?.scrollIntoView({ behavior: 'smooth' })}
+                  >
           <svg
             width="24"
             height="24"

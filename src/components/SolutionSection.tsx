@@ -29,7 +29,7 @@ const SolutionSection: FunctionComponent = () => {
   ];
 
   return (
-    <section className="w-full bg-[#f6f6f6] py-10 sm:py-14 lg:py-20">
+    <section id="solution" className="w-full bg-[#f6f6f6] py-10 sm:py-14 lg:py-20">
       <div className="w-full max-w-[1200px] mx-auto px-6 sm:px-10 lg:px-[80px]">
 
         {/* ================= MAIN BOX ================= */}

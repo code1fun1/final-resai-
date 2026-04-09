@@ -89,9 +89,9 @@ const HeroSection: FunctionComponent = () => {
                   duration-500
                   ease-in-out
                   shrink-0
-                  ml-3
+                  ml-0
                   group-hover:ml-0
-                  group-hover:-translate-x-[63px]
+                  group-hover:-translate-x-[51px]
                   group-hover:opacity-0
                   relative
                   z-0
@@ -114,7 +114,7 @@ const HeroSection: FunctionComponent = () => {
           </div>
 
           {/* Social Proof */}
-          <div className="mt-8 lg:mt-10 flex flex-col gap-3">
+          <div className="mt-8 lg:mt-10 flex flex-col gap-6">
             <img
               src="/images/img_user_profiles.png"
               alt="Users"
@@ -122,11 +122,11 @@ const HeroSection: FunctionComponent = () => {
             />
 
             <div>
-              <h3 className="text-[26px] sm:text-[28px] lg:text-[32px] font-medium text-[#03030d] leading-none">
+              <h3 className="text-[18px] font-[500] text-[#03030d] leading-[155%] tracking-[-0.02em]" style={{ fontFamily: 'Satoshi' }}>
                 Join 3,200+
               </h3>
 
-              <p className="mt-2 text-[16px] lg:text-[18px] text-[#535353] leading-[150%] max-w-[320px]">
+              <p className="mt-0 text-[16px] lg:text-[18px] text-[#535353] leading-[150%] max-w-[320px]">
                 professionals who switched & Built careers with ResAI
               </p>
             </div>
@@ -152,7 +152,7 @@ const HeroSection: FunctionComponent = () => {
           />
 
           {/* Rating Card */}
-          <div className="absolute left-[0px] sm:left-[100px] md:left-[150px] lg:left-[20px] xl:left-[80px] top-[155px] sm:top-[215px] md:top-[255px] lg:top-[280px] xl:top-[320px] bg-white/90 backdrop-blur-sm rounded-[20px] shadow-lg px-3 sm:px-4 lg:px-5 py-3 lg:py-4 flex items-center gap-3 lg:gap-4 z-20 scale-[0.8] sm:scale-90 md:scale-95 lg:scale-95 xl:scale-100 origin-left">
+          <div className="absolute left-[0px] sm:left-[100px] md:left-[150px] lg:left-[20px] xl:left-[80px] top-[155px] sm:top-[215px] md:top-[255px] lg:top-[280px] xl:top-[320px] bg-white/90 backdrop-blur-sm rounded-[20px] shadow-lg px-3 sm:px-4 lg:px-5 py-3 lg:py-4 flex items-center gap-3 lg:gap-4 z-20 scale-[0.8] sm:scale-90 md:scale-95 lg:scale-95 xl:scale-100 origin-left transition-transform duration-300 hover:scale-105 cursor-default">
             <div className="w-[42px] h-[42px] lg:w-[44px] lg:h-[44px] xl:w-[52px] xl:h-[52px] rounded-full bg-[#fefce8] flex items-center justify-center">
               <svg width="22" height="22" viewBox="0 0 24 24" fill="#eab308">
                 <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
@@ -170,17 +170,17 @@ const HeroSection: FunctionComponent = () => {
           </div>
 
           {/* Salary Icon */}
-          <div className="absolute top-[145px] sm:top-[185px] md:top-[220px] lg:top-[240px] xl:top-[275px] right-[55px] sm:right-[130px] md:right-[160px] lg:right-[20px] xl:right-[55px] w-[56px] h-[56px] lg:w-[62px] lg:h-[62px] xl:w-[74px] xl:h-[74px] bg-white/90 backdrop-blur-sm rounded-[20px] shadow-md flex items-center justify-center z-20">
+          <div className="absolute top-[145px] sm:top-[185px] md:top-[220px] lg:top-[240px] xl:top-[275px] right-[55px] sm:right-[130px] md:right-[160px] lg:right-[20px] xl:right-[55px] w-[56px] h-[56px] lg:w-[62px] lg:h-[62px] xl:w-[74px] xl:h-[74px] bg-white/90 backdrop-blur-sm rounded-[20px] shadow-md flex items-center justify-center z-20 transition-transform duration-300 hover:scale-110 cursor-default">
             <img src="/images/img_text.svg" alt="Salary Icon" className="w-8 h-8 lg:w-9 lg:h-9 xl:w-10 xl:h-10" />
           </div>
 
           {/* Chart Icon */}
-          <div className="absolute left-[10px] sm:left-[80px] md:left-[120px] lg:left-[20px] xl:left-[80px] bottom-[80px] sm:bottom-[115px] md:bottom-[135px] lg:bottom-[150px] xl:bottom-[170px] w-[56px] h-[56px] lg:w-[62px] lg:h-[62px] xl:w-[74px] xl:h-[74px] bg-white/90 backdrop-blur-sm rounded-[20px] shadow-md flex items-center justify-center z-20">
+          <div className="absolute left-[10px] sm:left-[80px] md:left-[120px] lg:left-[20px] xl:left-[80px] bottom-[80px] sm:bottom-[115px] md:bottom-[135px] lg:bottom-[150px] xl:bottom-[170px] w-[56px] h-[56px] lg:w-[62px] lg:h-[62px] xl:w-[74px] xl:h-[74px] bg-white/90 backdrop-blur-sm rounded-[20px] shadow-md flex items-center justify-center z-20 transition-transform duration-300 hover:scale-110 cursor-default">
             <img src="/images/img_image_1709_vectorized.svg" alt="Chart Icon" className="w-8 h-8 lg:w-9 lg:h-9 xl:w-10 xl:h-10" />
           </div>
 
           {/* ATS Card */}
-          <div className="absolute right-[8px] sm:right-[100px] md:right-[130px] lg:right-[5px] xl:right-[-20px] bottom-[30px] sm:bottom-[65px] md:bottom-[80px] lg:bottom-[90px] xl:bottom-[100px] bg-white/90 backdrop-blur-sm rounded-[20px] shadow-lg px-3 sm:px-4 lg:px-5 py-3 lg:py-4 flex items-center gap-3 lg:gap-4 z-20 scale-[0.8] sm:scale-90 md:scale-95 lg:scale-95 xl:scale-100 origin-right">
+          <div className="absolute right-[8px] sm:right-[100px] md:right-[130px] lg:right-[5px] xl:right-[-20px] bottom-[30px] sm:bottom-[65px] md:bottom-[80px] lg:bottom-[90px] xl:bottom-[100px] bg-white/90 backdrop-blur-sm rounded-[20px] shadow-lg px-3 sm:px-4 lg:px-5 py-3 lg:py-4 flex items-center gap-3 lg:gap-4 z-20 scale-[0.8] sm:scale-90 md:scale-95 lg:scale-95 xl:scale-100 origin-right transition-transform duration-300 hover:scale-105 cursor-default">
             <div className="w-[38px] h-[38px] lg:w-[40px] lg:h-[40px] xl:w-[44px] xl:h-[44px] rounded-[12px] border border-gray-100 flex items-center justify-center">
               <img src="/images/img_radio_check_circle_01.svg" alt="Check" className="w-5 h-5 lg:w-5 lg:h-5 xl:w-6 xl:h-6" />
             </div>

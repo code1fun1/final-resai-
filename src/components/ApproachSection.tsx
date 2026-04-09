@@ -47,7 +47,7 @@ const ApproachSection: FunctionComponent = () => {
           <div className="group relative w-full lg:w-[1240px] h-[80px] sm:h-[92px] lg:h-[106px] rounded-[18px] sm:rounded-[20px] lg:rounded-[24px] overflow-hidden">
 
             {/* White card */}
-            <div className="absolute left-0 top-0 w-[72%] sm:w-[74%] md:w-[76%] lg:w-[1018px] h-full bg-white rounded-[18px] sm:rounded-[20px] lg:rounded-[24px] px-4 sm:px-6 lg:px-8 flex items-center">
+            <div className="absolute left-0 top-0 w-full sm:w-[74%] md:w-[76%] lg:w-[1018px] h-full bg-white rounded-[18px] sm:rounded-[20px] lg:rounded-[24px] px-4 sm:px-6 lg:px-8 pr-[168px] sm:pr-6 lg:pr-8 flex items-center">
               <img
                 src={comparisons[0].icon}
                 alt=""
@@ -63,8 +63,8 @@ const ApproachSection: FunctionComponent = () => {
               <div className="w-[44px] h-[44px] sm:w-[52px] sm:h-[52px] lg:w-[66px] lg:h-[66px] rounded-full bg-[#dabf67] flex items-center justify-center shrink-0">
                 <ArrowLeft className="w-5 h-5 sm:w-6 sm:h-6 lg:w-8 lg:h-8 text-[#03030d]" strokeWidth={2.5} />
               </div>
-              <div className="ml-2 sm:ml-3 w-[170px] sm:w-[220px] md:w-[260px] lg:w-[349px] h-[64px] sm:h-[78px] md:h-[88px] lg:h-[106px] bg-[#dabf67] rounded-[18px] sm:rounded-[20px] lg:rounded-[24px] flex items-center justify-center px-3 sm:px-4 text-center">
-                <span className="text-[11px] sm:text-[13px] md:text-[15px] lg:text-[20px] text-[#03030d] font-medium leading-tight">
+              <div className="flex ml-2 sm:ml-3 w-[116px] sm:w-[220px] md:w-[260px] lg:w-[349px] h-[60px] sm:h-[78px] md:h-[88px] lg:h-[106px] bg-[#dabf67] rounded-[14px] sm:rounded-[20px] lg:rounded-[24px] items-center justify-center px-2 sm:px-4 text-center">
+                <span className="text-[9px] sm:text-[13px] md:text-[15px] lg:text-[20px] text-[#03030d] font-medium leading-tight">
                   Hover to see what changes with us
                 </span>
               </div>
@@ -100,7 +100,7 @@ const ApproachSection: FunctionComponent = () => {
           <div className="group relative w-full lg:w-[1240px] h-[80px] sm:h-[92px] lg:h-[106px] rounded-[18px] sm:rounded-[20px] lg:rounded-[24px] overflow-hidden">
 
             {/* White card */}
-            <div className="absolute left-0 top-0 w-[72%] sm:w-[74%] md:w-[76%] lg:w-[1018px] h-full bg-white rounded-[18px] sm:rounded-[20px] lg:rounded-[24px] px-4 sm:px-6 lg:px-8 flex items-center">
+            <div className="absolute left-0 top-0 w-full sm:w-[74%] md:w-[76%] lg:w-[1018px] h-full bg-white rounded-[18px] sm:rounded-[20px] lg:rounded-[24px] px-4 sm:px-6 lg:px-8 pr-[168px] sm:pr-6 lg:pr-8 flex items-center">
               <img
                 src={comparisons[1].icon}
                 alt=""
@@ -116,8 +116,8 @@ const ApproachSection: FunctionComponent = () => {
               <div className="w-[44px] h-[44px] sm:w-[52px] sm:h-[52px] lg:w-[66px] lg:h-[66px] rounded-full bg-[#dabf67] flex items-center justify-center shrink-0">
                 <ArrowLeft className="w-5 h-5 sm:w-6 sm:h-6 lg:w-8 lg:h-8 text-[#03030d]" strokeWidth={2.5} />
               </div>
-              <div className="ml-2 sm:ml-3 w-[170px] sm:w-[220px] md:w-[260px] lg:w-[349px] h-[64px] sm:h-[78px] md:h-[88px] lg:h-[106px] bg-[#dabf67] rounded-[18px] sm:rounded-[20px] lg:rounded-[24px] flex items-center justify-center px-3 sm:px-4 text-center">
-                <span className="text-[11px] sm:text-[13px] md:text-[15px] lg:text-[20px] text-[#03030d] font-medium leading-tight">
+              <div className="flex ml-2 sm:ml-3 w-[116px] sm:w-[220px] md:w-[260px] lg:w-[349px] h-[60px] sm:h-[78px] md:h-[88px] lg:h-[106px] bg-[#dabf67] rounded-[14px] sm:rounded-[20px] lg:rounded-[24px] items-center justify-center px-2 sm:px-4 text-center">
+                <span className="text-[9px] sm:text-[13px] md:text-[15px] lg:text-[20px] text-[#03030d] font-medium leading-tight">
                   Hover to see what changes with us
                 </span>
               </div>

@@ -107,6 +107,9 @@ const PricingSection: FunctionComponent = () => {
             bg-[#111111]
             p-3
             lg:p-[12px]
+            lg:max-w-[954px]
+            lg:mx-auto
+            lg:h-[620px]
           "
           style={{
             backgroundImage: "url('/images/img_group_2_550x954.png')",
@@ -122,6 +125,7 @@ const PricingSection: FunctionComponent = () => {
               lg:grid-cols-3
               gap-4
               lg:gap-[14px]
+              h-full
             "
           >
             {pricingPlans.map((plan, index) => (
@@ -130,12 +134,13 @@ const PricingSection: FunctionComponent = () => {
                 className="
                   bg-[#0d0d0d]
                   rounded-[20px]
-                  lg:rounded-[24px]
+                  lg:rounded-[30px]
                   border
                   border-[#232323]
                   min-h-[480px]
                   sm:min-h-[520px]
-                  lg:min-h-[560px]
+                  lg:min-h-0
+                  lg:h-full
                   flex
                   flex-col
                   px-5 sm:px-6
@@ -197,7 +202,7 @@ const PricingSection: FunctionComponent = () => {
                 <div className="flex-grow" />
 
                 {/* Button */}
-                <div className="mt-6 sm:mt-8">
+                <div className="h-[75px] flex flex-col justify-start">
                   <Button
                     text={plan.buttonText}
                     text_font_size="18"
