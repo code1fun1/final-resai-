@@ -1,0 +1,162 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;0,900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Geist:ital,wght@0,400;0,500&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Geist:wght@400;500;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Afacad:wght@400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@500&display=swap");
+
+@font-face {
+  font-family: 'Satoshi';
+  src: url('/fonts/Satoshi-Variable.woff2') format('woff2'),
+       url('/fonts/Satoshi-Variable.ttf') format('truetype');
+  font-weight: 100 900;
+  font-display: swap;
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@keyframes spinSlow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+:root {
+  --text-primary: #03030d;
+  --text-secondary: #0d0c0c;
+  --text-accent: #4e3000;
+  --text-muted: #535353;
+  --text-golden: #735302;
+  --text-gray: #7b7b7b;
+  --text-light-gray: #959ca2;
+  --text-pale-gray: #b8b8b8;
+  --text-light: #c8c8c8;
+  --text-soft: #d2d7d9;
+  --text-lighter: #dfdfdf;
+  --text-lightest: #ededed;
+  --text-white: #ffffff;
+  --bg-dark: #0d0c0c;
+  --bg-darker: #171717;
+  --bg-medium: #535353;
+  --bg-golden: #735302;
+  --bg-light-golden: #dabf67;
+  --bg-yellow: #eab308;
+  --bg-light: #f6f6f6;
+  --bg-cream: #fefce8;
+  --bg-white: #ffffff;
+  --bg-white-opacity: #ffffffe5;
+  --border-golden-dark: #a98536;
+  --border-golden-light: #dabf67;
+  --border-light: #dfdfdf;
+  --border-white: #ffffff;
+  --border-white-opacity: #ffffff4c;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 14px;
+  --radius-xl: 16px;
+  --radius-2xl: 20px;
+  --radius-3xl: 22px;
+  --radius-4xl: 24px;
+  --radius-5xl: 30px;
+  --radius-6xl: 32px;
+  --radius-7xl: 44px;
+  --radius-8xl: 50px;
+  --radius-9xl: 56px;
+  --header-bg: var(--bg-light);
+  --button-bg-primary: var(--bg-golden);
+  --button-bg-secondary: var(--bg-light-golden);
+  --button-bg-tertiary: var(--bg-medium);
+  --button-text-primary: var(--text-white);
+  --button-text-secondary: var(--text-golden);
+  --button-text-tertiary: var(--text-primary);
+  --footer-bg: var(--bg-darker);
+  --star-bg: var(--bg-yellow);
+}
+body {
+  @apply leading-[normal] m-0;
+  font-family: 'Satoshi', sans-serif;
+}
+@layer base {
+  *,
+  *::before,
+  *::after {
+    border-width: 0;
+  }
+}
+
+.border-neutrals-n40 {
+  --tw-border-opacity: 0.35;
+}
+
+.SuccessStoriesSection .slick-next:before {
+  content: '';
+}
+.SuccessStoriesSection .slick-prev:before {
+  content: '';
+}
+.SuccessStoriesSection .slick-list { margin: 0 -5px; }
+.SuccessStoriesSection .slick-slide > div { padding: 0 5px; }
+
+.ChooseTemplate .slick-list { margin: 0 -5px; }
+.ChooseTemplate .slick-slide > div { padding: 0 5px; }
+.HeaderoginBtn a { color: white; text-decoration: none; }
+
+.FaqAccordion .MuiAccordion-root::before {
+  content: none !important;
+}
+
+.phone-search-field input {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 16px;
+  color: #919295;
+  text-transform: capitalize;
+  font-family: "Afacad";
+  opacity: 1;
+  padding-left: 24px;
+}
+.phone-search-field input::placeholder {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 16px;
+  color: #919295;
+  text-transform: capitalize;
+  font-family: "Afacad";
+  opacity: 1;
+}
+
+@media (max-width: 450px) {
+  .logo-interviwers-slider .slick-dots li {
+    width: 6px !important;
+  }
+  .logo-interviwers-slider .slick-dots li button:before {
+    font-size: 10px;
+    color: #EEEEF0;
+  }
+  .logo-interviwers-slider .slick-dots li.slick-active button:before {
+    color: #F7B348;
+  }
+}
+@media (max-width: 750px) {
+  .slick-prev {
+    left: -9px;
+    z-index: 1;
+    top: 56%;
+  }
+  .slick-next {
+    right: -2px;
+    top: 56%;
+  }
+}
+@media (max-width: 450px) {
+  .ChooseTemplate .slick-dots li {
+    width: 6px !important;
+  }
+  .ChooseTemplate .slick-dots li button:before {
+    font-size: 10px;
+  }
+}
