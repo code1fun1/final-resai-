@@ -17,7 +17,7 @@ const CompanyLogos: FunctionComponent = () => {
   ];
 
   const LogoItem = ({ company }: { company: Company }) => (
-    <div className="flex-shrink-0 flex items-center justify-center px-8 lg:px-0">
+    <div className="flex-shrink-0 flex items-center justify-center px-12 xl:px-0">
       <img
         src={company.src}
         alt={company.alt}
@@ -41,14 +41,14 @@ const CompanyLogos: FunctionComponent = () => {
           </p>
 
           {/* Desktop — static flex row */}
-          <div className="hidden lg:flex justify-center items-center gap-[76px] w-full">
+          <div className="hidden xl:flex justify-center items-center gap-[76px] w-full">
             {companies.map((company, index) => (
               <LogoItem key={index} company={company} />
             ))}
           </div>
 
-          {/* Mobile/Tablet — infinite marquee */}
-          <div className="lg:hidden w-full overflow-hidden">
+          {/* Mobile/Tablet/iPad — infinite marquee */}
+          <div className="xl:hidden w-full overflow-hidden">
             <div className="animate-marquee">
               {/* Duplicate logos for seamless loop */}
               {[...companies, ...companies].map((company, index) => (
