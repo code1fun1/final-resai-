@@ -1,0 +1,2 @@
+make changes in packages.json for homepage 
+make changes in env file for REACT_APP_BASEPATH

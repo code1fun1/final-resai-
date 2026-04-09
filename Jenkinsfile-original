@@ -1,0 +1,142 @@
+pipeline {
+    agent {
+        docker {
+            image 'cicdpython3.8'
+            args '-v /var/run/docker.sock:/var/run/docker.sock -u root'
+        }
+    }
+    environment {
+        AWS_DEFAULT_REGION = 'us-east-1'
+        AWS_ACCESS_KEY_ID = credentials('c1d53c4a-358a-46fb-a6d8-e95d213bb22f')
+        AWS_SECRET_ACCESS_KEY = credentials('06d18128-96f6-4d43-8d20-88a33387ff2f')
+        AWS_ACCESS_KEY_ID_RESAI= credentials('e9b49fe6-88c7-4e12-b59e-0dc7ac781615')
+        AWS_SECRET_ACCESS_KEY_RESAI= credentials('a72e196e-a894-46a6-81f7-f17299c96460')
+        SONARQUBE_URL = 'https://sonar.atg.galaxysofttech.co.in/'
+        SONAR_TOKEN = credentials('bc217d4a-75a4-4ca4-b6bb-08018fedf8c1')
+        ECR_REGISTRY = '762402958275.dkr.ecr.ap-south-1.amazonaws.com'
+        ECR_REPO = 'resai-frontend'
+    }
+    stages {
+        stage('Build Image') {
+            when {
+                branch 'static-production'
+            }
+            steps {
+                script { 
+                    def buildNumber = env.BUILD_NUMBER
+                    def dockerImageTag = "static-production-latest"  // Tag with "static-production-latest"
+                    def dockerImageTagBuildNumber = "static-production-${buildNumber}"
+                    sh "docker build --build-arg AWS_ACCESS_KEY_ID='${AWS_ACCESS_KEY_ID}' --build-arg AWS_SECRET_ACCESS_KEY='${AWS_SECRET_ACCESS_KEY}' -t $ECR_REGISTRY/$ECR_REPO:$dockerImageTag -t $ECR_REGISTRY/$ECR_REPO:$dockerImageTagBuildNumber ."
+                    sh "docker run --rm -v $HOME/.aws:/root/.aws -e AWS_ACCESS_KEY_ID='${AWS_ACCESS_KEY_ID_RESAI}' -e AWS_SECRET_ACCESS_KEY='${AWS_SECRET_ACCESS_KEY_RESAI}' amazon/aws-cli ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin ${ECR_REGISTRY}"
+                    sh "docker push $ECR_REGISTRY/$ECR_REPO:$dockerImageTag"
+                    sh "docker push $ECR_REGISTRY/$ECR_REPO:$dockerImageTagBuildNumber"
+                    
+                }
+            }
+        }
+
+        stage('Build for Staging') {
+            when {
+                branch 'release/stg'
+            }
+            steps {
+                script { 
+                    def buildNumber = env.BUILD_NUMBER
+                    def dockerImageTag = "stg-latest"  // Tag with "stg-latest"
+                    def dockerImageTagBuildNumber = "stg-${buildNumber}"
+                    sh "docker build --build-arg AWS_ACCESS_KEY_ID='${AWS_ACCESS_KEY_ID}' --build-arg AWS_SECRET_ACCESS_KEY='${AWS_SECRET_ACCESS_KEY}' -t $ECR_REGISTRY/$ECR_REPO:$dockerImageTag -t $ECR_REGISTRY/$ECR_REPO:$dockerImageTagBuildNumber ."
+                    sh "docker run --rm -v $HOME/.aws:/root/.aws -e AWS_ACCESS_KEY_ID='${AWS_ACCESS_KEY_ID_RESAI}' -e AWS_SECRET_ACCESS_KEY='${AWS_SECRET_ACCESS_KEY_RESAI}' amazon/aws-cli ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin ${ECR_REGISTRY}"
+                    sh "docker push $ECR_REGISTRY/$ECR_REPO:$dockerImageTag"
+                    sh "docker push $ECR_REGISTRY/$ECR_REPO:$dockerImageTagBuildNumber"
+                }
+            }
+        }
+
+        stage('Build for static-production') {
+            when {
+                branch 'static-production'
+            }
+            steps {
+                script { 
+                    def buildNumber = env.BUILD_NUMBER
+                    def dockerImageTag = "static-production-latest"  // Tag with "static-develop-latest"
+                    def dockerImageTagBuildNumber = "static-production-${buildNumber}"
+                    sh "docker build --build-arg AWS_ACCESS_KEY_ID='${AWS_ACCESS_KEY_ID}' --build-arg AWS_SECRET_ACCESS_KEY='${AWS_SECRET_ACCESS_KEY}' -t $ECR_REGISTRY/$ECR_REPO:$dockerImageTag -t $ECR_REGISTRY/$ECR_REPO:$dockerImageTagBuildNumber ."
+                    sh "docker run --rm -v $HOME/.aws:/root/.aws -e AWS_ACCESS_KEY_ID='${AWS_ACCESS_KEY_ID_RESAI}' -e AWS_SECRET_ACCESS_KEY='${AWS_SECRET_ACCESS_KEY_RESAI}' amazon/aws-cli ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin ${ECR_REGISTRY}"
+                    sh "docker push $ECR_REGISTRY/$ECR_REPO:$dockerImageTag"
+                    sh "docker push $ECR_REGISTRY/$ECR_REPO:$dockerImageTagBuildNumber"
+                }
+            }
+        }
+
+        stage('Deploy Dev') {
+            when {
+                branch 'develop'
+            }
+            steps {
+                script {
+                    // Assuming your SSH credential ID is 'e12682cf-433b-49c9-a36c-559d85e6e21f'
+                    withCredentials([sshUserPrivateKey(credentialsId: 'e12682cf-433b-49c9-a36c-559d85e6e21f', keyFileVariable: 'SSH_KEY')]) {
+                        // Test SSH connection
+                        sh "ssh -o StrictHostKeyChecking=no -i \$SSH_KEY ubuntu@app.resai.co 'ls /home/ubuntu/resai-qa'"
+                        
+                        sh "ssh -o StrictHostKeyChecking=no -i \$SSH_KEY ubuntu@app.resai.co 'sh /home/ubuntu/resai-qa/dockerdeploy.sh'"
+                    }
+                }
+            }
+        }
+        
+        stage('Deploy Stg'){
+            when {
+                branch 'release/stg'
+            }
+            steps {
+                script {
+                    // Assuming your SSH credential ID is 'e12682cf-433b-49c9-a36c-559d85e6e21f'
+                    withCredentials([sshUserPrivateKey(credentialsId: 'e12682cf-433b-49c9-a36c-559d85e6e21f', keyFileVariable: 'SSH_KEY')]) {
+                        // Test SSH connection
+                        sh "ssh -o StrictHostKeyChecking=no -i \$SSH_KEY ubuntu@app.resai.co 'ls /home/ubuntu/project/resai/stg'"
+                        
+                        sh "ssh -o StrictHostKeyChecking=no -i \$SSH_KEY ubuntu@app.resai.co 'sh /home/ubuntu/project/resai/stg/dockerdeploy.sh'"
+                    }
+                }
+            }
+        }
+
+        stage('Deploy static-production'){
+            when {
+                branch 'static-production'
+            }
+            steps {
+                script {
+                    // Assuming your SSH credential ID is - 'e12682cf-433b-49c9-a36c-559d85e6e21f'
+                    withCredentials([sshUserPrivateKey(credentialsId: 'e12682cf-433b-49c9-a36c-559d85e6e21f', keyFileVariable: 'SSH_KEY')]) {
+                        // Test SSH connection.
+                        sh "ssh -o StrictHostKeyChecking=no -i \$SSH_KEY ubuntu@app.resai.co 'ls /home/ubuntu/resai.co/static-production-frontend'"
+                        
+                        sh "ssh -o StrictHostKeyChecking=no -i \$SSH_KEY ubuntu@app.resai.co 'sh /home/ubuntu/resai.co/static-production-frontend/dockerdeploy.sh'"
+                    }
+                }
+            }
+        }
+        
+    }
+    post {
+        success {
+            mail to: 'ayazahmed.khan@galaxyweblinks.in, vinod.gole@galaxyweblinks.in, shoaib.khan@galaxyweblinks.in',
+                 subject: "${currentBuild.fullDisplayName} - Build # ${BUILD_NUMBER} - Success",
+                 body: """${currentBuild.fullDisplayName} - Build # ${BUILD_NUMBER}
+                 Result: Success
+                 More info: ${BUILD_URL}
+                 """
+        }
+        failure {
+            mail to: 'ayazahmed.khan@galaxyweblinks.in, vinod.gole@galaxyweblinks.in, shoaib.khan@galaxyweblinks.in',
+                 subject: "${currentBuild.fullDisplayName} - Build # ${BUILD_NUMBER} - Failure",
+                 body: """${currentBuild.fullDisplayName} - Build # ${BUILD_NUMBER}
+                 Result: Failure
+                 More info: ${BUILD_URL}
+                 """
+        }
+    }
+}

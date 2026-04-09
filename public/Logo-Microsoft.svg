@@ -1,0 +1,9 @@
+<svg width="150" height="32" viewBox="0 0 150 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+<!-- Windows 4-square icon -->
+<rect x="0" y="1" width="13.5" height="13.5" fill="#0A0A0C"/>
+<rect x="15" y="1" width="13.5" height="13.5" fill="#0A0A0C"/>
+<rect x="0" y="16.5" width="13.5" height="13.5" fill="#0A0A0C"/>
+<rect x="15" y="16.5" width="13.5" height="13.5" fill="#0A0A0C"/>
+<!-- Microsoft text -->
+<text x="33" y="22" font-family="'Segoe UI', 'Arial', sans-serif" font-size="17" font-weight="400" fill="#0A0A0C">Microsoft</text>
+</svg>
