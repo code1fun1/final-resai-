@@ -127,7 +127,7 @@ const PricingSection: FunctionComponent = () => {
             {pricingPlans.map((plan, index) => (
               <div
                 key={index}
-                className="
+                className={`
                   bg-[#0d0d0d]
                   rounded-[20px]
                   lg:rounded-[24px]
@@ -141,7 +141,10 @@ const PricingSection: FunctionComponent = () => {
                   px-5 sm:px-6
                   pt-6 sm:pt-7
                   pb-5 sm:pb-6
-                "
+                  ${index === pricingPlans.length - 1 && pricingPlans.length % 2 !== 0
+                    ? 'md:col-span-2 md:w-[calc(50%-7px)] md:mx-auto lg:col-span-1 lg:w-full lg:mx-0'
+                    : ''}
+                `}
               >
                 {/* Header */}
                 <div>

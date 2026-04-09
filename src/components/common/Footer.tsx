@@ -92,10 +92,10 @@ const Footer = () => {
             </div>
 
             {/* Links Section */}
-            <div className="flex flex-col lg:flex-row justify-between items-start w-full mt-[26px] gap-8 lg:gap-0">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:flex lg:flex-row lg:justify-between items-start w-full mt-[26px] gap-8 lg:gap-0">
 
               {/* Menu Column */}
-              <div className="flex flex-col gap-[12px] justify-start items-start w-full lg:w-[22%]">
+              <div className="flex flex-col gap-[12px] justify-start items-start lg:w-[22%]">
                 <h3
                   className="text-[20px] sm:text-[24px] font-medium leading-[28px] sm:leading-[33px] text-left text-white"
                   style={{ fontFamily: 'Satoshi' }}
@@ -118,7 +118,7 @@ const Footer = () => {
               </div>
 
               {/* Services Column */}
-              <div className="flex flex-col gap-[12px] justify-start items-start w-full lg:w-[22%]">
+              <div className="flex flex-col gap-[12px] justify-start items-start lg:w-[22%]">
                 <h3
                   className="text-[20px] sm:text-[24px] font-medium leading-[28px] sm:leading-[33px] text-left text-white"
                   style={{ fontFamily: 'Satoshi' }}
@@ -141,7 +141,7 @@ const Footer = () => {
               </div>
 
               {/* Resources Column */}
-              <div className="flex flex-col gap-[12px] justify-start items-start w-full lg:w-[22%]">
+              <div className="flex flex-col gap-[12px] justify-start items-start lg:w-[22%]">
                 <h3
                   className="text-[20px] sm:text-[24px] font-medium leading-[28px] sm:leading-[33px] text-left text-white"
                   style={{ fontFamily: 'Satoshi' }}
@@ -164,7 +164,7 @@ const Footer = () => {
               </div>
 
               {/* Company Column */}
-              <div className="flex flex-col gap-[12px] justify-start items-start w-full lg:w-[22%]">
+              <div className="flex flex-col gap-[12px] justify-start items-start lg:w-[22%]">
                 <h3
                   className="text-[20px] sm:text-[24px] font-medium leading-[28px] sm:leading-[33px] text-left text-white"
                   style={{ fontFamily: 'Satoshi' }}
@@ -187,16 +187,16 @@ const Footer = () => {
               </div>
 
               {/* Support Column */}
-              <div className="flex flex-col gap-[12px] justify-start items-start w-full lg:w-[22%]">
+              <div className="flex flex-col gap-[12px] justify-start items-start md:col-span-2 lg:col-span-1 lg:w-[22%]">
                 <h3
                   className="text-[20px] sm:text-[24px] font-medium leading-[28px] sm:leading-[33px] text-left text-white"
                   style={{ fontFamily: 'Satoshi' }}
                 >
                   Support
                 </h3>
-                <ul className="flex flex-col justify-start items-start">
+                <ul className="flex flex-col md:flex-row md:flex-wrap md:gap-x-10 lg:flex-col lg:gap-x-0 justify-start items-start">
                   {supportLinks?.map((link, index) => (
-                    <li key={index} className={index > 0 ? 'mt-[4px] sm:mt-[6px]' : ''}>
+                    <li key={index} className={index > 0 ? 'mt-[4px] sm:mt-[6px] md:mt-0 lg:mt-[4px]' : ''}>
                       <a
                         href="#"
                         className="text-[16px] sm:text-[18px] font-normal leading-[22px] sm:leading-[25px] text-left text-[#b8b8b8] hover:text-white transition-colors"
