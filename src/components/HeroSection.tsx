@@ -46,27 +46,24 @@ const HeroSection: FunctionComponent = () => {
           <div className="flex flex-col sm:flex-row sm:flex-wrap items-start sm:items-center gap-4 mt-8 lg:mt-10">
 
             {/* Animated Merge CTA */}
-            <div className="group flex items-center w-fit cursor-pointer relative">
+            <div className="group flex items-center w-fit cursor-pointer transition-all duration-500 ease-in-out">
 
               {/* Main Button */}
               <button
                 className="
                   h-[51px]
-                  pl-[24px] pr-[24px]
-                  lg:pl-[34px] lg:pr-[34px]
+                  px-[24px]
+                  lg:px-[34px]
                   rounded-full
                   bg-[#dabf67]
-                  group-hover:bg-[#c7aa4d]
-                  group-hover:pr-[76px]
-                  lg:group-hover:pr-[86px]
                   flex
                   items-center
                   justify-center
+                  hover:bg-[#c7aa4d]
                   transition-all
                   duration-500
                   ease-in-out
-                  relative
-                  z-10
+                  group-hover:pr-[42px]
                 "
               >
                 <span className="text-[15px] lg:text-[16px] font-[500] text-[#03030d] whitespace-nowrap">
@@ -74,33 +71,36 @@ const HeroSection: FunctionComponent = () => {
                 </span>
               </button>
 
-              {/* Arrow Button - slides behind main button on hover */}
+              {/* Arrow Button */}
               <button
                 className="
                   w-[51px]
                   h-[51px]
                   rounded-full
                   bg-[#dabf67]
-                  group-hover:bg-[#c7aa4d]
                   flex
                   items-center
                   justify-center
+                  hover:bg-[#c7aa4d]
                   transition-all
                   duration-500
                   ease-in-out
                   shrink-0
                   ml-3
                   group-hover:ml-0
-                  group-hover:-translate-x-[63px]
-                  group-hover:opacity-0
-                  relative
-                  z-0
+                  group-hover:-translate-x-2
                 "
               >
                 <img
                   src="/images/img_huge_icon_arrow.svg"
                   alt="Arrow"
-                  className="w-5 h-5"
+                  className="
+                    w-5
+                    h-5
+                    transition-transform
+                    duration-500
+                    group-hover:scale-110
+                  "
                 />
               </button>
             </div>

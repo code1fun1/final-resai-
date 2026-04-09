@@ -1,1 +1,0 @@
-export const COMMONHEADERS = {"Content-Type": "application/json"};

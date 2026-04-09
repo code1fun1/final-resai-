@@ -91,45 +91,19 @@ const HowItWorksSection: FunctionComponent = () => {
             style={{ height: '550px' }}
           />
 
-          {/* Animated Merge CTA */}
-          <div className="absolute left-6 sm:left-10 top-[30px] group flex items-center w-fit cursor-pointer">
+          {/* Two separate pills — text + arrow */}
+          <div className="absolute left-6 sm:left-10 top-[30px] flex items-center gap-0">
 
             {/* Text pill */}
             <div
-              className="
-                bg-[#f5c842]
-                group-hover:bg-[#e6b830]
-                text-[#03030d] font-bold text-[14px] sm:text-[15px]
-                rounded-full
-                pl-5 pr-5
-                group-hover:pr-[52px]
-                py-[10px]
-                flex items-center
-                transition-all duration-500 ease-in-out
-                relative z-10
-              "
+              className="bg-[#f5c842] text-[#03030d] font-bold text-[14px] sm:text-[15px] rounded-full px-5 py-[10px] cursor-pointer hover:bg-[#e6b830] transition-colors duration-200"
               style={{ fontFamily: 'Satoshi' }}
             >
               Start Free Resume Analysis
             </div>
 
-            {/* Arrow pill - slides behind on hover */}
-            <div
-              className="
-                bg-[#f5c842]
-                group-hover:bg-[#e6b830]
-                w-[38px] h-[38px]
-                rounded-full
-                flex items-center justify-center
-                transition-all duration-500 ease-in-out
-                shrink-0
-                ml-2
-                group-hover:ml-0
-                group-hover:-translate-x-[46px]
-                group-hover:opacity-0
-                relative z-0
-              "
-            >
+            {/* Arrow pill */}
+            <div className="bg-[#f5c842] hover:bg-[#e6b830] transition-colors duration-200 w-[38px] h-[38px] rounded-full flex items-center justify-center cursor-pointer">
               <svg width="13" height="13" viewBox="0 0 14 14" fill="none">
                 <path
                   d="M3 11L11 3M11 3H5M11 3V9"

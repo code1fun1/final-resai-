@@ -18,7 +18,7 @@ const Header: React.FC = () => {
   ];
 
   return (
-    <header className="w-full bg-[#f6f6f6] px-4 sm:px-6 lg:px-[100px] py-4 relative z-50">
+    <header className="w-full bg-[#f6f6f6] px-4 sm:px-6 ipad-pro:px-[32px] lg:px-[56px] xl:px-[100px] py-4 relative z-50">
       
       <div className="w-full max-w-[1440px] mx-auto flex justify-between items-center">
         
@@ -32,7 +32,7 @@ const Header: React.FC = () => {
         </div>
 
         {/* Desktop Menu */}
-        <nav className="hidden lg:flex">
+        <nav className="hidden ipad-pro:flex">
           <div className="flex gap-8 items-center">
             {menuItems.map((item, index) => (
               <button
@@ -51,7 +51,7 @@ const Header: React.FC = () => {
         </nav>
 
         {/* ✅ DESKTOP BUTTONS */}
-        <div className="hidden lg:flex items-center gap-0">
+        <div className="hidden ipad-pro:flex items-center gap-0">
           
           {/* Signup */}
           <button className="bg-[#dabf67] hover:bg-[#c9ae55] px-6 py-2.5 rounded-full transition-all duration-200 shadow-[0_4px_14px_rgba(0,0,0,0.1)]">
@@ -72,8 +72,8 @@ const Header: React.FC = () => {
         </div>
 
         {/* Hamburger */}
-        <button 
-          className="lg:hidden p-2"
+        <button
+          className="ipad-pro:hidden p-2"
           onClick={() => setMenuOpen(!menuOpen)}
         >
           {menuOpen ? (
@@ -90,7 +90,7 @@ const Header: React.FC = () => {
 
       {/* Mobile Menu */}
       {menuOpen && (
-        <div className="lg:hidden absolute top-full left-0 right-0 bg-[#f6f6f6] shadow-lg px-4 py-6 flex flex-col gap-4">
+        <div className="ipad-pro:hidden absolute top-full left-0 right-0 bg-[#f6f6f6] shadow-lg px-4 py-6 flex flex-col gap-4">
           
           <nav className="flex flex-col gap-4">
             {menuItems.map((item, index) => (
