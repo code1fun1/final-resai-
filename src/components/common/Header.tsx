@@ -37,10 +37,10 @@ const Header: React.FC = () => {
             {menuItems.map((item, index) => (
               <button
                 key={index}
-                className={`text-base transition-colors ${
-                  item.active 
-                    ? 'text-[#4e3000] font-medium' 
-                    : 'text-[#03030d] hover:text-[#4e3000]'
+                className={`text-[16px] leading-[150%] tracking-[-0.02em] transition-colors ${
+                  item.active
+                    ? 'text-[#4e3000] font-medium'
+                    : 'text-[#03030d] font-medium hover:text-[#4e3000]'
                 }`}
                 style={{ fontFamily: 'Satoshi' }}
               >

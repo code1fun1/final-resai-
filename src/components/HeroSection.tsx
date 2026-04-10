@@ -21,17 +21,18 @@ const HeroSection: FunctionComponent = () => {
             style={{ fontFamily: "Satoshi" }}
           >
             <span className="block">Your next career.</span>
-            <span className="block text-[#6c4700]">Engineered.</span>
+            <span className="block text-[#4E3000]">Engineered.</span>
           </h1>
 
           <p
             className="
               mt-5 lg:mt-6
               text-[#535353]
-              leading-[170%]
+              leading-[155%]
               text-[16px]
-              sm:text-[17px]
-              lg:text-[18px]
+              sm:text-[18px]
+              lg:text-[20px]
+              font-[500]
               max-w-full
               lg:max-w-[560px]
             "
@@ -152,44 +153,44 @@ const HeroSection: FunctionComponent = () => {
           />
 
           {/* Rating Card */}
-          <div className="absolute left-[0px] sm:left-[100px] md:left-[150px] lg:left-[20px] xl:left-[80px] top-[155px] sm:top-[215px] md:top-[255px] lg:top-[280px] xl:top-[320px] bg-white/90 backdrop-blur-sm rounded-[20px] shadow-lg px-3 sm:px-4 lg:px-5 py-3 lg:py-4 flex items-center gap-3 lg:gap-4 z-20 scale-[0.8] sm:scale-90 md:scale-95 lg:scale-95 xl:scale-100 origin-left transition-transform duration-300 hover:scale-105 cursor-default">
-            <div className="w-[42px] h-[42px] lg:w-[44px] lg:h-[44px] xl:w-[52px] xl:h-[52px] rounded-full bg-[#fefce8] flex items-center justify-center">
+          <div className="absolute left-[10px] sm:left-[60px] md:left-[80px] lg:left-[0px] xl:left-[20px] top-[180px] sm:top-[230px] md:top-[270px] lg:top-[300px] xl:top-[340px] w-[208px] h-[80px] bg-white/90 backdrop-blur-[15px] rounded-[20px] border border-white/90 p-[9px] flex items-center gap-[9px] z-20 origin-left transition-transform duration-300 hover:scale-105 cursor-default">
+            <div className="w-[56px] h-[56px] shrink-0 rounded-full bg-[#fefce8] flex items-center justify-center">
               <svg width="22" height="22" viewBox="0 0 24 24" fill="#eab308">
                 <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
               </svg>
             </div>
 
             <div>
-              <div className="text-[20px] lg:text-[22px] xl:text-[28px] font-medium text-[#03030d]">
+              <div className="text-[16px] font-[700] leading-[100%] tracking-[0] text-[#04040E]" style={{ fontFamily: 'Satoshi' }}>
                 4.8 / 5.0
               </div>
-              <div className="text-[14px] lg:text-[15px] xl:text-[18px] text-[#7b7b7b]">
+              <div className="mt-1 text-[16px] font-[400] leading-[100%] tracking-[0] text-[#787878]" style={{ fontFamily: 'Satoshi' }}>
                 12.5K Reviews
               </div>
             </div>
           </div>
 
           {/* Salary Icon */}
-          <div className="absolute top-[145px] sm:top-[185px] md:top-[220px] lg:top-[240px] xl:top-[275px] right-[55px] sm:right-[130px] md:right-[160px] lg:right-[20px] xl:right-[55px] w-[56px] h-[56px] lg:w-[62px] lg:h-[62px] xl:w-[74px] xl:h-[74px] bg-white/90 backdrop-blur-sm rounded-[20px] shadow-md flex items-center justify-center z-20 transition-transform duration-300 hover:scale-110 cursor-default">
+          <div className="absolute top-[30px] sm:top-[50px] md:top-[60px] lg:top-[200px] xl:top-[200px] right-[20px] sm:right-[80px] md:right-[100px] lg:right-[10px] xl:right-[30px] w-[56px] h-[56px] lg:w-[62px] lg:h-[62px] xl:w-[74px] xl:h-[74px] bg-white/90 backdrop-blur-sm rounded-[20px] shadow-md flex items-center justify-center z-20 transition-transform duration-300 hover:scale-110 cursor-default">
             <img src="/images/img_text.svg" alt="Salary Icon" className="w-8 h-8 lg:w-9 lg:h-9 xl:w-10 xl:h-10" />
           </div>
 
           {/* Chart Icon */}
-          <div className="absolute left-[10px] sm:left-[80px] md:left-[120px] lg:left-[20px] xl:left-[80px] bottom-[80px] sm:bottom-[115px] md:bottom-[135px] lg:bottom-[150px] xl:bottom-[170px] w-[56px] h-[56px] lg:w-[62px] lg:h-[62px] xl:w-[74px] xl:h-[74px] bg-white/90 backdrop-blur-sm rounded-[20px] shadow-md flex items-center justify-center z-20 transition-transform duration-300 hover:scale-110 cursor-default">
+          <div className="absolute left-[10px] sm:left-[60px] md:left-[80px] lg:left-[0px] xl:left-[20px] bottom-[100px] sm:bottom-[130px] md:bottom-[150px] lg:bottom-[160px] xl:bottom-[180px] w-[56px] h-[56px] lg:w-[62px] lg:h-[62px] xl:w-[74px] xl:h-[74px] bg-white/90 backdrop-blur-sm rounded-[20px] shadow-md flex items-center justify-center z-20 transition-transform duration-300 hover:scale-110 cursor-default">
             <img src="/images/img_image_1709_vectorized.svg" alt="Chart Icon" className="w-8 h-8 lg:w-9 lg:h-9 xl:w-10 xl:h-10" />
           </div>
 
           {/* ATS Card */}
-          <div className="absolute right-[8px] sm:right-[100px] md:right-[130px] lg:right-[5px] xl:right-[-20px] bottom-[30px] sm:bottom-[65px] md:bottom-[80px] lg:bottom-[90px] xl:bottom-[100px] bg-white/90 backdrop-blur-sm rounded-[20px] shadow-lg px-3 sm:px-4 lg:px-5 py-3 lg:py-4 flex items-center gap-3 lg:gap-4 z-20 scale-[0.8] sm:scale-90 md:scale-95 lg:scale-95 xl:scale-100 origin-right transition-transform duration-300 hover:scale-105 cursor-default">
-            <div className="w-[38px] h-[38px] lg:w-[40px] lg:h-[40px] xl:w-[44px] xl:h-[44px] rounded-[12px] border border-gray-100 flex items-center justify-center">
-              <img src="/images/img_radio_check_circle_01.svg" alt="Check" className="w-5 h-5 lg:w-5 lg:h-5 xl:w-6 xl:h-6" />
+          <div className="absolute right-[10px] sm:right-[60px] md:right-[80px] lg:right-[0px] xl:right-[10px] bottom-[40px] sm:bottom-[60px] md:bottom-[80px] lg:bottom-[100px] xl:bottom-[120px] bg-white/90 backdrop-blur-sm rounded-[20px] shadow-lg px-4 py-3 flex items-center gap-3 z-20 origin-right transition-transform duration-300 hover:scale-105 cursor-default">
+            <div className="w-[38px] h-[38px] shrink-0 rounded-[12px] border border-gray-100 flex items-center justify-center">
+              <img src="/images/img_radio_check_circle_01.svg" alt="Check" className="w-5 h-5" />
             </div>
 
             <div>
-              <div className="text-[18px] lg:text-[20px] xl:text-[24px] font-medium text-[#03030d]">
+              <div className="text-[16px] font-[700] leading-[100%] text-[#04040E]" style={{ fontFamily: 'Satoshi' }}>
                 ATS-Approved
               </div>
-              <div className="text-[13px] lg:text-[14px] xl:text-[16px] text-[#7b7b7b]">
+              <div className="mt-1 text-[14px] font-[400] leading-[100%] text-[#787878]" style={{ fontFamily: 'Satoshi' }}>
                 ATS Ready Template
               </div>
             </div>

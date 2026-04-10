@@ -41,7 +41,7 @@ const HowItWorksSection: FunctionComponent = () => {
 
         {/* Heading */}
         <h2
-          className="text-[36px] sm:text-[48px] lg:text-[60px] font-[500] leading-[125%] tracking-[-0.02em] text-[#03030d] mb-12 sm:mb-16 lg:mb-20"
+          className="text-[36px] sm:text-[48px] lg:text-[60px] font-[500] leading-[125%] tracking-[-0.02em] text-[#03030d] mb-6 sm:mb-8 lg:mb-10"
           style={{ fontFamily: 'Satoshi' }}
         >
           From resume to career<br />
