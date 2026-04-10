@@ -88,7 +88,7 @@ const Footer = () => {
               </div>
 
               {/* Horizontal Line */}
-              <div className="w-full h-[1px] bg-white"></div>
+              <div className="w-full h-[1px] bg-white/25 mt-8 lg:mt-12"></div>
             </div>
 
             {/* Links Section */}

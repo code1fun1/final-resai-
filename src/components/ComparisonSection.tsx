@@ -3,13 +3,13 @@ import { FunctionComponent } from 'react';
 const ComparisonSection: FunctionComponent = () => {
   return (
     <section className="w-full bg-white py-8 sm:py-12 lg:py-20 mt-8 sm:mt-12 lg:mt-20">
-      <div className="w-full max-w-[1200px] mx-auto px-6 sm:px-10 lg:px-[80px]">
+      <div className="w-full max-w-[1200px] mx-auto px-6 sm:px-16 lg:px-[180px]">
         
         <div className="flex flex-col gap-6 sm:gap-8 lg:gap-[30px] justify-start items-center w-full max-w-[1026px] mx-auto">
           
           {/* Section Title */}
-          <h2 
-            className="text-[28px] sm:text-[40px] lg:text-[60px] font-[500] leading-[1.35] text-center text-[#03030d]"
+          <h2
+            className="text-[22px] sm:text-[32px] lg:text-[60px] font-[500] leading-[1.35] text-center text-[#03030d] whitespace-nowrap"
             style={{ fontFamily: 'Satoshi' }}
           >
             Why ResAI vs Naukri Resume Services?
@@ -22,7 +22,7 @@ const ComparisonSection: FunctionComponent = () => {
             <div className="flex flex-col sm:flex-row gap-4 w-full">
               
               {/* Naukri Card */}
-              <div className="flex flex-col gap-10 sm:gap-14 lg:gap-[98px] justify-center items-start w-full sm:w-1/2 h-auto bg-[#f6f6f6] rounded-[30px] p-6 sm:p-8 lg:p-10">
+              <div className="flex flex-col gap-4 lg:gap-0 lg:justify-between items-start w-full sm:w-1/2 lg:h-[340px] bg-[#f6f6f6] rounded-[30px] p-6 sm:p-8 lg:p-10">
                 <img 
                   src="/images/img_naukri_id5uu3xyb_1.png" 
                   alt="Naukri Logo" 
@@ -42,7 +42,7 @@ const ComparisonSection: FunctionComponent = () => {
               </div>
 
               {/* ResAI Card */}
-              <div className="flex flex-col gap-10 sm:gap-14 lg:gap-[92px] justify-center items-start w-full sm:w-1/2 h-auto bg-[#171717] rounded-[30px] p-6 sm:p-8 lg:p-10">
+              <div className="flex flex-col gap-4 lg:gap-0 lg:justify-between items-start w-full sm:w-1/2 lg:h-[340px] bg-[#171717] rounded-[30px] p-6 sm:p-8 lg:p-10">
                 <img 
                   src="/images/img_frame_1610067930.svg" 
                   alt="ResAI Logo" 
@@ -64,9 +64,9 @@ const ComparisonSection: FunctionComponent = () => {
 
             {/* Quote Card */}
             <div className="flex flex-row justify-start items-center w-full bg-[#f6f6f6] rounded-[24px] p-6 sm:p-8 lg:p-10">
-              <p 
-                className="text-[18px] sm:text-[20px] lg:text-[24px] font-medium leading-[1.4] text-center text-[#735302] flex-1 px-2 sm:px-6 lg:px-[54px]"
-                style={{ fontFamily: 'Satoshi' }}
+              <p
+                className="text-[24px] font-[500] text-center text-[#735302] flex-1 px-2 sm:px-6 lg:px-[54px]"
+                style={{ fontFamily: 'Satoshi', lineHeight: '132%', letterSpacing: '0.02em' }}
               >
                 'Less than a Zomato dinner. More valuable than a career coach.'
               </p>
