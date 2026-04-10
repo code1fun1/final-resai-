@@ -48,7 +48,7 @@ const ChallengesSection: FunctionComponent = () => {
           </div>
 
           {/* ================= CARDS ================= */}
-          <div className="flex flex-col lg:flex-row items-stretch gap-6 lg:gap-[24px] w-full mt-6 lg:mt-10 lg:items-end">
+          <div className="flex flex-col lg:flex-row gap-6 lg:gap-[24px] w-full mt-6 lg:mt-10 lg:items-stretch">
             
             {challenges.map((challenge, index) => (
               
@@ -59,14 +59,14 @@ const ChallengesSection: FunctionComponent = () => {
   }`}
 >
   <div className="flex flex-col gap-3">
-    
-    <img src={challenge.icon} className="w-[40px] h-[40px]" />
 
-    <h3 className="text-[20px] sm:text-[22px] lg:text-[24px] font-semibold text-[#03030d] font-satoshi">
+    <img src={challenge.icon} className="w-[40px] h-[40px] mb-4" />
+
+    <h3 className="text-[24px] sm:text-[26px] lg:text-[22px] font-semibold text-[#03030d] font-satoshi">
       {challenge.title}
     </h3>
 
-    <p className="text-[16px] sm:text-[17px] lg:text-[18px] text-[#535353] font-satoshi">
+    <p className="text-[18px] sm:text-[20px] lg:text-[20px] text-[#535353] font-satoshi">
       {challenge.description}
     </p>
 

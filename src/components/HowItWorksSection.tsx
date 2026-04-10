@@ -65,7 +65,7 @@ const HowItWorksSection: FunctionComponent = () => {
 
               {/* Title */}
               <h3
-                className="text-[18px] sm:text-[20px] lg:text-[22px] font-medium leading-[1.35] text-[#03030d] mb-2 relative z-10"
+                className="text-[22px] sm:text-[24px] lg:text-[26px] font-medium leading-[1.35] text-[#03030d] mb-2 relative z-10"
                 style={{ fontFamily: 'Satoshi' }}
               >
                 {step?.title}
@@ -73,7 +73,7 @@ const HowItWorksSection: FunctionComponent = () => {
 
               {/* Description */}
               <p
-                className="text-[15px] sm:text-[16px] lg:text-[17px] font-normal leading-[1.5] text-[#535353]"
+                className="text-[17px] sm:text-[18px] lg:text-[20px] font-normal leading-[1.5] text-[#535353]"
                 style={{ fontFamily: 'Satoshi' }}
               >
                 {step?.description}

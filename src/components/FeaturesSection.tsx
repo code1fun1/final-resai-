@@ -47,10 +47,11 @@ const FeaturesSection: FunctionComponent = () => {
         <div className="mt-10 sm:mt-12 lg:mt-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
 
           {/* Card 1 - Beat ATS */}
-          <div className="min-h-[260px] sm:min-h-[280px] lg:h-[320px] rounded-[24px] lg:rounded-[30px] border border-[#d7bc65] bg-[#f6f6f6] p-6 sm:p-8 lg:p-9 flex flex-col justify-between">
-            <h3 className="text-[20px] sm:text-[22px] lg:text-[24px] font-bold text-[#735302] leading-[130%]">
+          <div className="lg:h-[300px] rounded-[24px] lg:rounded-[30px] border border-[#d7bc65] bg-[#f6f6f6] p-6 sm:p-8 lg:p-9 flex flex-col gap-4 lg:justify-between">
+            <h3 className="text-[20px] sm:text-[22px] lg:text-[24px] text-[#735302] leading-[130%]" style={{ fontFamily: 'Satoshi', fontWeight: 700 }}>
               Beat the ATS Filter
             </h3>
+            <div className="hidden lg:block mt-5" />
             <p className="text-[16px] sm:text-[18px] lg:text-[20px] leading-[160%] text-[#535353]">
               Your resume is rewritten and optimized for the specific job
               you're targeting — guaranteed to pass applicant tracking systems.
@@ -58,10 +59,11 @@ const FeaturesSection: FunctionComponent = () => {
           </div>
 
           {/* Card 2 - Know Skill Gaps */}
-          <div className="min-h-[260px] sm:min-h-[280px] lg:h-[320px] rounded-[24px] lg:rounded-[30px] bg-[#171717] p-6 sm:p-8 lg:p-9 flex flex-col justify-between">
-            <h3 className="text-[20px] sm:text-[22px] lg:text-[24px] font-bold text-white leading-[130%]">
+          <div className="lg:h-[300px] rounded-[24px] lg:rounded-[30px] bg-[#171717] p-6 sm:p-8 lg:p-9 flex flex-col gap-4 lg:justify-between">
+            <h3 className="text-[20px] sm:text-[22px] lg:text-[24px] text-white leading-[130%]" style={{ fontFamily: 'Satoshi', fontWeight: 700 }}>
               Know Your Skill Gaps
             </h3>
+            <div className="hidden lg:block mt-5" />
             <p className="text-[16px] sm:text-[18px] lg:text-[20px] leading-[160%] text-white">
               ResAI compares your current skills to what's actually required
               for your target role — and shows you exactly what to learn next.
@@ -69,21 +71,23 @@ const FeaturesSection: FunctionComponent = () => {
           </div>
 
           {/* Card 3 - Close Your Gaps */}
-          <div className="min-h-[260px] sm:min-h-[280px] lg:h-[320px] rounded-[24px] lg:rounded-[30px] bg-[#171717] p-6 sm:p-8 lg:p-9 flex flex-col justify-between">
-            <h3 className="text-[20px] sm:text-[22px] lg:text-[24px] font-bold text-white leading-[130%]">
+          <div className="lg:h-[300px] rounded-[24px] lg:rounded-[30px] bg-[#171717] p-6 sm:p-8 lg:p-9 flex flex-col gap-4 lg:justify-between">
+            <h3 className="text-[20px] sm:text-[22px] lg:text-[24px] text-white leading-[130%]" style={{ fontFamily: 'Satoshi', fontWeight: 700 }}>
               Close Your Gaps, Fast
             </h3>
+            <div className="hidden lg:block mt-5" />
             <p className="text-[16px] sm:text-[18px] lg:text-[20px] leading-[160%] text-white">
               Get personalized course recommendations from top platforms —
               matched to your exact skill gaps, not generic suggestions.
             </p>
           </div>
 
-          {/* Roadmap Card - sm: beside Card 3, lg: left side of bottom row */}
-          <div className="min-h-[260px] sm:min-h-[280px] lg:h-[320px] lg:col-span-1 lg:col-start-1 lg:row-start-2 rounded-[24px] lg:rounded-[30px] bg-[#171717] p-6 sm:p-8 lg:p-9 flex flex-col justify-between">
-            <h3 className="text-[20px] sm:text-[22px] lg:text-[24px] font-bold text-white leading-[130%] max-w-[280px]">
+          {/* Roadmap Card */}
+          <div className="lg:h-[300px] lg:col-span-1 lg:col-start-1 lg:row-start-2 rounded-[24px] lg:rounded-[30px] bg-[#171717] p-6 sm:p-8 lg:p-9 flex flex-col justify-between">
+            <h3 className="text-[20px] sm:text-[22px] lg:text-[24px] text-white leading-[130%] max-w-[280px]" style={{ fontFamily: 'Satoshi', fontWeight: 700 }}>
               Your 6-Month Career Roadmap
             </h3>
+            <div className="hidden lg:block mt-5" />
             <p className="text-[16px] sm:text-[18px] lg:text-[20px] leading-[160%] text-white">
               A structured, step-by-step plan — from your current role to your
               target role, with milestones you can actually follow.
@@ -91,7 +95,7 @@ const FeaturesSection: FunctionComponent = () => {
           </div>
 
           {/* Image Card - sm: full width below all cards, lg: right side of bottom row */}
-          <div className="h-[260px] sm:h-[280px] sm:col-span-2 lg:h-[320px] rounded-[24px] lg:rounded-[30px] overflow-hidden lg:col-start-2 lg:col-span-2 lg:row-start-2">
+          <div className="h-[220px] sm:h-[260px] sm:col-span-2 lg:h-[300px] rounded-[24px] lg:rounded-[30px] overflow-hidden lg:col-start-2 lg:col-span-2 lg:row-start-2">
             <img
               src="/images/img_image_1707.png"
               alt="Career Roadmap Preview"

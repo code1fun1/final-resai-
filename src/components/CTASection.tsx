@@ -6,12 +6,12 @@ const CTASection: FunctionComponent = () => {
       <div className="w-full max-w-[1440px] mx-auto relative">
 
         {/* DARK BOX */}
-        <div className="w-full h-[200px] sm:h-[240px] lg:h-[260px] bg-[#171717] rounded-[30px] sm:rounded-[40px] lg:rounded-[50px] p-4 sm:p-6 lg:p-[24px] flex flex-col justify-center items-center">
-          <div className="flex flex-col gap-3 sm:gap-4 lg:gap-[18px] items-center w-full lg:w-[72%]">
-            <h2 className="text-[24px] sm:text-[32px] lg:text-[40px] font-[500] leading-[30px] sm:leading-[40px] lg:leading-[50px] text-center text-white font-satoshi">
+        <div className="w-full h-auto sm:h-[240px] lg:h-[260px] bg-[#171717] rounded-[30px] sm:rounded-[40px] lg:rounded-[50px] px-6 py-8 sm:p-6 lg:p-[24px] flex flex-col justify-center items-center">
+          <div className="flex flex-col gap-4 sm:gap-4 lg:gap-[18px] items-center w-full lg:w-[72%]">
+            <h2 className="text-[22px] sm:text-[32px] lg:text-[40px] font-[500] leading-[130%] sm:leading-[40px] lg:leading-[50px] text-center text-white font-satoshi">
               ResAI helps professionals build careers as well as switch careers
             </h2>
-            <p className="text-[16px] sm:text-[18px] lg:text-[20px] font-normal leading-[22px] sm:leading-[25px] lg:leading-[27px] text-center text-white font-satoshi">
+            <p className="text-[18px] sm:text-[20px] lg:text-[22px] font-normal leading-[160%] sm:leading-[25px] lg:leading-[27px] text-center text-white font-satoshi">
               With ATS-optimized resumes, personalized skill gap analysis, and a step-by-step career roadmap.
             </p>
           </div>

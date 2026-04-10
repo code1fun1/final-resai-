@@ -69,22 +69,20 @@ const Footer = () => {
             <div className="flex flex-col justify-start items-center w-full">
 
               {/* Hero Text and Arrow */}
-              <div className="flex flex-col lg:flex-row justify-between items-center w-full gap-4 lg:gap-0">
+              <div className="flex flex-row justify-between items-end w-full">
                 <h2
-                  className="text-[40px] font-medium leading-[125%] tracking-[-0.02em] text-left text-white max-w-[667px]"
+                  className="text-[28px] sm:text-[34px] lg:text-[40px] font-medium leading-[125%] tracking-[-0.02em] text-left text-white max-w-[667px]"
                   style={{ fontFamily: 'Satoshi' }}
                 >
                   Stop guessing. Start transforming your career.
                 </h2>
-                <div className="flex justify-end items-center w-full lg:w-[48%]">
-                  <button className="w-[60px] h-[60px] bg-white rounded-full flex items-center justify-center hover:bg-gray-100 transition-colors">
-                    <img
-                      src="/images/img_huge_icon_arrow.svg"
-                      alt="Arrow"
-                      className="w-6 h-6"
-                    />
-                  </button>
-                </div>
+                <button className="w-[48px] h-[48px] sm:w-[54px] sm:h-[54px] lg:w-[60px] lg:h-[60px] bg-white rounded-full flex items-center justify-center hover:bg-gray-100 transition-colors shrink-0 ml-4">
+                  <img
+                    src="/images/img_huge_icon_arrow.svg"
+                    alt="Arrow"
+                    className="w-5 h-5 lg:w-6 lg:h-6"
+                  />
+                </button>
               </div>
 
               {/* Horizontal Line */}

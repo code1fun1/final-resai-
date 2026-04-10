@@ -9,7 +9,7 @@ const ComparisonSection: FunctionComponent = () => {
           
           {/* Section Title */}
           <h2
-            className="text-[22px] sm:text-[32px] lg:text-[60px] font-[500] leading-[1.35] text-center text-[#03030d] whitespace-nowrap"
+            className="text-[22px] sm:text-[32px] lg:text-[60px] font-[500] leading-[1.35] text-center text-[#03030d]"
             style={{ fontFamily: 'Satoshi' }}
           >
             Why ResAI vs Naukri Resume Services?
