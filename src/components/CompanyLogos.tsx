@@ -34,7 +34,7 @@ const CompanyLogos: FunctionComponent = () => {
 
           {/* Section Title */}
           <p
-            className="text-[20px] sm:text-[22px] md:text-[26px] lg:text-[28px] font-medium leading-[28px] sm:leading-[30px] md:leading-[34px] text-center text-[#4e3000]"
+            className="text-[16px] sm:text-[17px] lg:text-[18px] font-[500] leading-[155%] tracking-[0] text-center text-[#4e3000]"
             style={{ fontFamily: 'Satoshi' }}
           >
             Our resumes are mostly loved by interviewers at..

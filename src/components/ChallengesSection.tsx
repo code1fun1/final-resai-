@@ -83,7 +83,7 @@ const ChallengesSection: FunctionComponent = () => {
             </p>
 
                   <button
-                    className="w-[64px] h-[64px] lg:w-[80px] lg:h-[80px] bg-[#dabf67] rounded-full flex items-center justify-center hover:scale-105 transition-transform"
+                    className="w-[64px] h-[64px] bg-[#dabf67] rounded-full flex items-center justify-center hover:scale-105 transition-transform"
                     onClick={() => document.getElementById('solution')?.scrollIntoView({ behavior: 'smooth' })}
                   >
           <svg

@@ -86,12 +86,12 @@ const TestimonialsSection: FunctionComponent = () => {
           style={{ opacity: animating ? 0 : 1 }}
         >
           {/* Quote */}
-          <p className="text-white text-[18px] sm:text-[20px] leading-[1.6] font-normal">
+          <p className="text-white text-[18px] sm:text-[20px] lg:text-[24px] font-[500] leading-[132%] tracking-[0.02em]" style={{ fontFamily: 'Satoshi' }}>
             "{t.quote}"
           </p>
 
           {/* User Info */}
-          <div className="flex items-center gap-4 mt-8">
+          <div className="flex flex-col gap-3 mt-8">
             <img
               src={t.image}
               alt={t.name}

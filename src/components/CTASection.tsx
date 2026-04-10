@@ -8,10 +8,10 @@ const CTASection: FunctionComponent = () => {
         {/* DARK BOX */}
         <div className="w-full h-auto sm:h-[240px] lg:h-[260px] bg-[#171717] rounded-[30px] sm:rounded-[40px] lg:rounded-[50px] px-6 py-8 sm:p-6 lg:p-[24px] flex flex-col justify-center items-center">
           <div className="flex flex-col gap-4 sm:gap-4 lg:gap-[18px] items-center w-full lg:w-[72%]">
-            <h2 className="text-[22px] sm:text-[32px] lg:text-[40px] font-[500] leading-[130%] sm:leading-[40px] lg:leading-[50px] text-center text-white font-satoshi">
+            <h2 className="text-[22px] sm:text-[32px] lg:text-[40px] font-[500] leading-[130%] sm:leading-[40px] lg:leading-[125%] text-center text-white" style={{ fontFamily: 'Satoshi' }}>
               ResAI helps professionals build careers as well as switch careers
             </h2>
-            <p className="text-[18px] sm:text-[20px] lg:text-[22px] font-normal leading-[160%] sm:leading-[25px] lg:leading-[27px] text-center text-white font-satoshi">
+            <p className="text-[18px] sm:text-[20px] lg:text-[20px] font-normal leading-[160%] sm:leading-[25px] lg:leading-[155%] text-center text-white" style={{ fontFamily: 'Satoshi' }}>
               With ATS-optimized resumes, personalized skill gap analysis, and a step-by-step career roadmap.
             </p>
           </div>
@@ -19,7 +19,7 @@ const CTASection: FunctionComponent = () => {
 
         {/* BADGE — hidden on mobile/sm (not enough space), visible from ipad-pro+ */}
         <div className="hidden ipad-pro:block absolute ipad-pro:top-[12px] ipad-pro:right-[12px] lg:-top-[32px] lg:-right-[32px] z-20">
-          <div className="relative ipad-pro:w-[120px] ipad-pro:h-[120px] lg:w-[140px] lg:h-[140px]">
+          <div className="relative ipad-pro:w-[113px] ipad-pro:h-[113px] lg:w-[113px] lg:h-[113px]">
 
             <svg viewBox="0 0 100 100" className="w-full h-full">
               <circle cx="50" cy="50" r="50" fill="#dabf67" />

@@ -15,7 +15,7 @@ const HowItWorksSection: FunctionComponent = () => {
     },
     {
       number: "02",
-      title: "Tell us your target role",
+      title: "Tell us your target\nrole",
       description: "Paste the job description for a 40% better ATS match.",
     },
     {
@@ -41,7 +41,7 @@ const HowItWorksSection: FunctionComponent = () => {
 
         {/* Heading */}
         <h2
-          className="text-[36px] sm:text-[48px] lg:text-[60px] font-[500] leading-[125%] tracking-[-0.02em] text-[#03030d] mb-6 sm:mb-8 lg:mb-10"
+          className="text-[36px] sm:text-[48px] lg:text-[60px] font-[500] leading-[125%] tracking-[-0.02em] text-[#03030d] mb-6 sm:mb-8 lg:mb-16"
           style={{ fontFamily: 'Satoshi' }}
         >
           From resume to career<br />
@@ -49,15 +49,12 @@ const HowItWorksSection: FunctionComponent = () => {
         </h2>
 
         {/* Steps Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-10 sm:gap-6 lg:gap-8 mb-10 sm:mb-12 lg:mb-14">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-10 sm:gap-6 lg:gap-[88px] mb-10 sm:mb-12 lg:mb-14">
           {steps?.map((step) => (
             <div key={step?.number} className="flex flex-col">
-              {/* Invisible spacer */}
-              <div className="w-8 h-[3px] mb-6 invisible" />
-
               {/* Step number (faded background) */}
               <span
-                className="text-[72px] sm:text-[80px] lg:text-[96px] font-bold leading-none text-[#f0f0f0] mb-[-32px] sm:mb-[-36px] lg:mb-[-40px] select-none"
+                className="text-[60px] font-[500] leading-[125%] tracking-[-0.02em] text-[#EDEDED] mb-[-28px] lg:mb-[-32px] select-none"
                 style={{ fontFamily: 'Satoshi' }}
               >
                 {step?.number}
@@ -65,7 +62,7 @@ const HowItWorksSection: FunctionComponent = () => {
 
               {/* Title */}
               <h3
-                className="text-[22px] sm:text-[24px] lg:text-[26px] font-medium leading-[1.35] text-[#03030d] mb-2 relative z-10"
+                className="text-[22px] sm:text-[24px] lg:text-[24px] font-[500] leading-[132%] tracking-[0.02em] text-[#04040E] mb-2 relative z-10 whitespace-pre-line"
                 style={{ fontFamily: 'Satoshi' }}
               >
                 {step?.title}
@@ -73,7 +70,7 @@ const HowItWorksSection: FunctionComponent = () => {
 
               {/* Description */}
               <p
-                className="text-[17px] sm:text-[18px] lg:text-[20px] font-normal leading-[1.5] text-[#535353]"
+                className="text-[15px] sm:text-[16px] lg:text-[16px] font-[400] leading-[155%] tracking-[0] text-[#535353]"
                 style={{ fontFamily: 'Satoshi' }}
               >
                 {step?.description}
