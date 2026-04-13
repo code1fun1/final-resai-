@@ -107,6 +107,16 @@ module.exports = {
         '4xl': 'var(--radius-4xl)',
         '5xl': 'var(--radius-5xl)'
       },
+      /* Animations */
+      keyframes: {
+        float: {
+          '0%, 100%': { transform: 'translateY(0px)' },
+          '50%': { transform: 'translateY(-8px)' },
+        },
+      },
+      animation: {
+        float: 'float 3s ease-in-out infinite',
+      },
       /* Gap */
       gap: {
         'xs': 'var(--gap-xs)',
