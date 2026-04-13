@@ -18,7 +18,7 @@ const CTASection: FunctionComponent = () => {
 
           {/* Badge inside box — mobile only (< md) */}
           <div className="md:hidden mt-6 flex justify-center">
-            <div className="relative w-[85px] h-[85px] animate-float">
+            <div className="relative w-[60px] h-[60px] animate-float">
               <svg viewBox="0 0 100 100" className="w-full h-full">
                 <circle cx="50" cy="50" r="50" fill="#dabf67" />
                 <defs>
@@ -29,7 +29,7 @@ const CTASection: FunctionComponent = () => {
                 </text>
               </svg>
               <div className="absolute inset-0 flex items-center justify-center">
-                <img src="/images/img_vuesax_linear_arrow_up.svg" alt="Arrow" className="w-7 h-7" />
+                <img src="/images/img_vuesax_linear_arrow_up.svg" alt="Arrow" className="w-5 h-5" />
               </div>
             </div>
           </div>
