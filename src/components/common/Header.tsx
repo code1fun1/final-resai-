@@ -1,20 +1,26 @@
 import React, { useState } from 'react';
+import { appConfig } from '../../config/config';
 
 type MenuItem = {
   text: string;
   active: boolean;
+  sectionId: string;
+};
+
+const scrollTo = (id: string) => {
+  document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
 };
 
 const Header: React.FC = () => {
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
 
   const menuItems: MenuItem[] = [
-    { text: 'Challenges', active: true },
-    { text: 'How its Works?', active: false },
-    { text: 'Approach', active: false },
-    { text: 'Features', active: false },
-    { text: 'Testimonials', active: false },
-    { text: 'Pricing', active: false }
+    { text: 'Challenges', active: true, sectionId: 'challenges' },
+    { text: 'How its Works?', active: false, sectionId: 'how-it-works' },
+    { text: 'Approach', active: false, sectionId: 'approach' },
+    { text: 'Features', active: false, sectionId: 'features' },
+    { text: 'Testimonials', active: false, sectionId: 'testimonials' },
+    { text: 'Pricing', active: false, sectionId: 'pricing' },
   ];
 
   return (
@@ -37,6 +43,7 @@ const Header: React.FC = () => {
             {menuItems.map((item, index) => (
               <button
                 key={index}
+                onClick={() => scrollTo(item.sectionId)}
                 className={`text-[16px] leading-[150%] tracking-[-0.02em] transition-colors ${
                   item.active
                     ? 'text-[#4e3000] font-medium'
@@ -51,24 +58,53 @@ const Header: React.FC = () => {
         </nav>
 
         {/* ✅ DESKTOP BUTTONS */}
-        <div className="hidden ipad-pro:flex items-center gap-0">
-          
-          {/* Signup */}
-          <button className="bg-[#dabf67] hover:bg-[#c9ae55] px-6 py-2.5 rounded-full transition-all duration-200 shadow-[0_4px_14px_rgba(0,0,0,0.1)]">
-            <span className="text-[#03030d] font-medium text-base">
-              Signup
-            </span>
-          </button>
+        <div className="hidden ipad-pro:flex items-center">
 
-          {/* Arrow */}
-          <button className="w-10 h-10 flex items-center justify-center bg-[#dabf67] hover:bg-[#c9ae55] rounded-full transition-all duration-200 shadow-[0_4px_14px_rgba(0,0,0,0.1)]">
-            <img 
-              src="/images/img_huge_icon_arrow.svg" 
-              alt="Arrow" 
-              className="w-4 h-4"
-            />
-          </button>
+          {/* Animated Merge Signup CTA */}
+          <div className="group flex items-center w-fit cursor-pointer relative" onClick={() => window.location.href = appConfig.loginUrl ?? '/'}>
 
+            {/* Signup Button */}
+            <button
+              className="
+                h-[40px]
+                pl-6 pr-6
+                rounded-full
+                bg-[#dabf67]
+                group-hover:bg-[#c9ae55]
+                group-hover:pr-[52px]
+                flex items-center justify-center
+                transition-all duration-500 ease-in-out
+                relative z-10
+              "
+            >
+              <span className="text-[#03030d] font-medium text-base whitespace-nowrap">
+                Signup
+              </span>
+            </button>
+
+            {/* Arrow Button - slides behind on hover */}
+            <button
+              className="
+                w-10 h-10
+                rounded-full
+                bg-[#dabf67]
+                group-hover:bg-[#c9ae55]
+                flex items-center justify-center
+                transition-all duration-500 ease-in-out
+                shrink-0
+                ml-0
+                group-hover:opacity-0
+                relative z-0
+              "
+            >
+              <img
+                src="/images/img_huge_icon_arrow.svg"
+                alt="Arrow"
+                className="w-4 h-4"
+              />
+            </button>
+
+          </div>
         </div>
 
         {/* Hamburger */}
@@ -97,11 +133,11 @@ const Header: React.FC = () => {
               <button
                 key={index}
                 className={`text-base text-left ${
-                  item.active 
-                    ? 'text-[#4e3000] font-medium' 
+                  item.active
+                    ? 'text-[#4e3000] font-medium'
                     : 'text-[#03030d]'
                 }`}
-                onClick={() => setMenuOpen(false)}
+                onClick={() => { scrollTo(item.sectionId); setMenuOpen(false); }}
               >
                 {item.text}
               </button>
@@ -110,15 +146,15 @@ const Header: React.FC = () => {
 
           {/* ✅ MOBILE BUTTONS */}
           <div className="flex items-center gap-0 pt-2 border-t border-[#e0e0e0]">
-            
-            <button className="bg-[#dabf67] px-5 py-2.5 rounded-full">
+
+            <button className="bg-[#dabf67] px-5 py-2.5 rounded-full" onClick={() => window.location.href = appConfig.loginUrl ?? '/'}>
               Signup
             </button>
 
-            <button className="w-10 h-10 flex items-center justify-center bg-[#dabf67] rounded-full">
-              <img 
-                src="/images/img_huge_icon_arrow.svg" 
-                alt="Arrow" 
+            <button className="w-10 h-10 flex items-center justify-center bg-[#dabf67] rounded-full" onClick={() => window.location.href = appConfig.loginUrl ?? '/'}>
+              <img
+                src="/images/img_huge_icon_arrow.svg"
+                alt="Arrow"
                 className="w-4 h-4"
               />
             </button>

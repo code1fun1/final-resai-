@@ -21,15 +21,15 @@ const TestimonialsSection: FunctionComponent = () => {
       image: "/images/img_ellipse_15.png",
     },
     {
-      quote: "ResAI completely transformed my job search. The ATS-optimized resume got me 3x more callbacks within the first week. The skill gap analysis showed me exactly what to learn next.",
-      name: "Arjun Mehta (Mumbai)",
-      role: "Software Developer → Senior Engineer | ATS SCORE: 62 → 89",
+      quote: "My resume went from being completely ignored to getting 4 interview calls in two weeks.",
+      name: "Harsh Mehta, Pune",
+      role: "Recent Graduate → Data Analyst | INTERVIEWS: 0 → 4 in 2 weeks",
       image: "/images/img_ellipse_15.png",
     },
     {
-      quote: "I was stuck in the same role for 4 years. ResAI gave me a clear 6-month roadmap and helped me switch industries entirely. Best investment I made in my career.",
-      name: "Priya Nair (Hyderabad)",
-      role: "Marketing Executive → Product Analyst | ATS SCORE: 54 → 88",
+      quote: "At 38, I thought switching was impossible. The roadmap made it structured and achievable.",
+      name: "Ananya Gupta, Mumbai",
+      role: "10-year IT Manager → EdTech Product Lead | TIMELINE: 6 months",
       image: "/images/img_ellipse_15.png",
     },
   ];
@@ -63,7 +63,7 @@ const TestimonialsSection: FunctionComponent = () => {
   const t = testimonials[current];
 
   return (
-    <section className="w-full bg-[#735302] py-[60px] sm:py-[80px] lg:py-[100px]">
+    <section id="testimonials" className="w-full bg-[#735302] py-[60px] sm:py-[80px] lg:py-[100px]">
       <div className="max-w-[1240px] mx-auto px-5 sm:px-8 lg:px-[20px]">
 
         {/* HEADER */}

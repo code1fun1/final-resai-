@@ -2,7 +2,7 @@ import { FunctionComponent } from "react";
 
 const FeaturesSection: FunctionComponent = () => {
   return (
-    <section className="w-full bg-[#f6f6f6] py-14 sm:py-16 lg:py-20">
+    <section id="features" className="w-full bg-[#f6f6f6] py-14 sm:py-16 lg:py-20">
       <div className="max-w-[1440px] mx-auto px-4 sm:px-6 md:px-10 lg:px-[100px]">
 
         {/* HEADER */}
@@ -59,36 +59,36 @@ const FeaturesSection: FunctionComponent = () => {
           </div>
 
           {/* Card 2 - Know Skill Gaps */}
-          <div className="lg:h-[300px] rounded-[24px] lg:rounded-[30px] bg-[#171717] p-6 sm:p-8 lg:p-9 flex flex-col gap-4 lg:justify-between">
-            <h3 className="text-[20px] sm:text-[22px] lg:text-[24px] text-white leading-[130%]" style={{ fontFamily: 'Satoshi', fontWeight: 700 }}>
+          <div className="lg:h-[300px] rounded-[24px] lg:rounded-[30px] bg-[#171717] hover:bg-[#f6f6f6] border border-transparent hover:border-[#d7bc65] p-6 sm:p-8 lg:p-9 flex flex-col gap-4 lg:justify-between transition-all duration-300 cursor-default group">
+            <h3 className="text-[20px] sm:text-[22px] lg:text-[24px] text-white group-hover:text-[#735302] leading-[130%] transition-colors duration-300" style={{ fontFamily: 'Satoshi', fontWeight: 700 }}>
               Know Your Skill Gaps
             </h3>
             <div className="hidden lg:block mt-5" />
-            <p className="text-[16px] sm:text-[18px] lg:text-[20px] leading-[160%] text-white">
+            <p className="text-[16px] sm:text-[18px] lg:text-[20px] leading-[160%] text-white group-hover:text-[#535353] transition-colors duration-300">
               ResAI compares your current skills to what's actually required
               for your target role — and shows you exactly what to learn next.
             </p>
           </div>
 
           {/* Card 3 - Close Your Gaps */}
-          <div className="lg:h-[300px] rounded-[24px] lg:rounded-[30px] bg-[#171717] p-6 sm:p-8 lg:p-9 flex flex-col gap-4 lg:justify-between">
-            <h3 className="text-[20px] sm:text-[22px] lg:text-[24px] text-white leading-[130%]" style={{ fontFamily: 'Satoshi', fontWeight: 700 }}>
+          <div className="lg:h-[300px] rounded-[24px] lg:rounded-[30px] bg-[#171717] hover:bg-[#f6f6f6] border border-transparent hover:border-[#d7bc65] p-6 sm:p-8 lg:p-9 flex flex-col gap-4 lg:justify-between transition-all duration-300 cursor-default group">
+            <h3 className="text-[20px] sm:text-[22px] lg:text-[24px] text-white group-hover:text-[#735302] leading-[130%] transition-colors duration-300" style={{ fontFamily: 'Satoshi', fontWeight: 700 }}>
               Close Your Gaps, Fast
             </h3>
             <div className="hidden lg:block mt-5" />
-            <p className="text-[16px] sm:text-[18px] lg:text-[20px] leading-[160%] text-white">
+            <p className="text-[16px] sm:text-[18px] lg:text-[20px] leading-[160%] text-white group-hover:text-[#535353] transition-colors duration-300">
               Get personalized course recommendations from top platforms —
               matched to your exact skill gaps, not generic suggestions.
             </p>
           </div>
 
           {/* Roadmap Card */}
-          <div className="lg:h-[300px] lg:col-span-1 lg:col-start-1 lg:row-start-2 rounded-[24px] lg:rounded-[30px] bg-[#171717] p-6 sm:p-8 lg:p-9 flex flex-col justify-between">
-            <h3 className="text-[20px] sm:text-[22px] lg:text-[24px] text-white leading-[130%] max-w-[280px]" style={{ fontFamily: 'Satoshi', fontWeight: 700 }}>
+          <div className="lg:h-[300px] lg:col-span-1 lg:col-start-1 lg:row-start-2 rounded-[24px] lg:rounded-[30px] bg-[#171717] hover:bg-[#f6f6f6] border border-transparent hover:border-[#d7bc65] p-6 sm:p-8 lg:p-9 flex flex-col justify-between transition-all duration-300 cursor-default group">
+            <h3 className="text-[20px] sm:text-[22px] lg:text-[24px] text-white group-hover:text-[#735302] leading-[130%] max-w-[280px] transition-colors duration-300" style={{ fontFamily: 'Satoshi', fontWeight: 700 }}>
               Your 6-Month Career Roadmap
             </h3>
             <div className="hidden lg:block mt-5" />
-            <p className="text-[16px] sm:text-[18px] lg:text-[20px] leading-[160%] text-white">
+            <p className="text-[16px] sm:text-[18px] lg:text-[20px] leading-[160%] text-white group-hover:text-[#535353] transition-colors duration-300">
               A structured, step-by-step plan — from your current role to your
               target role, with milestones you can actually follow.
             </p>

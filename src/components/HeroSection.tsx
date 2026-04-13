@@ -1,4 +1,5 @@
 import { FunctionComponent } from "react";
+import { appConfig } from '../config/config';
 
 const HeroSection: FunctionComponent = () => {
   return (
@@ -47,7 +48,7 @@ const HeroSection: FunctionComponent = () => {
           <div className="flex flex-col sm:flex-row sm:flex-wrap items-start sm:items-center gap-4 mt-8 lg:mt-10">
 
             {/* Animated Merge CTA */}
-            <div className="group flex items-center w-fit cursor-pointer relative">
+            <div className="group flex items-center w-fit cursor-pointer relative" onClick={() => window.location.href = appConfig.loginUrl ?? '/'}>
 
               {/* Main Button */}
               <button

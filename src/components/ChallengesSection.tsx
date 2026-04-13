@@ -29,7 +29,7 @@ const ChallengesSection: FunctionComponent = () => {
   ];
 
   return (
-    <section className="w-full bg-white py-10 sm:py-12 lg:py-16">
+    <section id="challenges" className="w-full bg-white py-10 sm:py-12 lg:py-16">
       <div className="w-full max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-[40px]">
         
         <div className="flex flex-col gap-10 lg:gap-12 w-full">

@@ -61,7 +61,7 @@ const PricingSection: FunctionComponent = () => {
   ];
 
   return (
-    <section className="w-full bg-[#f6f6f6] py-14 sm:py-16 lg:py-20">
+    <section id="pricing" className="w-full bg-[#f6f6f6] py-14 sm:py-16 lg:py-20">
       <div className="max-w-[1440px] mx-auto px-4 sm:px-6 md:px-10 lg:px-[100px]">
 
         {/* Header */}
