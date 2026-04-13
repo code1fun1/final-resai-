@@ -19,7 +19,7 @@ const CTASection: FunctionComponent = () => {
 
         {/* BADGE — hidden on mobile/sm (not enough space), visible from ipad-pro+ */}
         <div className="hidden ipad-pro:block absolute ipad-pro:top-[12px] ipad-pro:right-[12px] lg:-top-[32px] lg:-right-[32px] z-20">
-          <div className="relative ipad-pro:w-[113px] ipad-pro:h-[113px] lg:w-[113px] lg:h-[113px] animate-float">
+          <div className="relative ipad-pro:w-[113px] ipad-pro:h-[113px] lg:w-[113px] lg:h-[113px] bulge-hover cursor-pointer">
 
             <svg viewBox="0 0 100 100" className="w-full h-full">
               <circle cx="50" cy="50" r="50" fill="#dabf67" />
@@ -31,9 +31,9 @@ const CTASection: FunctionComponent = () => {
               </defs>
               <text
                 fill="#04040E"
-                fontSize="8"
+                fontSize="10"
                 fontFamily="Satoshi"
-                letterSpacing="3.8"
+                letterSpacing="2.8"
                 fontWeight="600"
               >
                 <textPath href="#badgeTextPath">

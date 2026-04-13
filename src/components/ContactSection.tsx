@@ -1,4 +1,19 @@
-import { FunctionComponent, useState } from "react";
+import { FunctionComponent, useState, useRef, useEffect } from "react";
+
+const countries = [
+  { code: "IN", dial: "+91", flag: "🇮🇳", name: "India",          placeholder: "+91 00000 00000"       },
+  { code: "US", dial: "+1",  flag: "🇺🇸", name: "United States",  placeholder: "+1 (000) 000-0000"     },
+  { code: "GB", dial: "+44", flag: "🇬🇧", name: "United Kingdom", placeholder: "+44 0000 000000"       },
+  { code: "AU", dial: "+61", flag: "🇦🇺", name: "Australia",       placeholder: "+61 000 000 000"       },
+  { code: "CA", dial: "+1",  flag: "🇨🇦", name: "Canada",          placeholder: "+1 (000) 000-0000"     },
+  { code: "DE", dial: "+49", flag: "🇩🇪", name: "Germany",         placeholder: "+49 000 00000000"      },
+  { code: "FR", dial: "+33", flag: "🇫🇷", name: "France",          placeholder: "+33 0 00 00 00 00"     },
+  { code: "AE", dial: "+971",flag: "🇦🇪", name: "UAE",             placeholder: "+971 00 000 0000"      },
+  { code: "SG", dial: "+65", flag: "🇸🇬", name: "Singapore",       placeholder: "+65 0000 0000"         },
+  { code: "JP", dial: "+81", flag: "🇯🇵", name: "Japan",           placeholder: "+81 000-0000-0000"     },
+  { code: "NZ", dial: "+64", flag: "🇳🇿", name: "New Zealand",     placeholder: "+64 00 000 0000"       },
+  { code: "ZA", dial: "+27", flag: "🇿🇦", name: "South Africa",    placeholder: "+27 00 000 0000"       },
+];
 
 const ContactSection: FunctionComponent = () => {
   const [form, setForm] = useState({
@@ -8,6 +23,19 @@ const ContactSection: FunctionComponent = () => {
     phone: "",
     message: "",
   });
+  const [selectedCountry, setSelectedCountry] = useState(countries[0]);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+        setDropdownOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -104,7 +132,7 @@ const ContactSection: FunctionComponent = () => {
                   value={form.firstName}
                   onChange={handleChange}
                   placeholder="Enter your first name"
-                  className="w-full border border-[#E0E0E0] rounded-[10px] px-4 py-3 text-[14px] text-[#04040e] placeholder-[#ADADAD] outline-none focus:border-[#04040e] transition-colors bg-[#F9F9F9]"
+                  className="w-full border border-[#E0E0E0] rounded-[10px] px-4 py-3 text-[14px] leading-[155%] tracking-[0] text-[#04040e] placeholder-[#ADADAD] placeholder:font-normal placeholder:text-[14px] placeholder:leading-[155%] placeholder:tracking-[0] outline-none focus:border-[#04040e] transition-colors bg-[#F9F9F9]"
                   style={{ fontFamily: "Satoshi" }}
                 />
               </div>
@@ -118,7 +146,7 @@ const ContactSection: FunctionComponent = () => {
                   value={form.lastName}
                   onChange={handleChange}
                   placeholder="Enter your last name"
-                  className="w-full border border-[#E0E0E0] rounded-[10px] px-4 py-3 text-[14px] text-[#04040e] placeholder-[#ADADAD] outline-none focus:border-[#04040e] transition-colors bg-[#F9F9F9]"
+                  className="w-full border border-[#E0E0E0] rounded-[10px] px-4 py-3 text-[14px] leading-[155%] tracking-[0] text-[#04040e] placeholder-[#ADADAD] placeholder:font-normal placeholder:text-[14px] placeholder:leading-[155%] placeholder:tracking-[0] outline-none focus:border-[#04040e] transition-colors bg-[#F9F9F9]"
                   style={{ fontFamily: "Satoshi" }}
                 />
               </div>
@@ -135,7 +163,7 @@ const ContactSection: FunctionComponent = () => {
                 value={form.email}
                 onChange={handleChange}
                 placeholder="Enter your email address"
-                className="w-full border border-[#E0E0E0] rounded-[10px] px-4 py-3 text-[14px] text-[#04040e] placeholder-[#ADADAD] outline-none focus:border-[#04040e] transition-colors bg-[#F9F9F9]"
+                className="w-full border border-[#E0E0E0] rounded-[10px] px-4 py-3 text-[14px] leading-[155%] tracking-[0] text-[#04040e] placeholder-[#ADADAD] placeholder:font-normal placeholder:text-[14px] placeholder:leading-[155%] placeholder:tracking-[0] outline-none focus:border-[#04040e] transition-colors bg-[#F9F9F9]"
                 style={{ fontFamily: "Satoshi" }}
               />
             </div>
@@ -145,22 +173,50 @@ const ContactSection: FunctionComponent = () => {
               <label className="text-[14px] font-[700] text-[#04040e]" style={{ fontFamily: "Satoshi" }}>
                 Phone Number
               </label>
-              <div className="flex items-center border border-[#E0E0E0] rounded-[10px] bg-[#F9F9F9] overflow-hidden focus-within:border-[#04040e] transition-colors">
-                <div className="flex items-center gap-1 px-3 border-r border-[#E0E0E0] shrink-0">
-                  {/* US Flag */}
-                  <span className="text-[18px]">🇺🇸</span>
-                  <span className="text-[14px] font-[700] text-[#04040e]" style={{ fontFamily: "Satoshi" }}>US</span>
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M7 10l5 5 5-5H7z" fill="#535353"/>
-                  </svg>
+              <div className="flex items-center border border-[#E0E0E0] rounded-[10px] bg-[#F9F9F9] focus-within:border-[#04040e] transition-colors relative">
+                {/* Country Dropdown Trigger */}
+                <div
+                  ref={dropdownRef}
+                  className="relative shrink-0"
+                >
+                  <button
+                    type="button"
+                    onClick={() => setDropdownOpen(!dropdownOpen)}
+                    className="flex items-center gap-1 px-3 py-3 border-r border-[#E0E0E0] cursor-pointer select-none"
+                  >
+                    <span className="text-[18px] leading-none">{selectedCountry.flag}</span>
+                    <span className="text-[14px] font-[500] text-[#04040e]" style={{ fontFamily: "Satoshi" }}>{selectedCountry.code}</span>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+                      <path d={dropdownOpen ? "M7 14l5-5 5 5H7z" : "M7 10l5 5 5-5H7z"} fill="#535353"/>
+                    </svg>
+                  </button>
+
+                  {/* Dropdown List */}
+                  {dropdownOpen && (
+                    <div className="absolute top-full left-0 mt-1 w-[200px] bg-white border border-[#E0E0E0] rounded-[10px] shadow-lg z-50 max-h-[220px] overflow-y-auto">
+                      {countries.map((country) => (
+                        <button
+                          key={country.code + country.dial}
+                          type="button"
+                          onClick={() => { setSelectedCountry(country); setDropdownOpen(false); }}
+                          className={`w-full flex items-center gap-2 px-4 py-2.5 text-left hover:bg-[#F6F6F6] transition-colors ${selectedCountry.code === country.code && selectedCountry.dial === country.dial ? 'bg-[#F6F6F6]' : ''}`}
+                        >
+                          <span className="text-[16px]">{country.flag}</span>
+                          <span className="text-[13px] font-[500] text-[#04040e] flex-1" style={{ fontFamily: "Satoshi" }}>{country.name}</span>
+                          <span className="text-[13px] text-[#ADADAD]" style={{ fontFamily: "Satoshi" }}>{country.dial}</span>
+                        </button>
+                      ))}
+                    </div>
+                  )}
                 </div>
+
                 <input
                   type="tel"
                   name="phone"
                   value={form.phone}
                   onChange={handleChange}
-                  placeholder="+1 (555) 000-0000"
-                  className="flex-1 px-3 py-3 text-[14px] text-[#04040e] placeholder-[#ADADAD] outline-none bg-transparent"
+                  placeholder={selectedCountry.placeholder}
+                  className="flex-1 px-3 py-3 text-[14px] leading-[155%] tracking-[0] text-[#04040e] placeholder-[#ADADAD] placeholder:font-normal placeholder:text-[14px] placeholder:leading-[155%] placeholder:tracking-[0] outline-none bg-transparent"
                   style={{ fontFamily: "Satoshi" }}
                 />
               </div>
@@ -177,26 +233,27 @@ const ContactSection: FunctionComponent = () => {
                 onChange={handleChange}
                 placeholder="Write your message here..."
                 rows={5}
-                className="w-full border border-[#E0E0E0] rounded-[10px] px-4 py-3 text-[14px] text-[#04040e] placeholder-[#ADADAD] outline-none focus:border-[#04040e] transition-colors bg-[#F9F9F9] resize-none"
+                className="w-full border border-[#E0E0E0] rounded-[10px] px-4 py-3 text-[14px] leading-[155%] tracking-[0] text-[#04040e] placeholder-[#ADADAD] placeholder:font-normal placeholder:text-[14px] placeholder:leading-[155%] placeholder:tracking-[0] outline-none focus:border-[#04040e] transition-colors bg-[#F9F9F9] resize-none"
                 style={{ fontFamily: "Satoshi" }}
               />
             </div>
 
             {/* Send Button */}
-            <div className="group flex items-center w-full cursor-pointer relative mt-1">
-              {/* Main pill button */}
+            <div className="group relative w-full h-[51px] mt-1 cursor-pointer">
+
+              {/* Text button — starts short (leaves 59px gap on right), expands to full width on hover */}
               <button
                 type="submit"
                 className="
-                  h-[51px] flex-1
-                  pl-[24px] pr-[24px]
-                  group-hover:pr-[76px]
+                  absolute left-0 top-0 bottom-0
+                  right-[59px] group-hover:right-0
                   rounded-full
                   bg-[#dabf67]
                   group-hover:bg-[#c7aa4d]
                   flex items-center justify-center
                   transition-all duration-500 ease-in-out
-                  relative z-10
+                  z-10
+                  px-[24px]
                 "
               >
                 <span
@@ -207,19 +264,20 @@ const ContactSection: FunctionComponent = () => {
                 </span>
               </button>
 
-              {/* Arrow circle — slides behind main button on hover */}
+              {/* Arrow circle — separate on the right, slides left behind expanding button on hover */}
               <div
                 className="
+                  absolute right-0 top-0
                   w-[51px] h-[51px]
                   rounded-full
                   bg-[#dabf67]
                   group-hover:bg-[#c7aa4d]
                   flex items-center justify-center
                   transition-all duration-500 ease-in-out
-                  shrink-0
-                  group-hover:-translate-x-[51px]
+                  group-hover:-translate-x-[60px]
                   group-hover:opacity-0
-                  relative z-0
+                  z-0
+                  pointer-events-none
                 "
               >
                 <img
@@ -228,6 +286,7 @@ const ContactSection: FunctionComponent = () => {
                   className="w-5 h-5"
                 />
               </div>
+
             </div>
 
           </form>

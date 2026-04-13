@@ -1,4 +1,5 @@
 import { FunctionComponent, useState } from "react";
+import { appConfig } from '../config/config';
 
 interface FAQItem {
   question: string;
@@ -16,7 +17,7 @@ const faqs: FAQItem[] = [
           analysis, and job-specific recommendations in one place.
         </span>
         <a
-          href="https://resai.in"
+          href={appConfig.loginUrl ?? '/'}
           className="block mt-4 text-[#735302] underline font-[500]"
         >
           Create Free Resume ↗
