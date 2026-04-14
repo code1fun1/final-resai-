@@ -75,7 +75,7 @@ const Footer = () => {
                 >
                   Stop guessing. Start transforming your career.
                 </h2>
-                <button className="w-[48px] h-[48px] sm:w-[54px] sm:h-[54px] lg:w-[60px] lg:h-[60px] bg-white rounded-full flex items-center justify-center hover:bg-gray-100 transition-colors shrink-0 ml-4 animate-float">
+                <button className="w-[48px] h-[48px] sm:w-[54px] sm:h-[54px] lg:w-[60px] lg:h-[60px] bg-white rounded-full flex items-center justify-center hover:bg-gray-100 transition-colors shrink-0 ml-4 bulge-hover cursor-pointer">
                   <img
                     src="/images/img_huge_icon_arrow.svg"
                     alt="Arrow"
