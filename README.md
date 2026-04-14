@@ -129,4 +129,4 @@ npm run lint:fix
 
 _(Include license details here—e.g., MIT, Proprietary, etc.)_
 
-> > > > > > > aayush
+> > > > > > > aayush Tanay 
