@@ -229,9 +229,16 @@ const ContactSection: FunctionComponent = () => {
                   <button
                     type="button"
                     onClick={() => setDropdownOpen(!dropdownOpen)}
-                    className="flex items-center gap-1 px-3 py-3 border-r border-[#E0E0E0] cursor-pointer select-none"
+                    className="flex items-center gap-1.5 px-3 py-3 border-r border-[#E0E0E0] cursor-pointer select-none"
                   >
-                    <span className="text-[18px] leading-none">{selectedCountry.flag}</span>
+                    <img
+                      src={`https://flagcdn.com/w20/${selectedCountry.code.toLowerCase()}.png`}
+                      srcSet={`https://flagcdn.com/w40/${selectedCountry.code.toLowerCase()}.png 2x`}
+                      width="20"
+                      height="15"
+                      alt={selectedCountry.name}
+                      className="rounded-[2px] object-cover shrink-0"
+                    />
                     <span className="text-[14px] font-[500] text-[#04040e]" style={{ fontFamily: "Satoshi" }}>{selectedCountry.code}</span>
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
                       <path d={dropdownOpen ? "M7 14l5-5 5 5H7z" : "M7 10l5 5 5-5H7z"} fill="#535353"/>
@@ -248,7 +255,14 @@ const ContactSection: FunctionComponent = () => {
                           onClick={() => { setSelectedCountry(country); setDropdownOpen(false); }}
                           className={`w-full flex items-center gap-2 px-4 py-2.5 text-left hover:bg-[#F6F6F6] transition-colors ${selectedCountry.code === country.code && selectedCountry.dial === country.dial ? 'bg-[#F6F6F6]' : ''}`}
                         >
-                          <span className="text-[16px]">{country.flag}</span>
+                          <img
+                            src={`https://flagcdn.com/w20/${country.code.toLowerCase()}.png`}
+                            srcSet={`https://flagcdn.com/w40/${country.code.toLowerCase()}.png 2x`}
+                            width="20"
+                            height="15"
+                            alt={country.name}
+                            className="rounded-[2px] object-cover shrink-0"
+                          />
                           <span className="text-[13px] font-[500] text-[#04040e] flex-1" style={{ fontFamily: "Satoshi" }}>{country.name}</span>
                           <span className="text-[13px] text-[#ADADAD]" style={{ fontFamily: "Satoshi" }}>{country.dial}</span>
                         </button>
