@@ -13,9 +13,10 @@ const scrollTo = (id: string) => {
 
 const Header: React.FC = () => {
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
+  const [activeIndex, setActiveIndex] = useState<number | null>(null);
 
   const menuItems: MenuItem[] = [
-    { text: 'Challenges', active: true, sectionId: 'challenges' },
+    { text: 'Challenges', active: false, sectionId: 'challenges' },
     { text: 'How its Works?', active: false, sectionId: 'how-it-works' },
     { text: 'Approach', active: false, sectionId: 'approach' },
     { text: 'Features', active: false, sectionId: 'features' },
@@ -43,11 +44,11 @@ const Header: React.FC = () => {
             {menuItems.map((item, index) => (
               <button
                 key={index}
-                onClick={() => scrollTo(item.sectionId)}
-                className={`text-[16px] leading-[150%] tracking-[-0.02em] transition-colors ${
-                  item.active
-                    ? 'text-[#4e3000] font-medium'
-                    : 'text-[#03030d] font-medium hover:text-[#4e3000]'
+                onClick={() => { setActiveIndex(index); scrollTo(item.sectionId); }}
+                className={`text-[16px] leading-[150%] tracking-[-0.02em] font-medium transition-colors ${
+                  activeIndex === index
+                    ? 'text-[#4e3000]'
+                    : 'text-[#03030d] hover:text-[#4e3000]'
                 }`}
                 style={{ fontFamily: 'Satoshi' }}
               >
@@ -132,12 +133,12 @@ const Header: React.FC = () => {
             {menuItems.map((item, index) => (
               <button
                 key={index}
-                className={`text-base text-left ${
-                  item.active
-                    ? 'text-[#4e3000] font-medium'
+                className={`text-base text-left font-medium transition-colors ${
+                  activeIndex === index
+                    ? 'text-[#4e3000]'
                     : 'text-[#03030d]'
                 }`}
-                onClick={() => { scrollTo(item.sectionId); setMenuOpen(false); }}
+                onClick={() => { setActiveIndex(index); scrollTo(item.sectionId); setMenuOpen(false); }}
               >
                 {item.text}
               </button>
