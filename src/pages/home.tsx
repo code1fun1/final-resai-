@@ -13,6 +13,8 @@ import FeaturesSection from '../components/FeaturesSection';
 import TestimonialsSection from '../components/TestimonialsSection';
 import PricingSection from '../components/PricingSection';
 import ComparisonSection from '../components/ComparisonSection';
+import FAQSection from '../components/FAQSection';
+import ContactSection from '../components/ContactSection';
 
 const ResAILandingPageV2: FunctionComponent = () => {
   return (
@@ -37,6 +39,8 @@ const ResAILandingPageV2: FunctionComponent = () => {
         <TestimonialsSection />
         <PricingSection />
         <ComparisonSection />
+        <FAQSection />
+        <ContactSection />
         <Footer />
       </main>
     </>

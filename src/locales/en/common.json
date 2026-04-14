@@ -121,6 +121,52 @@
     "ResumeTemplateFour": "College Resume Template",
     "ResumeTemplateColumnFour": "2 Column Layout"
   },
+  "faqsQuesAnswer": [
+    {
+      "question": "What is ResAI?",
+      "answer": "ResAI is an AI-powered career platform that helps you build, optimize, and tailor your resume to increase your chances of getting shortlisted. It combines resume building, ATS score analysis, and job-specific recommendations in one place."
+    },
+    {
+      "question": "How does ResAI help improve my resume?",
+      "answer": "ResAI analyzes your resume and provides AI-driven suggestions to improve keywords, formatting, and overall structure. It helps align your resume with job descriptions so it performs better in ATS systems used by companies."
+    },
+    {
+      "question": "How does ResAI improve my ATS score?",
+      "answer": "ResAI matches your resume with job descriptions and identifies missing keywords, skills, and formatting issues that impact ATS performance. It then provides clear recommendations to improve your score."
+    },
+    {
+      "question": "Can I customize my resume for specific job descriptions?",
+      "answer": "Yes, ResAI allows you to customize your resume based on specific job descriptions. It gives role-based suggestions so your resume matches what recruiters are looking for."
+    },
+    {
+      "question": "Does ResAI help me find relevant jobs?",
+      "answer": "Yes, ResAI analyzes your resume and identifies relevant job opportunities based on your skills, experience, and role preferences. It surfaces jobs that match your profile so you can apply more effectively."
+    },
+    {
+      "question": "Does ResAI identify skill gaps in my profile?",
+      "answer": "Yes, ResAI compares your resume with job requirements and highlights missing skills or areas that need improvement. This helps you understand what's needed to get shortlisted."
+    },
+    {
+      "question": "Does ResAI provide upskilling or course recommendations?",
+      "answer": "Yes, ResAI provides personalized upskilling plans based on your current profile and target roles. It suggests what skills you need to learn to stay competitive and grow in your career."
+    },
+    {
+      "question": "Is ResAI suitable for both freshers and experienced professionals?",
+      "answer": "ResAI is designed for both freshers and experienced professionals. It adapts recommendations based on your experience level, whether you are building your first resume or improving an existing one."
+    },
+    {
+      "question": "How is ResAI different from other resume builders?",
+      "answer": "ResAI goes beyond basic resume building by offering AI-powered analysis, ATS optimization, job-specific recommendations, and career insights like job matching and skill gap analysis."
+    },
+    {
+      "question": "Is ResAI free to use?",
+      "answer": "ResAI offers free features to help you get started with resume building and optimization, along with advanced features for deeper insights and career guidance."
+    },
+    {
+      "question": "Can ResAI guarantee that I will get shortlisted?",
+      "answer": "ResAI is built to help you get real results by improving your resume, increasing your ATS score, and aligning your profile with job requirements. It uses AI-driven insights based on hiring patterns to give practical, actionable suggestions."
+    }
+  ],
   "frameComponentsThirteen": {
     "AIPoweredResumeBuilder": "Our AI-Powered Resume Builder, Helps you create, Standout resume aligned with your job description",
     "WantToTalkUs": "Want to talk to us?",

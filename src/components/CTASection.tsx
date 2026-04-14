@@ -35,16 +35,36 @@ const CTASection: FunctionComponent = () => {
           </div>
         </div>
 
+<<<<<<< HEAD
         {/* Badge — tablet corner (md to lg) */}
         <div className="hidden md:block lg:hidden absolute -top-[20px] -right-[20px] z-20">
           <div className="relative w-[60px] h-[60px] animate-float">
+=======
+        {/* BADGE — hidden on mobile/sm (not enough space), visible from ipad-pro+ */}
+        <div className="hidden ipad-pro:block absolute ipad-pro:top-[12px] ipad-pro:right-[12px] lg:-top-[32px] lg:-right-[32px] z-20">
+          <div className="relative ipad-pro:w-[113px] ipad-pro:h-[113px] lg:w-[113px] lg:h-[113px] bulge-hover cursor-pointer">
+
+>>>>>>> stable-V2
             <svg viewBox="0 0 100 100" className="w-full h-full">
               <circle cx="50" cy="50" r="50" fill="#dabf67" />
               <defs>
                 <path id="badgeTextPathTablet" d="M 50,50 m -38,0 a 38,38 0 1,1 76,0 a 38,38 0 1,1 -76,0" />
               </defs>
+<<<<<<< HEAD
               <text fill="#04040E" fontSize="8" fontFamily="Satoshi" letterSpacing="3.8" fontWeight="600">
                 <textPath href="#badgeTextPathTablet">TRY FOR FREE • TRY FOR FREE •</textPath>
+=======
+              <text
+                fill="#04040E"
+                fontSize="10"
+                fontFamily="Satoshi"
+                letterSpacing="2.8"
+                fontWeight="600"
+              >
+                <textPath href="#badgeTextPath">
+                  TRY FOR FREE • TRY FOR FREE •
+                </textPath>
+>>>>>>> stable-V2
               </text>
             </svg>
             <div className="absolute inset-0 flex items-center justify-center">

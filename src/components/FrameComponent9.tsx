@@ -1,8 +1,7 @@
 import { FunctionComponent } from "react";
 import StepsContainer from "./StepsContainer";
 import { useTranslation } from "react-i18next";
-import { config } from "../config/config";
-import { Link } from "react-router-dom";
+import { appConfig } from "../config/config";
 export type FrameComponent9Type = {
   className?: string;
 };
@@ -66,9 +65,8 @@ const FrameComponent9: FunctionComponent<FrameComponent9Type> = ({
               </div>
             </div>
             <div className="flex flex-row items-start justify-start py-0 px-[69px] box-border max-w-full text-center text-lg mq450:pl-5 mq450:pr-5 mq450:box-border">
-            <Link to={config.loginUrl ? config.loginUrl : "/"} style={{ color: 'inherit', textDecoration: 'inherit'}}>
-              <div className="rounded-md bg-neutrals-n90 flex flex-row items-start justify-start py-[19px] px-10 gap-[16px]" >
-                            
+            <a href={appConfig.loginUrl ?? '/'} style={{ color: 'inherit', textDecoration: 'inherit'}}>
+              <div className="rounded-md bg-neutrals-n90 flex flex-row items-start justify-start py-[19px] px-10 gap-[16px]">
                 <div className="relative leading-[18px] font-semibold inline-block min-w-[108px]">
                   {i18n("frameComponentsNine.CreateResumeButton")}
                 </div>
@@ -79,9 +77,8 @@ const FrameComponent9: FunctionComponent<FrameComponent9Type> = ({
                     src="/create-resume-button-icon.svg"
                   />
                 </div>
-              
               </div>
-              </Link>
+            </a>
 
             </div>
           </div>
