@@ -1,4 +1,8 @@
 import { FunctionComponent, useState, useRef, useEffect } from "react";
+import { useForm } from "react-hook-form";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { appConfig } from "../config/config";
 
 const countries = [
   { code: "IN", dial: "+91", flag: "🇮🇳", name: "India",          placeholder: "+91 00000 00000"       },
@@ -15,17 +19,30 @@ const countries = [
   { code: "ZA", dial: "+27", flag: "🇿🇦", name: "South Africa",    placeholder: "+27 00 000 0000"       },
 ];
 
+const schema = yup.object({
+  firstName: yup.string().required("First name is required").min(2, "Minimum 2 characters"),
+  lastName:  yup.string().required("Last name is required").min(2, "Minimum 2 characters"),
+  email:     yup.string().email("Enter a valid email").required("Email is required"),
+  phone:     yup.string()
+    .required("Phone number is required")
+    .matches(/^[0-9]+$/, "Only digits allowed")
+    .min(10, "Minimum 10 digits")
+    .max(10, "Maximum 10 digits"),
+  message:   yup.string().required("Message is required").min(8, "Minimum 8 characters"),
+}).required();
+
+type FormData = yup.InferType<typeof schema>;
+
 const ContactSection: FunctionComponent = () => {
-  const [form, setForm] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    phone: "",
-    message: "",
-  });
   const [selectedCountry, setSelectedCountry] = useState(countries[0]);
-  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [dropdownOpen, setDropdownOpen]       = useState(false);
+  const [isSubmitting, setIsSubmitting]       = useState(false);
+  const [messageSent, setMessageSent]         = useState(false);
+  const [errorInSending, setErrorInSending]   = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+
+  const { register, handleSubmit, formState: { errors }, reset } =
+    useForm<FormData>({ resolver: yupResolver(schema) });
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -37,15 +54,36 @@ const ContactSection: FunctionComponent = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Handle form submission
+  const onSubmit = async (data: FormData) => {
+    setIsSubmitting(true);
+    setMessageSent(false);
+    setErrorInSending(false);
+    try {
+      const payload = {
+        req_param: {
+          name:    `${data.firstName} ${data.lastName}`,
+          email:   data.email,
+          phone:   `${selectedCountry.dial}${data.phone}`,
+          message: data.message,
+          to:      appConfig.env.contactTo,
+        },
+      };
+      const response = await fetch(`${appConfig.apiUrl}email/contact-us`, {
+        method: "POST",
+        body: JSON.stringify(payload),
+        headers: { "Content-Type": "application/json", locale: "en" },
+      });
+      if (response.ok) {
+        setMessageSent(true);
+        reset();
+      } else {
+        setErrorInSending(true);
+      }
+    } catch {
+      setErrorInSending(true);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -118,7 +156,22 @@ const ContactSection: FunctionComponent = () => {
 
         {/* Right: Form */}
         <div className="w-full lg:w-[52%] bg-white rounded-[20px] p-6 sm:p-8 flex flex-col gap-5 shadow-sm border border-[#E8E8E8]">
-          <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+
+          {/* Success Banner */}
+          {messageSent && (
+            <div className="bg-green-50 border border-green-200 text-green-800 rounded-[10px] px-4 py-3 text-[14px]" style={{ fontFamily: "Satoshi" }}>
+              ✓ Message sent successfully! We'll get back to you soon.
+            </div>
+          )}
+
+          {/* Error Banner */}
+          {errorInSending && (
+            <div className="bg-red-50 border border-red-200 text-red-700 rounded-[10px] px-4 py-3 text-[14px]" style={{ fontFamily: "Satoshi" }}>
+              ✕ Something went wrong. Please try again later.
+            </div>
+          )}
+
+          <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5">
 
             {/* First + Last Name */}
             <div className="flex flex-col sm:flex-row gap-4">
@@ -128,13 +181,12 @@ const ContactSection: FunctionComponent = () => {
                 </label>
                 <input
                   type="text"
-                  name="firstName"
-                  value={form.firstName}
-                  onChange={handleChange}
+                  {...register("firstName")}
                   placeholder="Enter your first name"
-                  className="w-full border border-[#E0E0E0] rounded-[10px] px-4 py-3 text-[14px] leading-[155%] tracking-[0] text-[#04040e] placeholder-[#ADADAD] placeholder:font-normal placeholder:text-[14px] placeholder:leading-[155%] placeholder:tracking-[0] outline-none focus:border-[#04040e] transition-colors bg-[#F9F9F9]"
+                  className={`w-full border rounded-[10px] px-4 py-3 text-[14px] leading-[155%] tracking-[0] text-[#04040e] placeholder-[#ADADAD] placeholder:font-normal placeholder:text-[14px] placeholder:leading-[155%] placeholder:tracking-[0] outline-none transition-colors bg-[#F9F9F9] ${errors.firstName ? 'border-red-400' : 'border-[#E0E0E0] focus:border-[#04040e]'}`}
                   style={{ fontFamily: "Satoshi" }}
                 />
+                {errors.firstName && <p className="text-red-500 text-[12px] mt-0.5">{errors.firstName.message}</p>}
               </div>
               <div className="flex flex-col gap-1 flex-1">
                 <label className="text-[14px] font-[700] text-[#04040e]" style={{ fontFamily: "Satoshi" }}>
@@ -142,13 +194,12 @@ const ContactSection: FunctionComponent = () => {
                 </label>
                 <input
                   type="text"
-                  name="lastName"
-                  value={form.lastName}
-                  onChange={handleChange}
+                  {...register("lastName")}
                   placeholder="Enter your last name"
-                  className="w-full border border-[#E0E0E0] rounded-[10px] px-4 py-3 text-[14px] leading-[155%] tracking-[0] text-[#04040e] placeholder-[#ADADAD] placeholder:font-normal placeholder:text-[14px] placeholder:leading-[155%] placeholder:tracking-[0] outline-none focus:border-[#04040e] transition-colors bg-[#F9F9F9]"
+                  className={`w-full border rounded-[10px] px-4 py-3 text-[14px] leading-[155%] tracking-[0] text-[#04040e] placeholder-[#ADADAD] placeholder:font-normal placeholder:text-[14px] placeholder:leading-[155%] placeholder:tracking-[0] outline-none transition-colors bg-[#F9F9F9] ${errors.lastName ? 'border-red-400' : 'border-[#E0E0E0] focus:border-[#04040e]'}`}
                   style={{ fontFamily: "Satoshi" }}
                 />
+                {errors.lastName && <p className="text-red-500 text-[12px] mt-0.5">{errors.lastName.message}</p>}
               </div>
             </div>
 
@@ -159,13 +210,12 @@ const ContactSection: FunctionComponent = () => {
               </label>
               <input
                 type="email"
-                name="email"
-                value={form.email}
-                onChange={handleChange}
+                {...register("email")}
                 placeholder="Enter your email address"
-                className="w-full border border-[#E0E0E0] rounded-[10px] px-4 py-3 text-[14px] leading-[155%] tracking-[0] text-[#04040e] placeholder-[#ADADAD] placeholder:font-normal placeholder:text-[14px] placeholder:leading-[155%] placeholder:tracking-[0] outline-none focus:border-[#04040e] transition-colors bg-[#F9F9F9]"
+                className={`w-full border rounded-[10px] px-4 py-3 text-[14px] leading-[155%] tracking-[0] text-[#04040e] placeholder-[#ADADAD] placeholder:font-normal placeholder:text-[14px] placeholder:leading-[155%] placeholder:tracking-[0] outline-none transition-colors bg-[#F9F9F9] ${errors.email ? 'border-red-400' : 'border-[#E0E0E0] focus:border-[#04040e]'}`}
                 style={{ fontFamily: "Satoshi" }}
               />
+              {errors.email && <p className="text-red-500 text-[12px] mt-0.5">{errors.email.message}</p>}
             </div>
 
             {/* Phone Number */}
@@ -173,12 +223,9 @@ const ContactSection: FunctionComponent = () => {
               <label className="text-[14px] font-[700] text-[#04040e]" style={{ fontFamily: "Satoshi" }}>
                 Phone Number
               </label>
-              <div className="flex items-center border border-[#E0E0E0] rounded-[10px] bg-[#F9F9F9] focus-within:border-[#04040e] transition-colors relative">
+              <div className={`flex items-center border rounded-[10px] bg-[#F9F9F9] focus-within:border-[#04040e] transition-colors relative ${errors.phone ? 'border-red-400' : 'border-[#E0E0E0]'}`}>
                 {/* Country Dropdown Trigger */}
-                <div
-                  ref={dropdownRef}
-                  className="relative shrink-0"
-                >
+                <div ref={dropdownRef} className="relative shrink-0">
                   <button
                     type="button"
                     onClick={() => setDropdownOpen(!dropdownOpen)}
@@ -212,14 +259,13 @@ const ContactSection: FunctionComponent = () => {
 
                 <input
                   type="tel"
-                  name="phone"
-                  value={form.phone}
-                  onChange={handleChange}
+                  {...register("phone")}
                   placeholder={selectedCountry.placeholder}
                   className="flex-1 px-3 py-3 text-[14px] leading-[155%] tracking-[0] text-[#04040e] placeholder-[#ADADAD] placeholder:font-normal placeholder:text-[14px] placeholder:leading-[155%] placeholder:tracking-[0] outline-none bg-transparent"
                   style={{ fontFamily: "Satoshi" }}
                 />
               </div>
+              {errors.phone && <p className="text-red-500 text-[12px] mt-0.5">{errors.phone.message}</p>}
             </div>
 
             {/* Messages */}
@@ -228,14 +274,13 @@ const ContactSection: FunctionComponent = () => {
                 Messages
               </label>
               <textarea
-                name="message"
-                value={form.message}
-                onChange={handleChange}
+                {...register("message")}
                 placeholder="Write your message here..."
                 rows={5}
-                className="w-full border border-[#E0E0E0] rounded-[10px] px-4 py-3 text-[14px] leading-[155%] tracking-[0] text-[#04040e] placeholder-[#ADADAD] placeholder:font-normal placeholder:text-[14px] placeholder:leading-[155%] placeholder:tracking-[0] outline-none focus:border-[#04040e] transition-colors bg-[#F9F9F9] resize-none"
+                className={`w-full border rounded-[10px] px-4 py-3 text-[14px] leading-[155%] tracking-[0] text-[#04040e] placeholder-[#ADADAD] placeholder:font-normal placeholder:text-[14px] placeholder:leading-[155%] placeholder:tracking-[0] outline-none transition-colors bg-[#F9F9F9] resize-none ${errors.message ? 'border-red-400' : 'border-[#E0E0E0] focus:border-[#04040e]'}`}
                 style={{ fontFamily: "Satoshi" }}
               />
+              {errors.message && <p className="text-red-500 text-[12px] mt-0.5">{errors.message.message}</p>}
             </div>
 
             {/* Send Button */}
@@ -260,7 +305,7 @@ const ContactSection: FunctionComponent = () => {
                   className="text-[16px] sm:text-[18px] font-[600] text-[#04040e] whitespace-nowrap"
                   style={{ fontFamily: "Satoshi" }}
                 >
-                  Send Message
+                  {isSubmitting ? "Sending..." : "Send Message"}
                 </span>
               </button>
 
