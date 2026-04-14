@@ -1,4 +1,5 @@
-import { FunctionComponent, useState } from 'react';
+import { FunctionComponent } from 'react';
+import { appConfig } from '../config/config';
 
 interface Step {
   number: string;
@@ -7,7 +8,6 @@ interface Step {
 }
 
 const HowItWorksSection: FunctionComponent = () => {
-  const [showVideo, setShowVideo] = useState(false);
 
   const steps: Step[] = [
     {
@@ -28,7 +28,6 @@ const HowItWorksSection: FunctionComponent = () => {
   ];
 
   return (
-    <>
     <section id="how-it-works" className="w-full bg-white py-10 sm:py-14 lg:py-20">
       <div className="w-full max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-[100px]">
 
@@ -82,18 +81,23 @@ const HowItWorksSection: FunctionComponent = () => {
           ))}
         </div>
 
-        {/* Full-width image block with CTA overlay */}
+        {/* Full-width video block with CTA overlay */}
         <div className="relative w-full rounded-2xl overflow-hidden">
-          <img
-            src="/images/img_image_1708.png"
-            alt="Team working together"
-            className="w-full object-cover object-[center_20%]"
+          <video
+            src="/resai-video.mov"
+            autoPlay
+            muted
+            loop
+            playsInline
+            className="w-full object-cover"
             style={{ height: '550px' }}
           />
 
-          {/* Animated Merge CTA */}
-          <div onClick={() => setShowVideo(true)} className="absolute left-6 sm:left-10 top-[30px] group flex items-center w-fit cursor-pointer">
-
+          {/* Animated Merge CTA — clicks go to login */}
+          <div
+            onClick={() => window.location.href = appConfig.loginUrl ?? '/'}
+            className="absolute left-6 sm:left-10 top-[30px] group flex items-center w-fit cursor-pointer"
+          >
             {/* Text pill */}
             <div
               className="
@@ -140,43 +144,11 @@ const HowItWorksSection: FunctionComponent = () => {
                 />
               </svg>
             </div>
-
           </div>
         </div>
 
       </div>
     </section>
-
-    {/* Video Modal */}
-    {showVideo && (
-      <div
-        className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm"
-        onClick={() => setShowVideo(false)}
-      >
-        <div
-          className="relative w-[90vw] max-w-[900px] rounded-2xl overflow-hidden shadow-2xl"
-          onClick={(e) => e.stopPropagation()}
-        >
-          {/* Close button */}
-          <button
-            onClick={() => setShowVideo(false)}
-            className="absolute top-3 right-3 z-10 w-9 h-9 bg-black/60 hover:bg-black/80 text-white rounded-full flex items-center justify-center transition-colors"
-          >
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-              <path d="M1 1l12 12M13 1L1 13" stroke="white" strokeWidth="2" strokeLinecap="round"/>
-            </svg>
-          </button>
-
-          <video
-            src="/resai-video.mov"
-            controls
-            autoPlay
-            className="w-full"
-          />
-        </div>
-      </div>
-    )}
-    </>
   );
 };
 
