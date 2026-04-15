@@ -108,7 +108,10 @@ const HeroSection: FunctionComponent = () => {
             </div>
 
             {/* Secondary Button */}
-            <button className="h-[51px] px-[24px] lg:px-[34px] rounded-full border border-[#dabf67] hover:bg-[#dabf67]/10 transition-all">
+            <button
+              onClick={() => document.getElementById('how-it-works')?.scrollIntoView({ behavior: 'smooth' })}
+              className="h-[51px] px-[24px] lg:px-[34px] rounded-full border border-[#dabf67] hover:bg-[#dabf67]/10 transition-all"
+            >
               <span className="text-[15px] lg:text-[16px] font-medium text-[#03030d] whitespace-nowrap">
                 See how it works
               </span>
