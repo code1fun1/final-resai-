@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react';
+import { FunctionComponent, useRef, useState } from 'react';
 import { appConfig } from '../config/config';
 
 interface Step {
@@ -8,6 +8,20 @@ interface Step {
 }
 
 const HowItWorksSection: FunctionComponent = () => {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [isPlaying, setIsPlaying] = useState(true);
+
+  const togglePlay = () => {
+    const video = videoRef.current;
+    if (!video) return;
+    if (video.paused) {
+      video.play();
+      setIsPlaying(true);
+    } else {
+      video.pause();
+      setIsPlaying(false);
+    }
+  };
 
   const steps: Step[] = [
     {
@@ -54,23 +68,18 @@ const HowItWorksSection: FunctionComponent = () => {
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-10 sm:gap-6 lg:gap-[88px] mb-10 sm:mb-12 lg:mb-14">
           {steps?.map((step) => (
             <div key={step?.number} className="flex flex-col">
-              {/* Step number (faded background) */}
               <span
                 className="text-[60px] font-[500] leading-[125%] tracking-[-0.02em] text-[#EDEDED] mb-[-28px] lg:mb-[-32px] select-none"
                 style={{ fontFamily: 'Satoshi' }}
               >
                 {step?.number}
               </span>
-
-              {/* Title */}
               <h3
                 className="text-[22px] sm:text-[24px] lg:text-[24px] font-[500] leading-[132%] tracking-[0.02em] text-[#04040E] mb-2 relative z-10 whitespace-pre-line"
                 style={{ fontFamily: 'Satoshi' }}
               >
                 {step?.title}
               </h3>
-
-              {/* Description */}
               <p
                 className="text-[15px] sm:text-[16px] lg:text-[16px] font-[400] leading-[155%] tracking-[0] text-[#535353]"
                 style={{ fontFamily: 'Satoshi' }}
@@ -84,6 +93,7 @@ const HowItWorksSection: FunctionComponent = () => {
         {/* Full-width video block with CTA overlay */}
         <div className="relative w-full rounded-2xl overflow-hidden">
           <video
+            ref={videoRef}
             src="/resai-video.mov"
             autoPlay
             muted
@@ -92,6 +102,25 @@ const HowItWorksSection: FunctionComponent = () => {
             className="w-full object-cover"
             style={{ height: '550px' }}
           />
+
+          {/* Play / Pause button — bottom right */}
+          <button
+            onClick={togglePlay}
+            className="absolute bottom-4 right-4 w-[44px] h-[44px] rounded-full bg-black/50 hover:bg-black/70 flex items-center justify-center transition-all duration-200 z-20"
+          >
+            {isPlaying ? (
+              /* Pause icon */
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="white">
+                <rect x="5" y="4" width="4" height="16" rx="1" />
+                <rect x="15" y="4" width="4" height="16" rx="1" />
+              </svg>
+            ) : (
+              /* Play icon */
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="white">
+                <path d="M6 4l14 8-14 8V4z" />
+              </svg>
+            )}
+          </button>
 
           {/* Animated Merge CTA — clicks go to login */}
           <div
