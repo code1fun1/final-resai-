@@ -1,0 +1,131 @@
+{
+  "validationMessages": {
+    "firstNameRequired": "|First name is required.",
+    "lastNameRequired": "|Last name is required.",
+    "invalidEmail": "|Invalid email.",
+    "emailRequired": "|Email is required",
+    "invalidPhoneNumber": "|Invalid phone number",
+    "phoneNumberRequired": "|Phone number is required.",
+    "stateRequired": "|State is required.",
+    "designationRequired": "|Designation is required.",
+    "invalidUrl": "|Invalid url.",
+    "emailExists": "|Email already exists.",
+    "passwordRequired": "|Password is required",
+    "countryRequired": "|Country is required.",
+    "phoneNumberExists": "|Phone number already exits",
+    "titleRequired": "|Job Title is required",
+    "companyNameRequired": "|Company Name is required",
+    "roleRequired": "|Role is required",
+    "invalidEmailPhone": "|Invalid Email.",
+    "inputRequired": "|Email is required",
+    "minimum10": "|Minimum 10 digits are required"
+  },
+  "buttonTexts": {
+    "share": "|Share",
+    "skip": "|Skip",
+    "continue": "|Continue",
+    "reset": "|Reset",
+    "apply": "|Apply",
+    "pickJob": "|Pick job",
+    "format": "|Format",
+    "saveAndContinue": "|Save & Continue",
+    "saveAndNext": "|Save & Next",
+    "yes": "|Yes",
+    "no": "|No",
+    "verify": "|Verify",
+    "back": "|Back",
+    "viewJob": "|View job",
+    "neverDoneThat": "|Never done that",
+    "download": "|Download",
+    "getInTouch": "|Get in touch",
+    "shareOn": "|share on",
+    "shareOnInfo": "|Share on whatsupp to download resume"
+  },
+  "toastMessages": {
+    "savedJobDeleted": "|saved job deleted successfully",
+    "emailAlreadyExists": "|Provided email already exists",
+    "phoneNumberAlreadyExists": "|Provided phone already exists",
+    "jobSaved": "|Job saved to your: 'Saved Jobs'",
+    "cvCreatedSuccessfully": "|Your CV has been successfully created. You will now be redirected to the dashboard.",
+    "userProjectDeleted": "|User project deleted successfully"
+  },
+  "pageTitles": {
+    "onboarding": "|Onboarding",
+    "login": "|Login",
+    "signUp": "|Sign Up",
+    "forgotPassword": "|Forgot Password",
+    "resetPassword": "|Reset Password",
+    "resumeUpload": "|Resume Upload",
+    "resumeDownload": "|Resume Download",
+    "myResumes": "|My Resumes",
+    "myProfile": "|My Profile"
+  },
+  "404Page": {
+    "pageNotFound": "|Page not found"
+  },
+  "footer": {
+    "copyrightText": "|Copyright ",
+    "copyrightIconText": "|© {{year}} ResAI",
+    "privacyPolicy": "|Privacy Policy",
+    "termsOfUse": "|Terms & Conditions"
+  },
+  "header": {
+    "home": "|Home",
+    "about": "|About",
+    "howItWorks": "|How it works",
+    "templates": "|Templates",
+    "courses": "|Courses",
+    "contactUs": "|Contact us",
+    "myProfile": "|My profile",
+    "myCourses": "|My courses",
+    "myResume": "|My resume",
+    "resetPassword": "|Reset password",
+    "logout": "|Logout",
+    "credits": "|Credits",
+    "tutorials": "|Tutorials",
+    "features": "|Features",
+    "testimonials": "|Testimonials"
+  },
+  "modal": {
+    "logout": "|Log Out",
+    "areYouSureLogout": "|Are you sure you want to logout"
+  },
+  "fileUploader": {
+    "dragAndDrop": "|Drag and drop file here or",
+    "fileSupported": "|File supported: PDF and DOCX",
+    "uploadResume": "|Create resume",
+    "fileSize": "|Maximum size: 5MB",
+    "uploadFile": "|upload file"
+  },
+  "passwordValidityIndicators": {
+    "containsAtLeastOneNumber": "|Contains at least one number.",
+    "containsAtLeastOneSymbol": "|Contains at least one symbol.",
+    "betweenEightToTwentyFourChar": "|Between 8 to 24 characters long.",
+    "matchWithConfirmPassword": "|Match with confirm password."
+  },
+  "createPassword": {
+    "enterVerificationCode": "|Enter the verification code that was sent to your Email id to continue",
+    "verificationNeeded": "|Verification needed",
+    "resendVerificationCode": "|Resend the verification code in ",
+    "resendOTP": "|Resend OTP",
+    "password": "|Password",
+    "confirmPassword": "|Confirm Password",
+    "repeatPassword": "|Repeat Password",
+    "resetYourPassword": "|Reset your password",
+    "resetPassword": "|Reset password",
+    "passwordUpdated": "|Password updated!",
+    "failed": "|Failed",
+    "passwordChangedSuccessfully": "|Your password has been changed successfully. Use your new password to log in."
+  },
+  "loaderMessages": {
+    "thisMayTakeUptoAMinuteOrTwo": "|This may take up to 1 - 2 minutes",
+    "pleaseWait": "|Please wait..."
+  },
+  "myResume": {
+    "title": "|My Resumes",
+    "comingSoon": "|Coming Soon",
+    "createResume": "|Create Resume",
+    "downloadResume": "|Download Resume",
+    "uploadResume": "|Create Resume"
+  }
+}

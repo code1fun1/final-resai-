@@ -1,0 +1,37 @@
+{
+  "pageHeading": "|My Profile",
+  "formTitle": "|Personal Information",
+
+  "fnameLabel": "|First name",
+  "lnameLabel": "|Last name",
+  "phoneLabel": "|Phone Number",
+  "emailLabel": "|Email Address",
+  "addressLabel": "|Address",
+
+  "namePlaceholder": "|Enter Your Name Here",
+  "emailPlaceholder": "|Enter Your Email Here",
+  "phonePlaceholder": "|Enter Your Phone Number Here",
+  "addressPlaceholder": "|Your Message...",
+
+  "fnameRequired": "|First name is required",
+  "lnameRequired": "|Last name is required",
+  "emailRequired": "|Email is required",
+  "emailValid": "|Invalid email format",
+  "phoneRequired": "|Phone is required",
+  "phoneMin10": "|Phone must be exactly 10 digits",
+  "phoneMax10": "|Phone must be exactly 10 digits",
+  "phoneMatches": "|Phone number must be digits only",
+  "addressRequired": "|Address is required",
+
+  "profileSaveButton": "|Save",
+  "SaveButtonValidationMessage": "|Please check validation message",
+  "PhoneCustomValidationMessage": "|Phone is required",
+  "AddressCustomValidationMessage": "|Address is required",
+  "loaderMessage": "|Profile Updating...",
+  "creditformTitle": "|Credit history",
+  "creditLoadMore": "|Load More",
+  "creditTableHeadingOfTimestamp": "|Timestamp",
+  "creditTableHeadingOfDetail": "|Detail",
+  "creditTableHeadingOfCredit": "|Credits",
+  "creditTableHeadingOfStatus": "|Status"
+}

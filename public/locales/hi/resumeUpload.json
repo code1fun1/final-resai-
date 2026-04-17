@@ -1,0 +1,19 @@
+{
+  "HiResAI": "👋🏼 नमस्ते, मैं ResAI हूँ — आपका AI रिज़्यूमे सहायक",
+  "craftingYourResume": "एक पेशेवर और ATS-अनुकूल रिज़्यूमे आसानी से तैयार करें।",
+  "helpYouCreateResume": "सरल कदमों का पालन करें और अपनी अगली अवसर को जल्दी पाएं।",
+  "editorTextPlaceholder": "यहां अपना रिज़्यूमे सामग्री टाइप करें या पेस्ट करें और शुरू करें।",
+  "getStarted": "शुरू करें",
+  "invalidFileSize": "फ़ाइल का आकार 5 MB की सीमा से अधिक है। कृपया छोटी फ़ाइल अपलोड करें।",
+  "invalidFileType": "असमर्थित फ़ाइल फ़ॉर्मेट। कृपया PDF या DOCX फ़ाइल अपलोड करें।",
+  "fileURLIsUndefined": "फ़ाइल URL अपरिभाषित है",
+  "or_translate": "अथवा",
+  "continue": "जारी रखें",
+  "createYourJobDescription": "क्या आपके मन में कोई विशेष नौकरी है? उसका विवरण यहां दर्ज करें!",
+  "jobDescription": "लक्षित नौकरी विवरण",
+  "jobTitlePlaceholder": "लक्षित नौकरी शीर्षक",
+  "companyNamePlaceholder": "लक्षित कंपनी का नाम",
+  "editorPlaceholder": "लक्षित नौकरी विवरण",
+  "pasteJobDescriptionHere": "लक्षित नौकरी विवरण यहां पेस्ट करें",
+  "optionalButRecommended": "यह हमें आपके रिज़्यूमे को उस नौकरी के लिए सही तरीके से तैयार करने में मदद करता है। (वैकल्पिक है, लेकिन लाभकारी है।)"
+}

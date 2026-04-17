@@ -1,0 +1,46 @@
+{
+  "pageHeading": "मेरी प्रोफाइल",
+  "formTitle": "व्यक्तिगत जानकारी",
+
+  "fnameLabel": "पहला नाम",
+  "lnameLabel": "अंतिम नाम",
+  "phoneLabel": "फ़ोन नंबर",
+  "emailLabel": "मेल पता",
+  "addressLabel": "पता",
+
+  "namePlaceholder": "अपना नाम यहाँ दर्ज करें",
+  "emailPlaceholder": "अपना ई मेल यहा भरे",
+  "phonePlaceholder": "यहां अपना फ़ोन नंबर दर्ज करें",
+  "addressPlaceholder": "आपका संदेश...",
+
+  "fnameRequired": "पहला नाम आवश्यक है",
+  "lnameRequired": "अंतिम नाम आवश्यक है",
+  "emailRequired": "ईमेल की जरूरत है",
+  "emailValid": "अमान्य ईमेल प्रारूप",
+  "phoneRequired": "फ़ोन आवश्यक है",
+  "phoneMin10": "फ़ोन बिल्कुल 10 अंकों का होना चाहिए",
+  "phoneMax10": "फ़ोन बिल्कुल 10 अंकों का होना चाहिए",
+  "phoneMatches": "फ़ोन नंबर केवल अंक होना चाहिए",
+  "addressRequired": "पता आवश्यक है",
+
+  "profileSaveButton": "सेव",
+  "SaveButtonValidationMessage": "कृपया सत्यापन संदेश जांचें",
+  "PhoneCustomValidationMessage": "फ़ोन आवश्यक है",
+  "AddressCustomValidationMessage": "पता आवश्यक है",
+  "loaderMessage": "प्रोफ़ाइल अपडेट हो रही है...",
+  "creditformTitle": "ऋण इतिहास",
+  "creditLoadMore": "और लोड करें",
+  "creditTableHeadingOfTimestamp": "समय-चिह्न",
+  "creditTableHeadingOfDetail": "विवरण",
+  "creditTableHeadingOfCredit": "क्रेडिट",
+  "creditTableHeadingOfStatus": "स्थिति",
+  "noRecordsFound": "कोई रिकार्ड नहीं मिला",
+  "imageUploader": {
+    "title": "अपनी प्रोफ़ाइल छवि चुनें",
+    "fileSupported": "फ़ाइल समर्थित: पीएनजी, जेपीईजी और जेपीजी",
+    "fileSize": "अधिकतम आकार: 5एमबी",
+    "uploadFileBtnName": "तस्विर अपलोड करना",
+    "cropFileBtnName": "क्रॉप इमेज",
+    "saveFileBtnName": "सेव"
+  }
+}

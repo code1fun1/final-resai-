@@ -1,0 +1,112 @@
+{
+  "pageHeading": "अनुकूलित करें",
+  "resumeHeading": "बॉयोडाटा",
+  "resumeStepper": {
+    "chooseTemplate": "टेम्पलेट चुनें",
+    "personalInformation": "व्यक्तिगत जानकारी",
+    "contactInformation": "संपर्क जानकारी",
+    "education": "शिक्षा",
+    "expertise": "विशेषज्ञता",
+    "summaryStatement": "सारांश बयान",
+    "workExperience": "कार्य अनुभव",
+    "achievement": "उपलब्धि",
+    "professionalDevelopment": "व्यावसायिक विकास",
+    "languageInformation": "भाषा जानकारी"
+  },
+  "coverHeading": "कवर लेटर",
+  "coverStepper": {
+    "chooseTemplate": "टेम्पलेट चुनें",
+    "personalInformation": "व्यक्तिगत जानकारी (कवर लेटर)",
+    "contactInformation": "संपर्क जानकारी (कवर लेटर)"
+  },
+  "saveAndCloseBtnName": "सहेजे बंद करें",
+  "personalInfo": {
+    "firstNamelabel": "पहला नाम",
+    "lastNamelabel": "अंतिम नाम",
+    "professionalTitlelabel": "व्यावसायिक शीर्षक",
+    "firstNamePlaceholder": "पहला नाम",
+    "lastNamePlaceholder": "अंतिम नाम",
+    "professionalTitlePlaceholder": "व्यावसायिक शीर्षक"
+  },
+  "contactInfo": {
+    "phonelabel": "फ़ोन नंबर",
+    "emaillabel": "मेल पता",
+    "linkedinlabel": "लिंकेडीन",
+    "addrersslabel": "पता",
+    "phonePlaceholder": "फ़ोन नंबर",
+    "emailPlaceholder": "मेल पता",
+    "linkedinPlaceholder": "लिंकेडीन",
+    "addrerssPlaceholder": "पता"
+  },
+  "educationInfo": {
+    "degreelabel": "डिग्री का नाम",
+    "universitylabel": "विश्वविद्यालय/स्कूल",
+    "placelabel": "जगह",
+    "passingYearlabel": "उत्तीर्ण वर्ष",
+    "degreeTypelabel": "डिग्री प्रकार",
+    "marksTypelabel": "मार्क्स प्रकार",
+    "markslabel": "अंक",
+
+    "degreePlaceholder": "डिग्री का नाम",
+    "universityPlaceholder": "विश्वविद्यालय/स्कूल",
+    "placePlaceholder": "जगह",
+    "passingYearPlaceholder": "उत्तीर्ण वर्ष",
+    "degreeTypePlaceholder": "डिग्री प्रकार",
+    "marksTypePlaceholder": "मार्क्स प्रकार",
+    "marksPlaceholder": "अंक"
+  },
+  "summaryStatement": {
+    "summaryPlaceholder": "सारांश बयान....."
+  },
+  "workExpInfo": {
+    "jobPositionlabel": "नौकरी की स्थिति/पदनाम",
+    "companylabel": "कंपनी",
+    "titlelabel": "शीर्षक",
+    "descriptionlabel": "विवरण",
+    "locationlabel": "जगह",
+    "currentlyWorkingHerelabel": "वर्तमान में यहीं कार्यरत हैं",
+    "jobPositionPlaceholder": "नौकरी की स्थिति/पदनाम",
+    "companyPlaceholder": "कंपनी",
+    "titlePlaceholder": "शीर्षक",
+    "descriptionPlaceholder": "विवरण",
+    "locationPlaceholder": "जगह",
+    "fromDate": "की तिथि से",
+    "toDate": "तारीख तक",
+    "fromDatePlaceholder": "से (YYYY प्रारूप में)",
+    "toDatePlaceholder": "तक (YYYY प्रारूप में)"
+  },
+  "expertInfo": {
+    "professionalTabName": "पेशेवर",
+    "technicalTabName": "तकनीकी",
+    "skilllabel": "कौशल",
+    "skillPlaceholder": "कौशल"
+  },
+  "acheivementsInfo": {
+    "datelabel": "उपलब्धि तिथि",
+    "locationlabel": "जगह",
+    "summarylabel": "सारांश",
+    "datePlaceholder": "उपलब्धि तिथि",
+    "locationPlaceholder": "जगह",
+    "summaryPlaceholder": "सारांश"
+  },
+  "professionalDevInfo": {
+    "companylabel": "कंपनी",
+    "universitylabel": "विश्वविद्यालय",
+    "titlelabel": "शीर्षक",
+    "datelabel": "वर्ष",
+    "workshoplabel": "कार्यशाला",
+    "descriptionlabel": "विवरण",
+    "companyPlaceholder": "कंपनी",
+    "universityPlaceholder": "विश्वविद्यालय",
+    "titlePlaceholder": "शीर्षक",
+    "datePlaceholder": "वर्ष (YYYY प्रारूप में)",
+    "workshopPlaceholder": "कार्यशाला",
+    "descriptionPlaceholder": "विवरण"
+  },
+  "languageInfo": {
+    "languagelabel": "भाषा",
+    "levellabel": "स्तर",
+    "languagePlaceholder": "भाषा",
+    "levelPlaceholder": "स्तर"
+  }
+}

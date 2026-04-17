@@ -1,0 +1,19 @@
+{
+  "HiResAI": "👋🏼 Hey there I'm ResAI — Your AI Resume Assistant",
+  "craftingYourResume": "Create a professional, ATS-optimized resume effortlessly",
+  "helpYouCreateResume": "Follow simple steps and land your next opportunity faster",
+  "editorTextPlaceholder": "Paste your details such as skills, education and experience here to begin.",
+  "getStarted": "Get started",
+  "invalidFileSize": "File size exceeds the 5 MB limit. Please upload a smaller file.",
+  "invalidFileType": "Unsupported file format. Please upload a PDF or DOCX file.",
+  "fileURLIsUndefined": "File URL is undefined",
+  "or_translate": "Or",
+  "continue": "Continue",
+  "createYourJobDescription": "Got a specific job in mind? Enter the description here",
+  "jobDescription": "Target Job Description",
+  "jobTitlePlaceholder": "Target Job Title",
+  "companyNamePlaceholder": "Target Company Name",
+  "editorPlaceholder": "Target Job description",
+  "pasteJobDescriptionHere": "Paste the target job description here",
+  "optionalButRecommended": "This helps us fine-tune your resume for that perfect fit (Optional, but worth it)"
+}

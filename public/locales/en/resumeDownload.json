@@ -1,0 +1,17 @@
+{
+  "toastbarTitle": "Successfully created your 1st job description specific resume!",
+  "similarityScore": "ATS score",
+  "yourResumeJobAlignmentScore": "Your resume's fit by the job alignment score",
+  "bridgeYourSkill": "Bridge your skill gaps with suggested free courses",
+  "recommendedCourses": "Recommended courses to learn the missing skills and increase your chances of securing a job",
+
+  "home": "Home",
+  "preview": "Preview",
+  "resume": "Resume",
+  "coverLetter": "Cover Letter",
+
+  "needProfessionalHelp": "Need professional help?",
+  "getHelpFromExperts": "Get help from resume-writing experts",
+  "customize": "Customize",
+  "note": "Check your resume for accuracy, edit if needed, and save. Hit “Edit Resume” to preview resume templates, edit, and save."
+}

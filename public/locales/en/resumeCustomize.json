@@ -1,0 +1,114 @@
+{
+  "pageHeading": "Customize",
+  "resumeHeading": "Resume",
+  "resumeStepper": {
+    "chooseTemplate": "Choose Template",
+    "personalInformation": "Personal Information",
+    "contactInformation": "Contact Information",
+    "education": "Education",
+    "expertise": "Expertise",
+    "summaryStatement": "Summary Statement",
+    "workExperience": "Work Experience",
+    "achievement": "Achievement",
+    "professionalDevelopment": "Professional Development",
+    "languageInformation": "Language Information"
+  },
+  "coverHeading": "Cover Letter",
+  "coverStepper": {
+    "chooseTemplate": "Choose Template",
+    "personalInformation": "Personal Information(Cover Letter)",
+    "contactInformation": "Contact Information(Cover Letter)"
+  },
+  "saveAndCloseBtnName": "Save & close",
+  "personalInfo": {
+    "firstNamelabel": "First Name",
+    "lastNamelabel": "Last Name",
+    "professionalTitlelabel": "Professional Title",
+    "firstNamePlaceholder": "First Name",
+    "lastNamePlaceholder": "Last Name",
+    "professionalTitlePlaceholder": "Professional Title"
+  },
+  "contactInfo": {
+    "phonelabel": "Phone Number",
+    "emaillabel": "Email Address",
+    "linkedinlabel": "Linkedin",
+    "addrersslabel": "Address",
+    "phonePlaceholder": "Phone Number",
+    "emailPlaceholder": "Email Address",
+    "linkedinPlaceholder": "Linkedin",
+    "addrerssPlaceholder": "Address"
+  },
+  "educationInfo": {
+    "degreelabel": "Degree Name",
+    "universitylabel": "University/School",
+    "placelabel": "Place",
+    "passingYearlabel": "Passing Year",
+    "degreeTypelabel": "Degree Type",
+    "marksTypelabel": "Marks Type",
+    "markslabel": "Marks",
+
+    "degreePlaceholder": "Degree Name",
+    "universityPlaceholder": "University/School",
+    "placePlaceholder": "Place",
+
+    "passingYearPlaceholder": "Passing Year",
+    "degreeTypePlaceholder": "Degree Type",
+    "marksTypePlaceholder": "Marks Type",
+    "marksPlaceholder": "Marks"
+  },
+  "summaryStatement": {
+    "summaryPlaceholder": "Summary Statement....."
+  },
+  "workExpInfo": {
+    "jobPositionlabel": "Job Position/Title",
+    "companylabel": "Company",
+    "titlelabel": "Title",
+    "descriptionlabel": "Description",
+    "locationlabel": "Location",
+    "currentlyWorkingHerelabel": "Currently working here",
+
+    "jobPositionPlaceholder": "Job Position/Title",
+    "companyPlaceholder": "Company",
+    "titlePlaceholder": "Title",
+    "descriptionPlaceholder": "Description",
+    "locationPlaceholder": "Location",
+    "fromDate": "From",
+    "toDate": "To",
+    "fromDatePlaceholder": "From (In YYYY format)",
+    "toDatePlaceholder": "To (In YYYY format)"
+  },
+  "expertInfo": {
+    "professionalTabName": "Professional",
+    "technicalTabName": "Technical",
+    "skilllabel": "Skill",
+    "skillPlaceholder": "Skill"
+  },
+  "acheivementsInfo": {
+    "datelabel": "Achievement Date",
+    "locationlabel": "Location",
+    "summarylabel": "Summary",
+    "datePlaceholder": "Achievement Date",
+    "locationPlaceholder": "Location",
+    "summaryPlaceholder": "Summary"
+  },
+  "professionalDevInfo": {
+    "companylabel": "Company",
+    "universitylabel": "University",
+    "titlelabel": "Title",
+    "datelabel": "Year",
+    "workshoplabel": "Workshop",
+    "descriptionlabel": "Description",
+    "companyPlaceholder": "Company",
+    "universityPlaceholder": "University",
+    "titlePlaceholder": "Title",
+    "datePlaceholder": "Year (In YYYY format)",
+    "workshopPlaceholder": "Workshop",
+    "descriptionPlaceholder": "Description"
+  },
+  "languageInfo": {
+    "languagelabel": "Language",
+    "levellabel": "Level",
+    "languagePlaceholder": "Language",
+    "levelPlaceholder": "Level"
+  }
+}

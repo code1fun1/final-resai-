@@ -1,0 +1,14 @@
+{
+  "pageHeading": "My Credits",
+  "Availablecredits": "Available credits",
+  "Credits": "Credits",
+  "Lastpurchased": "Last purchased",
+  "Buycredits": "Buy credits",
+  "Buyfor": "Buy for",
+  "Invitefriends": "Invite friends, get 3 free credits",
+  "ShareResAIwithfriends": "Share ResAI with friends through WhatsApp, get 3 free credits in gratitude!",
+  "creditAlertPopUp": {
+    "alertTitle": "You have insufficient credit",
+    "alertBtnName": "Let me buy more credit"
+  }
+}

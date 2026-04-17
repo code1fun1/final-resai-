@@ -1,0 +1,14 @@
+{
+  "pageHeading": "मेरे क्रेडिट",
+  "Availablecredits": "उपलब्ध क्रेडिट",
+  "Credits": "क्रेडिट",
+  "Lastpurchased": "अंतिम खरीदारी",
+  "Buycredits": "क्रेडिट खरीदें",
+  "Buyfor": "के लिए खरीदें",
+  "Invitefriends": "मित्रों को आमंत्रित करें, 3 मुफ्त क्रेडिट प्राप्त करें",
+  "ShareResAIwithfriends": "WhatsApp के माध्यम से ResAI को मित्रों के साथ साझा करें, धन्यवाद के रूप में 3 मुफ्त क्रेडिट प्राप्त करें!",
+  "creditAlertPopUp": {
+    "alertTitle": "आपके पास अपर्याप्त क्रेडिट है",
+    "alertBtnName": "मुझे और अधिक ऋण खरीदने दें"
+  }
+}
