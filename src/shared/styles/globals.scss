@@ -1,4 +1,45 @@
 @import url('https://fonts.googleapis.com/css2?family=Afacad:ital,wght@0,400..700;1,400..700&display=swap');
+@import url('https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700&display=swap');
+
+:root {
+  --Color: #dabf67;
+  --Color-2: #735302;
+  --Color-Dark-500: #04040e;
+  --Color-Gray-200: #dfdfdf;
+  --Color-Gray-700: #7b7b7b;
+  --Color-Netural-White: #fff;
+  --Surface-Card: #fff;
+  --Text-Primary: #0f172a;
+  --Border-Divider: #eef2f1;
+  --Border-Strong: #e2e8e6;
+  --font-satoshi: Satoshi, sans-serif;
+  --font-inter: Inter;
+  --Other-Radius-Full-Corner: 999px;
+  --Radius-200: 8px;
+  --br-16: 16px;
+  --fs-16: 16px;
+  --fs-18: 18px;
+  --fs-20: 20px;
+  --fs-22: 22px;
+  --fs-26: 26px;
+  --fs-36: 36px;
+  --gap-8: 8px;
+  --gap-12: 12px;
+  --gap-14: 14px;
+  --gap-16: 16px;
+  --gap-20: 20px;
+  --gap-40: 40px;
+  --Other-Gap-13: 32px;
+  --Space-200: 8px;
+  --Space-300: 12px;
+  --Space-400: 16px;
+  --min-w-53: 53px;
+  --height-5: 5px;
+  --color-rosybrown: #9f7d5d;
+  --color-gray-200: #171717;
+  --color-whitesmoke-100: #f6f6f6;
+  --padding-40: 40px;
+}
 
 html,
 body {

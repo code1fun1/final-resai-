@@ -1,10 +1,10 @@
-import { Divider } from '@mui/material';
-import { useTranslation } from 'next-i18next';
+import { Button, Divider, Typography } from '@mui/material';
 import { useCallback, useEffect, useState } from 'react';
+import Link from 'next/link';
 import AuthContainer from '~/shared/components/AuthContainer';
 import Heading from '~/shared/components/Heading';
 import SingleSignOn from '~/shared/components/SingleSignOn';
-import { LOCALE_PAGE } from '~/shared/constants/constants';
+import { ROUTES } from '~/shared/constants/routes';
 import { getStorageItem } from '~/shared/utils/storage';
 import { handleSingleSignOn } from '../Utils/AuthUtils';
 import LoginForm from './LoginForm';
@@ -21,7 +21,6 @@ interface LoginProps {
 
 const Login: React.FC<LoginProps> = ({ setLoadWithoutMount }) => {
   const { handleUserRedirection } = useLoginRedirect(setLoadWithoutMount);
-  const { t: i18n } = useTranslation(LOCALE_PAGE.AUTH);
   const [hasAccess, setHasAccess] = useState<boolean>(false);
   const styles = useStyles();
 
@@ -49,13 +48,21 @@ const Login: React.FC<LoginProps> = ({ setLoadWithoutMount }) => {
       ) : (
         <AuthContainer>
           <Heading
-            title={i18n('logIn')}
-            subTitle={i18n('quicklogIn')}
+            title="Sign In"
+            subTitle="To re-engineer your career journey"
             headingType={HEADING_TYPE.AUTH}
           />
-          <SingleSignOn onSingleSignOn={(value) => handleLoginClick(value)} />
-          <Divider className={styles.divider}>{i18n('or_translate')}</Divider>
           <LoginForm />
+          <Divider className={styles.divider}>OR</Divider>
+          <SingleSignOn onSingleSignOn={(value) => handleLoginClick(value)} />
+          <Typography component="p" className={styles.linkWrap} textAlign="center">
+            {'Don\'t have an account?'}{' '}
+            <Link href={ROUTES.SIGN_UP}>
+              <Button variant="text" className={styles.linkText}>
+                Sign Up
+              </Button>
+            </Link>
+          </Typography>
         </AuthContainer>
       )}
     </>

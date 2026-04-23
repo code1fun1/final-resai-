@@ -21,31 +21,39 @@ export const useStyles = makeStyles((theme) => ({
       }
     }
   },
-
   primaryBox: {
     display: 'flex',
     flexDirection: 'column',
-    gap: theme.spacing(5),
-    textAlign: 'left',
-    marginTop: theme.spacing(4),
-    [theme.breakpoints.down('md')]: {
-      gap: theme.spacing(2),
-      textAlign: 'center',
-      marginTop: theme.spacing(2)
-    }
+    gap: '12px',
+    textAlign: 'left'
   },
   authTitle: {
     '&.MuiTypography-root': {
-      ...theme.typography.h3,
+      fontFamily: 'Satoshi, sans-serif',
+      fontSize: '36px',
+      fontWeight: 700,
+      lineHeight: '100%',
+      letterSpacing: 0,
+      color: '#04040e',
       [theme.breakpoints.down('md')]: {
-        ...theme.typography.title1
+        fontSize: '29px'
+      },
+      [theme.breakpoints.down('sm')]: {
+        fontSize: '22px'
       }
     }
   },
   authSubTitle: {
     '&.MuiTypography-root': {
-      ...theme.typography.title3,
-      color: theme.palette.neutral[60]
+      fontFamily: 'Satoshi, sans-serif',
+      fontSize: '20px',
+      fontWeight: 400,
+      lineHeight: '155%',
+      color: '#04040e',
+      [theme.breakpoints.down('sm')]: {
+        fontSize: '16px',
+        lineHeight: '25px'
+      }
     }
   }
 }));

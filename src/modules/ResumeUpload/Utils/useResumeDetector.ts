@@ -77,9 +77,8 @@ export default function useResumeDetector() {
 
       if (isPdf) {
         // dynamic import PDF.js - typed as PDFJSModule
-        const pdfjsImport = (await import(
-          'pdfjs-dist/legacy/build/pdf.js'
-        )) as unknown as PDFJSModule;
+        const pdfjsImport =
+          (await import('pdfjs-dist/legacy/build/pdf.js')) as unknown as PDFJSModule;
 
         try {
           if (pdfjsImport.version && pdfjsImport.GlobalWorkerOptions) {

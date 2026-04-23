@@ -1,7 +1,6 @@
 import { Checkbox, FormControlLabel } from '@mui/material';
-import { useTranslation } from 'next-i18next';
 import { useEffect, useState } from 'react';
-import { LOCALE_PAGE, STORAGE_HEADERS } from '~/shared/constants/constants';
+import { STORAGE_HEADERS } from '~/shared/constants/constants';
 import {
   STORAGE_TYPES,
   getStorageItem,
@@ -12,7 +11,6 @@ import { useStyles } from '../LoginStyles';
 
 const StayLogin = () => {
   const styles = useStyles();
-  const { t: i18n } = useTranslation(LOCALE_PAGE.AUTH);
   const [isChecked, setIsChecked] = useState<boolean>(false);
 
   const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -44,7 +42,7 @@ const StayLogin = () => {
           inputProps={{ 'aria-label': 'controlled' }}
         />
       }
-      label={i18n('stayLogged')}
+      label="Keep me signed in"
       className={styles.checkboxLabel}
     />
   );

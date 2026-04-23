@@ -17,6 +17,10 @@ export default class MyDocument extends Document {
             href="https://fonts.googleapis.com/css2?family=DM+Serif+Text:ital@0;1&family=Inter:wght@200&display=swap"
             rel="stylesheet"
           ></link>
+          <link
+            href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700&display=swap"
+            rel="stylesheet"
+          />
         </Head>
         <body>
           <Main />

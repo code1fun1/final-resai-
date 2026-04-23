@@ -122,64 +122,63 @@ const ScoreCard = (props: ScoreCardProps) => {
     fetchSkillAnalysis();
   }, []);
 
-const generateTrainingPlanOnLoad = async () => {
-  if (isRequestInProgress) {
-    // eslint-disable-next-line no-console
-    console.log('⛔ Skipping call - request already running');
-    return;
-  }
+  const generateTrainingPlanOnLoad = async () => {
+    if (isRequestInProgress) {
+      // eslint-disable-next-line no-console
+      console.log('⛔ Skipping call - request already running');
+      return;
+    }
 
-  const lastResumeId = getStorageItem({
-    key: 'lastResumeId',
-    useCombineStorage: true
-  });
+    const lastResumeId = getStorageItem({
+      key: 'lastResumeId',
+      useCombineStorage: true
+    });
 
-  if (!lastResumeId) return;
+    if (!lastResumeId) return;
 
-  try {
-    setIsRequestInProgress(true);
-    setIsGeneratingPlan(true);
+    try {
+      setIsRequestInProgress(true);
+      setIsGeneratingPlan(true);
 
-    // ✅ ADD THIS BLOCK (missing)
-    const request = {
-      url: APIS.TRAINING_PLAN_GENERATOR,
-      method: API_METHOD.POST,
-      body: {
-        req_param: {
-          resume_id: lastResumeId
+      // ✅ ADD THIS BLOCK (missing)
+      const request = {
+        url: APIS.TRAINING_PLAN_GENERATOR,
+        method: API_METHOD.POST,
+        body: {
+          req_param: {
+            resume_id: lastResumeId
+          }
         }
+      };
+
+      const [apiResponse] = await httpRequest(request);
+
+      const resData = apiResponse?.res_data?.data;
+
+      if (resData.status === 'IN_PROGRESS') {
+        return;
       }
-    };
 
-    const [apiResponse] = await httpRequest(request);
+      if (resData.status === 'COMPLETED') {
+        setGeneratedPdfUrl(resData.pdf_url);
+        setIsGeneratingPlan(false);
+        return;
+      }
 
-    const resData = apiResponse?.res_data?.data;
-
-    if (resData.status === 'IN_PROGRESS') {
-      return;
-    }
-
-    if (resData.status === 'COMPLETED') {
-      setGeneratedPdfUrl(resData.pdf_url);
-      setIsGeneratingPlan(false);
-      return;
-    }
-
-    if (resData.status === 'FAILED') {
+      if (resData.status === 'FAILED') {
+        setPlanError(true);
+        setIsGeneratingPlan(false);
+        return;
+      }
+    } catch (error) {
       setPlanError(true);
       setIsGeneratingPlan(false);
-      return;
+    } finally {
+      // eslint-disable-next-line no-console
+      console.log('✅ Request finished → unlocking');
+      setIsRequestInProgress(false);
     }
-
-  } catch (error) {
-    setPlanError(true);
-    setIsGeneratingPlan(false);
-  } finally {
-    // eslint-disable-next-line no-console
-    console.log('✅ Request finished → unlocking');
-    setIsRequestInProgress(false);
-  }
-};
+  };
 
   useEffect(() => {
     generateTrainingPlanOnLoad();

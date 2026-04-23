@@ -1,8 +1,6 @@
 import React from 'react';
-import { Box, Button, ButtonGroup } from '@mui/material';
-import { useTranslation } from 'next-i18next';
+import { Box, Button } from '@mui/material';
 import Icon from '~/shared/components/Icon';
-import { LOCALE_PAGE } from '~/shared/constants/constants';
 import { useStyles } from './SingleSignOnStyles';
 
 interface SingleSignOnProps {
@@ -16,41 +14,33 @@ const LOGIN = {
 
 const SingleSignOn: React.FC<SingleSignOnProps> = ({ onSingleSignOn }) => {
   const styles = useStyles();
-  const { t: i18n } = useTranslation(LOCALE_PAGE.AUTH);
 
   return (
-    <Box>
-      <Box
-        component={ButtonGroup}
+    <Box display="flex" flexDirection="column" gap="16px" width="100%">
+      <Button
         variant="outlined"
-        justifyContent={{ xs: 'center', md: 'left' }}
-        width="100%"
+        fullWidth
+        startIcon={<Icon name="googleIcon" />}
+        className={styles.ssoButton}
+        onClick={(e: React.MouseEvent<HTMLButtonElement>) =>
+          onSingleSignOn({ e, title: LOGIN.GOOGLE })
+        }
       >
-        <Button
-          component="label"
-          sx={{ color: '#000' }}
-          variant="outlined"
-          startIcon={<Icon name="googleIcon" />}
-          className={styles.outlineButtonGroup}
-          onClick={(e: React.MouseEvent<HTMLLabelElement>) =>
-            onSingleSignOn({ e, title: LOGIN.GOOGLE })
-          }
-        >
-          {i18n('signInWithGoogle')}
-        </Button>
-        <Button
-          onClick={(e: React.MouseEvent<HTMLLabelElement>) =>
-            onSingleSignOn({ e, title: LOGIN.LINKEDIN })
-          }
-          component="label"
-          variant="outlined"
-          startIcon={<Icon name="linkedinIcon" />}
-          className={styles.outlineButtonGroup}
-        >
-          {i18n('signInWithLinkedin')}
-        </Button>
-      </Box>
+        Continue with google
+      </Button>
+      <Button
+        variant="outlined"
+        fullWidth
+        startIcon={<Icon name="linkedinIcon" />}
+        className={styles.ssoButton}
+        onClick={(e: React.MouseEvent<HTMLButtonElement>) =>
+          onSingleSignOn({ e, title: LOGIN.LINKEDIN })
+        }
+      >
+        Continue with LinkedIn
+      </Button>
     </Box>
   );
 };
+
 export default SingleSignOn;
