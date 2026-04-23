@@ -4,7 +4,15 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import thunkMiddleware from 'redux-thunk';
 import reducers from './reducers';
 import { persistReducer } from 'redux-persist';
-import storage from 'redux-persist/lib/storage'; // or another storage engine
+import createWebStorage from 'redux-persist/lib/storage/createWebStorage';
+
+const createNoopStorage = () => ({
+  getItem: () => Promise.resolve(null),
+  setItem: () => Promise.resolve(),
+  removeItem: () => Promise.resolve()
+});
+
+const storage = typeof window !== 'undefined' ? createWebStorage('local') : createNoopStorage();
 
 let store: Store | undefined;
 

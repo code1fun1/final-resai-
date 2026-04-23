@@ -109,7 +109,7 @@ const BrandCarousel = () => {
             <img className={styles.chipsIcon2} alt="" src="/image/chips-1.png" />
           </>
         )}
-        <img className={styles.logoIcon} alt="ResAI Logo" src="/image/ResAi-gold-Logo.png" />
+        <img className={styles.logoIcon} alt="ResAI Logo" src="/image/Logo@2x.png" />
       </div>
     </div>
   );
