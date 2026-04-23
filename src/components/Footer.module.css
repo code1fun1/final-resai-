@@ -1,0 +1,243 @@
+.footer {
+  border-radius: var(--br-16);
+  background-color: var(--color-gray-200);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-end;
+  padding: 817px var(--padding-40) 39px;
+  box-sizing: border-box;
+  position: relative;
+  isolation: isolate;
+  gap: var(--gap-40);
+  width: 612px;
+  min-width: 612px;
+  max-width: 612px;
+  height: 992px;
+  flex-shrink: 0;
+  text-align: left;
+  font-size: 44px;
+  color: var(--Color-Netural-White);
+  font-family: var(--font-satoshi);
+}
+.footerChild {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  margin: 0 !important;
+  top: 0;
+  left: 0;
+  z-index: 3;
+  flex-shrink: 0;
+  border-radius: var(--br-16);
+  background: linear-gradient(
+    to bottom,
+    rgba(102, 102, 102, 0.1) 20%,
+    rgba(0, 0, 0, 0.8) 100%
+  );
+}
+.buildFasterParent {
+  width: 392px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--gap-8);
+  max-width: 100%;
+  z-index: 3;
+  flex-shrink: 0;
+  transition: opacity 0.4s ease;
+}
+.buildFaster {
+  margin: 0;
+  align-self: stretch;
+  position: relative;
+  font-size: inherit;
+  font-weight: 700;
+  font-family: inherit;
+  flex-shrink: 0;
+}
+.faster {
+  color: var(--Color);
+}
+.createAtsReadyResumes {
+  position: relative;
+  font-size: var(--fs-20);
+  line-height: 155%;
+  flex-shrink: 0;
+}
+.vectorParent {
+  align-self: stretch;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--gap-14);
+  z-index: 4;
+  flex-shrink: 0;
+}
+.frameChild {
+  flex-grow: 2;
+  flex-shrink: 0;
+  flex-basis: 0;
+  height: 5px;
+  background-color: var(--Color);
+  border-radius: 9999px;
+  transition: flex-grow 0.4s ease, background-color 0.4s ease;
+}
+.frameItem {
+  flex-grow: 1;
+  flex-shrink: 0;
+  flex-basis: 0;
+  height: 5px;
+  background-color: rgba(255, 255, 255, 0.3);
+  border-radius: 9999px;
+  min-width: var(--min-w-53);
+  transition: flex-grow 0.4s ease, background-color 0.4s ease;
+}
+.image1726Parent {
+  position: absolute;
+  margin: 0 !important;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+.ellipseDiv,
+.image1727Icon {
+  position: absolute;
+  flex-shrink: 0;
+}
+.image1727Icon {
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1;
+  transition: opacity 0.4s ease;
+}
+.imageVisible {
+  opacity: 1;
+}
+.imageHidden {
+  opacity: 0;
+}
+.imageFadeOut {
+  z-index: 2;
+  animation: fadeOut 0.4s ease forwards;
+}
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+.skillChip {
+  position: absolute;
+  background-color: rgba(242, 242, 242, 0.33);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 8.05px;
+  padding: 12px 24px;
+  font-family: Afacad, sans-serif;
+  font-weight: 600;
+  font-size: 18.77px;
+  line-height: 18.77px;
+  color: #04040e;
+  white-space: nowrap;
+  z-index: 4;
+}
+.chipBranding {
+  top: 218px;
+  left: 200px;
+}
+.chipTeamWork {
+  top: 276px;
+  left: 41px;
+}
+.chipWebDesign {
+  top: 276px;
+  left: 410px;
+}
+.chipAdaptibility {
+  top: 416px;
+  left: 410px;
+}
+.ellipseDiv {
+  top: 701px;
+  left: -114px;
+  filter: blur(94px);
+  border-radius: 50%;
+  background-color: var(--color-rosybrown);
+  width: 944px;
+  height: 154px;
+  z-index: 2;
+}
+.chipsIcon {
+  top: 159px;
+  left: 349px;
+  border-radius: 10.1px;
+  width: 115.3px;
+  height: 115.3px;
+  object-fit: contain;
+  z-index: 4;
+}
+.chipsIcon,
+.chipsIcon2,
+.logoIcon {
+  position: absolute;
+  flex-shrink: 0;
+}
+.chipsIcon2 {
+  top: 644px;
+  left: 464px;
+  border-radius: 10.4px;
+  width: 116.5px;
+  height: 113.7px;
+  object-fit: contain;
+  z-index: 4;
+}
+.logoIcon {
+  top: 56px;
+  left: 56px;
+  width: 148.5px;
+  height: 45px;
+  object-fit: cover;
+  z-index: 4;
+}
+@media screen and (max-width: 1250px) {
+  .footer {
+    flex: 1;
+  }
+}
+@media screen and (max-width: 1100px) {
+  .footer {
+    padding-top: 531px;
+    padding-bottom: 25px;
+    box-sizing: border-box;
+  }
+}
+@media screen and (max-width: 750px) {
+  .footer {
+    gap: var(--gap-20);
+    padding-top: 345px;
+    padding-bottom: var(--padding-20);
+    box-sizing: border-box;
+    min-width: 100%;
+  }
+  .buildFaster {
+    font-size: 35px;
+  }
+  .vectorParent {
+    flex-wrap: wrap;
+  }
+}
+@media screen and (max-width: 450px) {
+  .buildFaster {
+    font-size: var(--fs-26);
+  }
+  .createAtsReadyResumes {
+    font-size: var(--fs-16);
+    line-height: 25px;
+  }
+}

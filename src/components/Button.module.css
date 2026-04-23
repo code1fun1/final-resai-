@@ -1,0 +1,43 @@
+.button,
+.buttonWrapper {
+  display: flex;
+  align-items: center;
+}
+.button {
+  cursor: pointer;
+  border: 0;
+  padding: var(--padding-12) var(--Other-Gap-13);
+  background-color: var(--Color);
+  height: var(--height-50);
+  flex: 1;
+  border-radius: var(--Other-Radius-Full-Corner);
+  flex-direction: column;
+  justify-content: center;
+  box-sizing: border-box;
+}
+.buttonWrapper {
+  gap: var(--Other-Gap-5);
+}
+.hugeIconuseroutlineuser {
+  height: var(--height-24);
+  width: var(--width-24);
+  position: relative;
+  flex-shrink: 0;
+}
+.button2 {
+  position: relative;
+  font-size: var(--fs-18);
+  letter-spacing: -0.02em;
+  line-height: 150%;
+  font-weight: 500;
+  font-family: var(--font-satoshi);
+  color: var(--Color-Dark-500);
+  text-align: center;
+  flex-shrink: 0;
+}
+.hugeIconarrowsoutlinedirec {
+  height: var(--height-24);
+  width: var(--width-24);
+  position: relative;
+  flex-shrink: 0;
+}

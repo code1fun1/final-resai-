@@ -1,0 +1,24 @@
+.divider {
+  align-self: stretch;
+  display: flex;
+  align-items: center;
+  gap: var(--Space-400);
+  z-index: 4;
+  flex-shrink: 0;
+  text-align: left;
+  font-size: var(--fs-16);
+  color: var(--Color-Dark-500);
+  font-family: var(--font-satoshi);
+}
+.divider2,
+.or {
+  position: relative;
+}
+.divider2 {
+  height: var(--height-2);
+  flex: 1;
+  background-color: var(--Color-Gray-200);
+}
+.or {
+  font-weight: 500;
+}
