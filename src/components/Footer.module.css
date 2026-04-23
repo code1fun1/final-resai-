@@ -205,39 +205,151 @@
   object-fit: cover;
   z-index: 4;
 }
+/* ── Laptop wide (≤1250px) ── */
 @media screen and (max-width: 1250px) {
   .footer {
     flex: 1;
   }
 }
+
+/* ── iPad Pro / Tablet landscape (≤1100px) ── */
 @media screen and (max-width: 1100px) {
   .footer {
-    padding-top: 531px;
-    padding-bottom: 25px;
-    box-sizing: border-box;
-  }
-}
-@media screen and (max-width: 750px) {
-  .footer {
-    gap: var(--gap-20);
-    padding-top: 345px;
-    padding-bottom: var(--padding-20);
-    box-sizing: border-box;
+    width: 100%;
     min-width: 100%;
+    max-width: 100%;
+    height: 420px;
+    padding: 220px var(--padding-40) 32px;
+    box-sizing: border-box;
+    flex-shrink: 0;
+    border-radius: var(--br-16) var(--br-16) 0 0;
   }
   .buildFaster {
-    font-size: 35px;
+    font-size: 32px;
+  }
+  .buildFasterParent {
+    width: 100%;
+    max-width: 520px;
+  }
+  .skillChip {
+    font-size: 14px;
+    padding: 8px 16px;
+  }
+  .chipBranding {
+    top: 110px;
+    left: 200px;
+  }
+  .chipTeamWork {
+    top: 165px;
+    left: 40px;
+  }
+  .chipWebDesign {
+    top: 165px;
+    left: 340px;
+  }
+  .chipAdaptibility {
+    top: 220px;
+    left: 340px;
+  }
+  .logoIcon {
+    top: 28px;
+    left: 28px;
+    width: 110px;
+    height: 34px;
+  }
+  .chipsIcon {
+    top: 90px;
+    left: auto;
+    right: 32px;
+    width: 90px;
+    height: 90px;
+  }
+  .chipsIcon2 {
+    display: none;
+  }
+  .ellipseDiv {
+    top: 340px;
+    width: 100%;
+    left: 0;
+    height: 110px;
+  }
+}
+
+/* ── Tablet portrait (≤768px) ── */
+@media screen and (max-width: 768px) {
+  .footer {
+    width: 100%;
+    min-width: 100%;
+    max-width: 100%;
+    height: 360px;
+    padding: 180px 20px 24px;
+    gap: var(--gap-20);
+    border-radius: var(--br-16) var(--br-16) 0 0;
+  }
+  .buildFaster {
+    font-size: 28px;
+  }
+  .createAtsReadyResumes {
+    font-size: var(--fs-16);
+    line-height: 24px;
   }
   .vectorParent {
     flex-wrap: wrap;
   }
+  .buildFasterParent {
+    width: 100%;
+  }
 }
-@media screen and (max-width: 450px) {
+
+/* ── Mobile (≤480px) ── */
+@media screen and (max-width: 480px) {
+  .footer {
+    height: 300px;
+    padding: 140px 16px 20px;
+    gap: var(--gap-12);
+    border-radius: var(--br-16) var(--br-16) 0 0;
+    font-size: 32px;
+  }
   .buildFaster {
     font-size: var(--fs-26);
   }
   .createAtsReadyResumes {
     font-size: var(--fs-16);
-    line-height: 25px;
+    line-height: 22px;
+  }
+  .skillChip {
+    font-size: 12px;
+    padding: 6px 12px;
+  }
+  .chipBranding {
+    top: 60px;
+    left: 80px;
+  }
+  .chipTeamWork {
+    top: 100px;
+    left: 12px;
+  }
+  .chipWebDesign {
+    top: 100px;
+    left: 180px;
+  }
+  .chipAdaptibility {
+    display: none;
+  }
+  .logoIcon {
+    top: 16px;
+    left: 16px;
+    width: 90px;
+    height: 28px;
+  }
+  .chipsIcon {
+    width: 60px;
+    height: 60px;
+    top: 50px;
+    right: 16px;
+    left: auto;
+  }
+  .chipsIcon2 {
+    display: none;
   }
 }

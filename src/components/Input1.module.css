@@ -72,9 +72,38 @@
   max-height: 100%;
 }
 .thisIsA {
-  width: var(--width-300);
+  width: 100%;
+  max-width: var(--width-300);
   height: var(--height-16);
   letter-spacing: var(--Label-Label-3-letterSpacing);
   line-height: var(--Label-Label-3-lineHeight);
   align-items: center;
+}
+
+/* ── Tablet (≤768px) ── */
+@media screen and (max-width: 768px) {
+  .input2 {
+    width: 100%;
+  }
+  .placeholder {
+    font-size: 15px;
+  }
+}
+
+/* ── Mobile (≤480px) ── */
+@media screen and (max-width: 480px) {
+  .input {
+    width: 100%;
+  }
+  .input2 {
+    width: 100%;
+    padding: var(--padding-12) var(--Other-Gap-9);
+  }
+  .placeholder {
+    font-size: 14px;
+  }
+  .thisIsA {
+    max-width: 100%;
+    height: auto;
+  }
 }

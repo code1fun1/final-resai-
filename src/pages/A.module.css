@@ -15,6 +15,8 @@
   align-items: stretch;
   line-height: normal;
   letter-spacing: normal;
+  flex-direction: row;
+  flex-wrap: nowrap;
 }
 .aInner {
   flex: 1;
@@ -26,6 +28,7 @@
   font-size: 14px;
   color: var(--Color-Gray-700);
   font-family: var(--font-satoshi);
+  min-width: 0;
 }
 .bySigningUpYouAgreeToOuWrapper,
 .frameParent {
@@ -37,7 +40,7 @@
 .frameParent {
   flex-direction: column;
   align-self: auto;
-  gap: 214px;
+  gap: 24px;
 }
 .bySigningUpYouAgreeToOuWrapper {
   padding: 0 38px 0 36px;
@@ -54,41 +57,99 @@
   font-weight: 500;
   color: var(--Color-Dark-500);
 }
+/* ── Laptop wide (≤1250px) ── */
 @media screen and (max-width: 1250px) {
   .a {
-    gap: 72px;
+    gap: 48px;
     flex-wrap: wrap;
   }
   .aInner {
     flex: 1;
   }
 }
+
+/* ── Tablet landscape / iPad Pro (≤1100px) ── */
 @media screen and (max-width: 1100px) {
+  .a {
+    flex-direction: column;
+    gap: 0;
+    padding: 0;
+    align-items: stretch;
+  }
   .aInner {
-    padding-top: 42px;
+    width: 100%;
+    min-width: 100%;
+    padding: 40px 32px;
     box-sizing: border-box;
   }
+  .frameParent {
+    gap: 40px;
+  }
+  .bySigningUpYouAgreeToOuWrapper {
+    padding: 0 16px;
+  }
 }
-@media screen and (max-width: 750px) {
+
+/* ── Tablet portrait (≤768px) ── */
+@media screen and (max-width: 768px) {
+  .aInner {
+    padding: 32px 20px;
+  }
+  .frameParent {
+    gap: 32px;
+  }
+}
+
+/* ── Mobile (≤480px) ── */
+@media screen and (max-width: 480px) {
+  .aInner {
+    padding: 24px 16px;
+    box-sizing: border-box;
+  }
+  .frameParent {
+    gap: 28px;
+  }
+  .bySigningUpYouAgreeToOuWrapper {
+    padding: 0 8px;
+  }
+}
+
+/* ── Tablet portrait (≤768px) ── */
+@media screen and (max-width: 768px) {
   .a {
-    gap: 36px;
+    flex-direction: column;
+    gap: 0;
+    padding: 0;
+    align-items: stretch;
   }
   .aInner {
     min-width: 100%;
-  }
-  .frameParent {
-    gap: 107px;
-  }
-}
-@media screen and (max-width: 450px) {
-  .a {
-    gap: 18px;
-  }
-  .aInner {
-    padding-top: 27px;
+    width: 100%;
+    padding: 32px 20px;
     box-sizing: border-box;
   }
   .frameParent {
-    gap: 53px;
+    gap: 40px;
+  }
+  .bySigningUpYouAgreeToOuWrapper {
+    padding: 0 16px;
+  }
+}
+
+/* ── Mobile (≤480px) ── */
+@media screen and (max-width: 480px) {
+  .a {
+    gap: 0;
+    padding: 0;
+  }
+  .aInner {
+    padding: 24px 16px;
+    box-sizing: border-box;
+  }
+  .frameParent {
+    gap: 28px;
+  }
+  .bySigningUpYouAgreeToOuWrapper {
+    padding: 0 8px;
   }
 }

@@ -41,3 +41,23 @@
   position: relative;
   flex-shrink: 0;
 }
+
+/* ── Tablet (≤768px) ── */
+@media screen and (max-width: 768px) {
+  .button {
+    width: 100%;
+    flex: 1;
+  }
+}
+
+/* ── Mobile (≤480px) ── */
+@media screen and (max-width: 480px) {
+  .button {
+    width: 100%;
+    flex: 1;
+    padding: var(--padding-12) var(--Other-Gap-9);
+  }
+  .button2 {
+    font-size: var(--fs-16);
+  }
+}
