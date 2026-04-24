@@ -26,7 +26,7 @@ export const useStyles = makeStyles(() => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     padding: '60px 20px',
     minWidth: 0,
     '@media (max-width: 1100px)': {

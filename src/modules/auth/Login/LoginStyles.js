@@ -143,7 +143,8 @@ export const useStyles = makeStyles(() => ({
       fontFamily: 'Satoshi, sans-serif',
       fontSize: '16px',
       color: '#0f172a',
-      textAlign: 'center'
+      textAlign: 'center',
+      marginTop: '180px'
     }
   },
   divider: {

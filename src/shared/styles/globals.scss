@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Afacad:ital,wght@0,400..700;1,400..700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Afacad:ital,wght@0,400..700;1,400..700&family=Inter:wght@300;400;500;600;700&display=swap');
 @import url('https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700&display=swap');
 
 :root {
@@ -100,6 +100,35 @@ a {
   src: url('../fonts/GilroySemiBold.otf'); 
   font-weight: 600; 
   font-style: normal; 
+}
+
+/* Desktop: hide both header and footer — sidebar provides branding */
+@media (min-width: 900px) {
+  body.jd-wizard-mode #app-header {
+    display: none !important;
+  }
+}
+
+/* Always hide footer in wizard mode — fixed footer overlaps the form */
+body.jd-wizard-mode #app-footer {
+  display: none !important;
+}
+
+/* Force Draft.js editor placeholder to use correct colour —
+   react-draft-wysiwyg.css loads after component styles and can win the cascade */
+.jd-editor-container .public-DraftEditorPlaceholder-root,
+.jd-editor-container .public-DraftEditorPlaceholder-inner,
+.jd-editor-container .public-DraftEditorPlaceholder-inner * {
+  font-family: 'Satoshi', sans-serif !important;
+  color: #595959 !important;
+  font-size: 16px !important;
+}
+.jd-editor-container .public-DraftEditor-content,
+.jd-editor-container .DraftEditor-editorContainer,
+.jd-editor-container .DraftEditor-editorContainer * {
+  font-family: 'Satoshi', sans-serif !important;
+  color: #04040E !important;
+  font-size: 16px !important;
 }
 
 ::-webkit-scrollbar {

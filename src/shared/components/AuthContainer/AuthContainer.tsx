@@ -2,8 +2,8 @@ import { Box, Typography } from '@mui/material';
 import React, { ReactNode } from 'react';
 import { useWebsiteUrl } from '~/shared/hooks/useWebsiteUrl';
 import BrandCarousel from '../BrandCarousel/BrandCarousel';
-import LanguageSelectBox from '../LanguageSelectBox';
-import { ICON_COLORS } from '~/shared/constants/constants';
+// import LanguageSelectBox from '../LanguageSelectBox';
+// import { ICON_COLORS } from '~/shared/constants/constants';
 import { useStyles } from './AuthContainerStyles';
 
 interface AuthContainerProps {
@@ -49,9 +49,9 @@ const AuthContainer: React.FC<AuthContainerProps> = ({ children }) => {
             </a>
           </Typography>
         </Box>
-        <Box className={styles.langRow}>
+        {/* <Box className={styles.langRow}>
           <LanguageSelectBox iconColor={ICON_COLORS.DISABLED} renderValueInitials={false} />
-        </Box>
+        </Box> */}
       </Box>
     </Box>
   );

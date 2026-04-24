@@ -10,26 +10,27 @@ import { handleToast, removeSpecialChars } from '~/shared/utils/utils';
 import ResumeUploadForm from './ResumeUploadForm';
 import { useStyles } from './ResumeUploadStyles';
 import JDForm from './JDForm';
-// import { useStylesGoldTheme } from '~/modules/globalStyles';
 import {
   FileDetails,
-  // deleteDocument,
   getFileTypeByExtension,
   handleFileUpload,
   isValidFileType,
   handleSaveFileWithJDForm
 } from './Utils/ResumeUploadUtils';
 
-// import { useRouter } from 'next/navigation';
 import { useRouter } from 'next/router';
 import Toast from '~/shared/components/Toast';
 import { ROUTES } from '~/shared/constants/routes';
-// import * as Sentry from '@sentry/nextjs';
-//import sentryCaptureError from '~/sentryCaptureError';
 
-// For Doc/Pdf validation
 import useResumeDetector from './Utils/useResumeDetector';
-// Define the type for JDForm value
+import ProgressOverlay from '~/shared/components/ProgressOverlay/ProgressOverlay';
+
+// MUI icons for step indicators
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
+import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+
 interface JDFormValue {
   jobTitle: string;
   companyName: string;
@@ -40,18 +41,23 @@ interface ResumeUploadProps {
   setLoadWithoutMount: (value: boolean, message?: string) => void;
 }
 
-import ProgressOverlay from '~/shared/components/ProgressOverlay/ProgressOverlay';
+const SIDEBAR_STEPS = [
+  { label: 'Resume Upload', state: 'completed' as const },
+  { label: 'Target Job Role', state: 'active' as const },
+  { label: 'Skills & Strengths', state: 'pending' as const },
+  { label: 'Personal Details', state: 'pending' as const }
+];
 
 const ResumeUpload: React.FC<ResumeUploadProps> = ({ setLoadWithoutMount }) => {
-  // ✅ reset loader each time this page mounts
   useEffect(() => {
     setLoadWithoutMount(false, '');
   }, [setLoadWithoutMount]);
+
   const { t: i18n } = useTranslation(LOCALE_PAGE.RESUME_UPLOAD);
   const styles = useStyles();
   const { SUCCESS } = API_STATUS;
   const { ERROR } = SEVERITY;
-  // const globalStyles = useStylesGoldTheme();
+
   const [toastState, setToastState] = useState<ToastMessage>({
     open: false,
     severity: SEVERITY.SUCCESS,
@@ -63,31 +69,11 @@ const ResumeUpload: React.FC<ResumeUploadProps> = ({ setLoadWithoutMount }) => {
   const [progressMessage, setProgressMessage] = useState('');
 
   const PROGRESS_STEPS = [
-    {
-      key: 'loaderMessages.uploadingResume',
-      start: 0,
-      end: 25
-    },
-    {
-      key: 'loaderMessages.extractingInformation',
-      start: 25,
-      end: 45
-    },
-    {
-      key: 'loaderMessages.analyzingResume',
-      start: 45,
-      end: 70
-    },
-    {
-      key: 'loaderMessages.processingJobDescription',
-      start: 70,
-      end: 90
-    },
-    {
-      key: 'loaderMessages.almostDonePreparingResults',
-      start: 90,
-      end: 98
-    }
+    { key: 'loaderMessages.uploadingResume', start: 0, end: 25 },
+    { key: 'loaderMessages.extractingInformation', start: 25, end: 45 },
+    { key: 'loaderMessages.analyzingResume', start: 45, end: 70 },
+    { key: 'loaderMessages.processingJobDescription', start: 70, end: 90 },
+    { key: 'loaderMessages.almostDonePreparingResults', start: 90, end: 98 }
   ];
 
   const [fileDetails, setFileDetails] = useState<FileDetails>({
@@ -99,26 +85,41 @@ const ResumeUpload: React.FC<ResumeUploadProps> = ({ setLoadWithoutMount }) => {
     fileUploadUrl: '',
     errorMessage: ''
   });
+
   const initialJDFormValue: JDFormValue = {
     jobTitle: '',
     companyName: '',
     jobDesc: '',
     editorState: EditorState.createEmpty()
   };
+
   const [editorState, setEditorState] = useState<EditorState>(EditorState.createEmpty());
   const router = useRouter();
   const [jdFormValue, setJDFormValue] = useState<JDFormValue>(initialJDFormValue);
   const [showJDFormOnly, setShowJDFormOnly] = useState(false);
 
-  //
-  // resume detector hook (client-side quick check)
+  const setWizardMode = (value: boolean) => {
+    setShowJDFormOnly(value);
+  };
+
   const { detect: detectResumeClient } = useResumeDetector();
 
-  // Reset showJDFormOnly if navigating to /resume-upload (even if already there)
+  // Hide/show header and footer when entering/leaving wizard step
+  useEffect(() => {
+    if (showJDFormOnly) {
+      document.body.classList.add('jd-wizard-mode');
+    } else {
+      document.body.classList.remove('jd-wizard-mode');
+    }
+    return () => {
+      document.body.classList.remove('jd-wizard-mode');
+    };
+  }, [showJDFormOnly]);
+
   useEffect(() => {
     const handleRouteChange = (url: string) => {
       if (url === '/resume-upload') {
-        setShowJDFormOnly(false);
+        setWizardMode(false);
       }
     };
     router.events?.on('routeChangeStart', handleRouteChange);
@@ -128,22 +129,18 @@ const ResumeUpload: React.FC<ResumeUploadProps> = ({ setLoadWithoutMount }) => {
   }, [router]);
 
   const handleSave = useCallback(async () => {
-    // const { asPath } = router;
     setLoadWithoutMount(true, i18n('loaderMessages.thisMayTakeUptoAMinuteOrTwo', { ns: 'common' }));
     const editorText: string = editorState?.getCurrentContent()?.getPlainText()?.trim();
-    // Save editorText and fileUploadUrl to localStorage
     if (editorText) {
       localStorage.setItem('editorText', editorText);
     }
     if (fileDetails?.fileUploadUrl) {
       localStorage.setItem('fileUploadUrl', fileDetails.fileUploadUrl);
     }
-
-    setShowJDFormOnly(true);
+    setWizardMode(true);
     setLoadWithoutMount(false, '');
   }, [fileDetails, editorState]);
 
-  // Scroll to top when showJDFormOnly becomes true
   useEffect(() => {
     if (showJDFormOnly) {
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -156,11 +153,9 @@ const ResumeUpload: React.FC<ResumeUploadProps> = ({ setLoadWithoutMount }) => {
     try {
       const editorText =
         typeof window !== 'undefined' ? localStorage.getItem('editorText') || '' : '';
-
       const fileUploadUrl =
         typeof window !== 'undefined' ? localStorage.getItem('fileUploadUrl') || '' : '';
 
-      // 🔹 START LOCAL PROGRESS OVERLAY
       setShowProgress(true);
 
       let stepIndex = 0;
@@ -189,7 +184,6 @@ const ResumeUpload: React.FC<ResumeUploadProps> = ({ setLoadWithoutMount }) => {
         setProgressValue(progress);
       }, 800);
 
-      // 🔹 API CALL (UNCHANGED)
       const res = await handleSaveFileWithJDForm(fileUploadUrl, editorText, jdFormValue);
 
       if (progressInterval) clearInterval(progressInterval);
@@ -200,17 +194,15 @@ const ResumeUpload: React.FC<ResumeUploadProps> = ({ setLoadWithoutMount }) => {
         return;
       }
 
-      // ✅ STORE JD ON SUCCESS (EXACTLY LIKE BEFORE)
       const { ...jdFormValueWithoutEditor } = jdFormValue;
       localStorage.setItem('jdFormValue', JSON.stringify(jdFormValueWithoutEditor));
 
-      // 🔹 FINISH TO 100%
       setProgressMessage(i18n('loaderMessages.preparingResults', { ns: 'common' }));
       setProgressValue(100);
 
       setTimeout(async () => {
         setShowProgress(false);
-        setShowJDFormOnly(true);
+        setWizardMode(true);
         await router.push(ROUTES.ONBOARDING);
       }, 400);
     } catch (err) {
@@ -227,24 +219,13 @@ const ResumeUpload: React.FC<ResumeUploadProps> = ({ setLoadWithoutMount }) => {
 
       if (fileSizeKb >= 5120) {
         handleToast(
-          {
-            severity: ERROR,
-            message: i18n('invalidFileSize')
-          },
+          { severity: ERROR, message: i18n('invalidFileSize') },
           setToastState,
           toastState
         );
-
-        setFileDetails((prev) => ({
-          ...prev,
-          fileName: '',
-          errorMessage: '',
-          showSpinner: false
-        }));
-
+        setFileDetails((prev) => ({ ...prev, fileName: '', errorMessage: '', showSpinner: false }));
         const inputEl = document.getElementById('contained-button-file') as HTMLInputElement | null;
         if (inputEl) inputEl.value = '';
-
         return;
       }
 
@@ -254,16 +235,12 @@ const ResumeUpload: React.FC<ResumeUploadProps> = ({ setLoadWithoutMount }) => {
         { type }
       );
 
-      // ---- RUN CLIENT-SIDE DETECTION BEFORE UPLOAD ----
       try {
-        // optional: show spinner while detecting
         setFileDetails((prev) => ({ ...prev, showSpinner: true }));
 
         const detection = await detectResumeClient(file);
-        // detection shape: { isResume, extractedText, matches, error }
 
         if (!detection.isResume) {
-          // show red toast error using your existing toast helper
           handleToast(
             {
               severity: ERROR,
@@ -272,23 +249,19 @@ const ResumeUpload: React.FC<ResumeUploadProps> = ({ setLoadWithoutMount }) => {
             setToastState,
             toastState
           );
-
           setFileDetails((prevState) => ({
             ...prevState,
             fileName: '',
             showSpinner: false,
             errorMessage: ''
           }));
-
           const inputEl = document.getElementById(
             'contained-button-file'
           ) as HTMLInputElement | null;
           if (inputEl) inputEl.value = '';
-
           return;
         }
       } catch (e) {
-        // detection failed — allow upload but show a warning toast (non-blocking)
         handleToast(
           {
             severity: ERROR,
@@ -297,12 +270,10 @@ const ResumeUpload: React.FC<ResumeUploadProps> = ({ setLoadWithoutMount }) => {
           setToastState,
           toastState
         );
-        // continue to upload
       } finally {
         setFileDetails((prev) => ({ ...prev, showSpinner: true }));
       }
 
-      // --- Existing upload flow ---
       setFileDetails((prevState) => ({
         ...prevState,
         fileName: name,
@@ -314,15 +285,9 @@ const ResumeUpload: React.FC<ResumeUploadProps> = ({ setLoadWithoutMount }) => {
       const res = await handleFileUpload(sanitizedFileName);
       if (res.status === API_STATUS.FAILED) {
         handleToast({ severity: ERROR, message: res.message }, setToastState, toastState);
-        setFileDetails((prevState) => ({
-          ...prevState,
-          showSpinner: false,
-          fileName: ''
-        }));
+        setFileDetails((prevState) => ({ ...prevState, showSpinner: false, fileName: '' }));
         const inputElement = document.getElementById('contained-button-file') as HTMLInputElement;
-        if (inputElement) {
-          inputElement.value = '';
-        }
+        if (inputElement) inputElement.value = '';
         return;
       }
 
@@ -346,28 +311,13 @@ const ResumeUpload: React.FC<ResumeUploadProps> = ({ setLoadWithoutMount }) => {
   );
 
   const processFile = (file: File | undefined) => {
-    if (!file) {
-      return;
-    }
+    if (!file) return;
     const fileTypeByExtension: string | null | undefined = getFileTypeByExtension(file?.name);
     if (typeof fileTypeByExtension === 'string' && isValidFileType(fileTypeByExtension)) {
       updateFileDetails(file);
     } else {
-      handleToast(
-        {
-          severity: ERROR,
-          message: i18n('invalidFileType')
-        },
-        setToastState,
-        toastState
-      );
-
-      setFileDetails((prev) => ({
-        ...prev,
-        errorMessage: '',
-        fileName: ''
-      }));
-
+      handleToast({ severity: ERROR, message: i18n('invalidFileType') }, setToastState, toastState);
+      setFileDetails((prev) => ({ ...prev, errorMessage: '', fileName: '' }));
       const inputEl = document.getElementById('contained-button-file') as HTMLInputElement | null;
       if (inputEl) inputEl.value = '';
     }
@@ -390,26 +340,6 @@ const ResumeUpload: React.FC<ResumeUploadProps> = ({ setLoadWithoutMount }) => {
     [updateFileDetails, isValidFileType, setFileDetails]
   );
 
-  // const handleDeleteDocument = useCallback(async () => {
-  //   setLoadWithoutMount(true);
-  //   const res = await deleteDocument();
-  //   const severity: SEVERITY = res?.status === SUCCESS ? SEVERITY.SUCCESS : ERROR;
-  //   handleToast({ severity, message: res.message }, setToastState, toastState);
-  //   if (res?.status === SUCCESS) {
-  //     const inputElement = document.getElementById('contained-button-file') as HTMLInputElement;
-  //     if (inputElement) {
-  //       inputElement.value = '';
-  //     }
-  //     setFileDetails((prevState) => ({
-  //       ...prevState,
-  //       fileName: '',
-  //       fileType: '',
-  //       fileUploadUrl: ''
-  //     }));
-  //   }
-  //   setLoadWithoutMount(false);
-  // }, [handleToast, setToastState, setFileDetails]);
-
   const handleDeleteDocument = useCallback(async () => {
     setLoadWithoutMount(true);
     const severity: SEVERITY = SEVERITY.SUCCESS;
@@ -419,9 +349,7 @@ const ResumeUpload: React.FC<ResumeUploadProps> = ({ setLoadWithoutMount }) => {
       toastState
     );
     const inputElement = document.getElementById('contained-button-file') as HTMLInputElement;
-    if (inputElement) {
-      inputElement.value = '';
-    }
+    if (inputElement) inputElement.value = '';
     setFileDetails((prevState) => ({
       ...prevState,
       fileName: '',
@@ -438,7 +366,7 @@ const ResumeUpload: React.FC<ResumeUploadProps> = ({ setLoadWithoutMount }) => {
     },
     [EditorState]
   );
-  // Handler for the Draft.js editor in JDForm
+
   const handleJDFormEditorChange = (editorState: EditorState) => {
     setJDFormValue((prevState) => ({
       ...prevState,
@@ -446,15 +374,12 @@ const ResumeUpload: React.FC<ResumeUploadProps> = ({ setLoadWithoutMount }) => {
       jobDesc: editorState.getCurrentContent().getPlainText()
     }));
   };
+
   useEffect(() => {
-    // Reset showJDFormOnly to false when component mounts (user navigates to resume-upload)
-    setShowJDFormOnly(false);
-    // localStorage.setItem('editorText',  JSON.stringify(''));
-    // localStorage.setItem('fileUploadUrl',  JSON.stringify(''));
+    setWizardMode(false);
     localStorage.setItem('editorText', '');
     localStorage.setItem('fileUploadUrl', '');
     localStorage.setItem('userMissingTabs', JSON.stringify(''));
-    //localStorage.setItem('jdFormValue', JSON.stringify(''));
 
     if (fileDetails.showSpinner) {
       const timer: NodeJS.Timeout = setInterval(() => {
@@ -469,86 +394,241 @@ const ResumeUpload: React.FC<ResumeUploadProps> = ({ setLoadWithoutMount }) => {
     }
   }, [fileDetails.showSpinner]);
 
-  // Reset showJDFormOnly when route changes to resume-upload
   useEffect(() => {
-    setShowJDFormOnly(false);
+    setWizardMode(false);
   }, [router.asPath]);
-  // console.log('fileDetails', fileDetails);
-  return (
-    <>
-      <Box bgcolor="primary.light" px={{ xs: 2, sm: 5, lg: 20 }}>
-        {showJDFormOnly === true ? (
-          <JDForm
-            value={jdFormValue}
-            onChange={setJDFormValue}
-            editorState={jdFormValue.editorState}
-            onEditorChange={handleJDFormEditorChange}
-            onSubmit={handleSaveJDForm}
+
+  const renderSidebar = () => (
+    <Box
+      sx={{
+        width: '340px',
+        minWidth: '340px',
+        minHeight: '100vh',
+        display: { xs: 'none', md: 'flex' },
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+        bgcolor: '#04040E',
+        pl: '24px',
+        pr: '24px',
+        pt: '40px',
+        pb: '40px'
+      }}
+    >
+      {/* ── TOP GROUP ── */}
+      <Box sx={{ display: 'flex', flexDirection: 'column', gap: '30px' }}>
+        <Box>
+          <Image
+            src="/image/ResAi-white-Logo.png"
+            alt="ResAI"
+            width={90}
+            height={32}
+            style={{ objectFit: 'contain' }}
           />
-        ) : (
-          <>
-            <Grid container className={styles.resumeUploadWrapper}>
-              <Box
-                component={Grid}
-                item
-                xs={12}
-                md={4}
-                display={{ xs: 'none', md: 'block' }}
-                pr={{ xs: 0, md: 3 }}
+        </Box>
+
+        <Box>
+          <Typography
+            sx={{
+              fontFamily: 'Satoshi, sans-serif',
+              color: '#DABF67',
+              fontSize: '18px',
+              fontWeight: 500,
+              lineHeight: '125%',
+              letterSpacing: '-0.36px',
+              textTransform: 'capitalize',
+              mb: '10px'
+            }}
+          >
+            Your AI Powered Career Engineer
+          </Typography>
+          <Typography
+            sx={{
+              fontFamily: 'Satoshi, sans-serif',
+              color: '#ffffff',
+              fontSize: '36px',
+              fontWeight: 700,
+              lineHeight: '100%',
+              letterSpacing: 0,
+              mb: '10px'
+            }}
+          >
+            Let&apos;s Get Started
+          </Typography>
+          <Typography
+            sx={{
+              fontFamily: 'Satoshi, sans-serif',
+              color: '#9CA3AF',
+              fontSize: '14px',
+              fontWeight: 400,
+              lineHeight: '125%'
+            }}
+          >
+            Create resumes, plan growth, and unlock better opportunities in few simple steps
+          </Typography>
+        </Box>
+
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+          {SIDEBAR_STEPS.map((step) => (
+          <Box
+            key={step.label}
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              pt: '10px',
+              pb: '10px',
+              pr: '8px',
+              pl: '8px',
+              minHeight: '44px',
+              borderRadius: '6px',
+              bgcolor: step.state === 'active' ? 'rgba(255,255,255,0.08)' : 'transparent'
+            }}
+          >
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+              {step.state === 'completed' && (
+                <CheckCircleIcon sx={{ color: '#DABF67', fontSize: 22 }} />
+              )}
+              {step.state === 'active' && (
+                <AutoAwesomeIcon sx={{ color: '#DABF67', fontSize: 20 }} />
+              )}
+              {step.state === 'pending' && (
+                <RadioButtonUncheckedIcon sx={{ color: 'rgba(255,255,255,0.3)', fontSize: 22 }} />
+              )}
+              <Typography
+                sx={{
+                  fontFamily: 'Satoshi, sans-serif',
+                  fontSize: '14px',
+                  fontWeight: step.state === 'active' ? 600 : 400,
+                  color:
+                    step.state === 'active'
+                      ? '#ffffff'
+                      : step.state === 'completed'
+                      ? 'rgba(255,255,255,0.75)'
+                      : 'rgba(255,255,255,0.45)'
+                }}
               >
-                <Box
-                  display="flex"
-                  flexDirection="column"
-                  gap={3}
-                  justifyContent="center"
-                  height="100%"
-                >
-                  <Box
-                    display="flex"
-                    alignItems={{ xs: 'center', md: 'flex-start' }}
-                    justifyContent="center"
-                    flexDirection="column"
-                    gap={2}
-                    textAlign={{ xs: 'center', md: 'left' }}
-                    className={styles.titleWrap}
-                  >
-                    <Typography variant="body2">{i18n('HiResAI')}</Typography>
-                    <Typography variant="h2">{i18n('craftingYourResume')}</Typography>
-                    <Typography variant="body2">{i18n('helpYouCreateResume')}</Typography>
-                  </Box>
-
-                  <Image
-                    src="/image/createResume-gold.png"
-                    alt="Create Resume"
-                    width={0}
-                    height={0}
-                    sizes="100vw"
-                    priority
-                    className={styles.createResumeImage}
-                  />
-                </Box>
-              </Box>
-
-              <Grid item xs={12} md={8}>
-                <ResumeUploadForm
-                  onSave={handleSave}
-                  onChange={handleFileChange}
-                  onDrop={handleDrop}
-                  spinTimer={fileDetails.spinTimer}
-                  onDelete={handleDeleteDocument}
-                  onEditorChange={handleEditorChange}
-                  editorData={editorState}
-                  fileDetails={fileDetails}
-                />
-              </Grid>
-            </Grid>
-          </>
-        )}
-
-        {toastState.open && <Toast toastState={toastState} />}
+                {step.label}
+              </Typography>
+            </Box>
+            {step.state === 'active' && (
+              <ChevronRightIcon sx={{ color: 'rgba(255,255,255,0.4)', fontSize: 20 }} />
+            )}
+          </Box>
+        ))}
+        </Box>
       </Box>
 
-      {/* ✅ Local Progress Overlay (outside Box, inside Fragment) */}
+      <Box>
+        <Typography
+          sx={{
+            fontFamily: 'Satoshi, sans-serif',
+            color: 'rgba(255,255,255,0.45)',
+            fontSize: '14px',
+            fontWeight: 400,
+            lineHeight: '125%',
+            mb: '16px'
+          }}
+        >
+          Reengineer your career based on today&apos;s hiring
+        </Typography>
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <Typography sx={{ color: 'rgba(255,255,255,0.35)', fontSize: '11px' }}>
+            Copyright © 2024 ResAI
+          </Typography>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+            <Image
+              src="/image/figma/image.png"
+              alt="Need help"
+              width={20}
+              height={20}
+              style={{ objectFit: 'contain' }}
+            />
+            <Typography sx={{ color: 'rgba(255,255,255,0.35)', fontSize: '11px' }}>
+              Need help?
+            </Typography>
+          </Box>
+        </Box>
+      </Box>
+    </Box>
+  );
+
+  return (
+    <>
+      {showJDFormOnly ? (
+        <Box
+          sx={{
+            display: 'flex',
+            width: '100%',
+            minHeight: { xs: 'calc(100vh - 64px)', md: '100vh' },
+            overflowX: 'hidden'
+          }}
+        >
+          {renderSidebar()}
+          <Box sx={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', bgcolor: '#ffffff' }}>
+            <JDForm
+              value={jdFormValue}
+              onChange={setJDFormValue}
+              editorState={jdFormValue.editorState}
+              onEditorChange={handleJDFormEditorChange}
+              onSubmit={handleSaveJDForm}
+              onBack={() => setWizardMode(false)}
+              onCancel={() => router.push(ROUTES.MY_RESUMES)}
+            />
+          </Box>
+        </Box>
+      ) : (
+        <Box bgcolor="primary.light" px={{ xs: 2, sm: 5, lg: 20 }}>
+          <Grid container className={styles.resumeUploadWrapper}>
+            <Box
+              component={Grid}
+              item
+              xs={12}
+              md={4}
+              display={{ xs: 'none', md: 'block' }}
+              pr={{ xs: 0, md: 3 }}
+            >
+              <Box display="flex" flexDirection="column" gap={3} justifyContent="center" height="100%">
+                <Box
+                  display="flex"
+                  alignItems={{ xs: 'center', md: 'flex-start' }}
+                  justifyContent="center"
+                  flexDirection="column"
+                  gap={2}
+                  textAlign={{ xs: 'center', md: 'left' }}
+                  className={styles.titleWrap}
+                >
+                  <Typography variant="body2">{i18n('HiResAI')}</Typography>
+                  <Typography variant="h2">{i18n('craftingYourResume')}</Typography>
+                  <Typography variant="body2">{i18n('helpYouCreateResume')}</Typography>
+                </Box>
+                <Image
+                  src="/image/createResume-gold.png"
+                  alt="Create Resume"
+                  width={0}
+                  height={0}
+                  sizes="100vw"
+                  priority
+                  className={styles.createResumeImage}
+                />
+              </Box>
+            </Box>
+            <Grid item xs={12} md={8}>
+              <ResumeUploadForm
+                onSave={handleSave}
+                onChange={handleFileChange}
+                onDrop={handleDrop}
+                spinTimer={fileDetails.spinTimer}
+                onDelete={handleDeleteDocument}
+                onEditorChange={handleEditorChange}
+                editorData={editorState}
+                fileDetails={fileDetails}
+              />
+            </Grid>
+          </Grid>
+        </Box>
+      )}
+
+      {toastState.open && <Toast toastState={toastState} />}
       <ProgressOverlay open={showProgress} message={progressMessage} progress={progressValue} />
     </>
   );

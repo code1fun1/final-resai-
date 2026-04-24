@@ -85,7 +85,7 @@ const Header = () => {
     router.push(ROUTES.MY_CREDIT);
   };
   return (
-    <AppBar position="static" className={styles.headerWrapper}>
+    <AppBar id="app-header" position="static" className={styles.headerWrapper}>
       <Toolbar disableGutters>
         <Box display="flex" flexGrow={1} alignItems="center">
           <Box display="flex" flexDirection={{ xs: 'row-reverse', lg: 'row' }}>

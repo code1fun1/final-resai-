@@ -38,7 +38,6 @@ export const useStyles = makeStyles((theme) => ({
       width: '100%'
     }
   },
-
   TextBoxStyle: {
     '& .public-DraftEditorPlaceholder-inner': {
       marginTop: '10px'
@@ -48,11 +47,10 @@ export const useStyles = makeStyles((theme) => ({
     '&.MuiTypography-root': {
       padding: '16px px 17px 24px'
     },
-    paddingLeft: '100px', //chnage from 100 to 80
-    paddingRight: '100px', //chnage from 100 to 40
+    paddingLeft: '100px',
+    paddingRight: '100px',
     marginTop: '20px',
-    color: '#000842', //as theme
-    // Add responsive styles for mobile devices
+    color: '#000842',
     [theme.breakpoints.down('sm')]: {
       padding: '10px',
       marginTop: '20px',
@@ -97,7 +95,6 @@ export const useStyles = makeStyles((theme) => ({
     }
   },
   personalInfoWrapper: {
-    // minHeight: 'calc(100vh - 69px)',
     alignItems: 'center',
     paddingTop: '24px',
     marginTop: '40px'
@@ -129,7 +126,302 @@ export const useStyles = makeStyles((theme) => ({
   customHeaderTitle: {
     fontWeight: 'bold'
   },
-  // Simplified JDForm styles following MyProfile pattern
+
+  // ── New Figma design styles ──────────────────────────────────────
+
+  // Outer wrapper: fills the right panel, flex column
+  jdPanelWrapper: {
+    display: 'flex',
+    flexDirection: 'column',
+    height: '100vh',
+    backgroundColor: '#ffffff',
+    [theme.breakpoints.down('md')]: {
+      height: 'auto',
+      minHeight: 'calc(100vh - 64px)'
+    }
+  },
+
+  // Top header row (title + progress)
+  jdPanelHeader: {
+    display: 'flex',
+    alignItems: 'flex-start',
+    justifyContent: 'space-between',
+    padding: '32px 40px 20px 40px',
+    borderBottom: '1px solid #f3f4f6',
+    flexShrink: 0,
+    [theme.breakpoints.down('md')]: {
+      padding: '24px 24px 16px 24px'
+    },
+    [theme.breakpoints.down('sm')]: {
+      flexDirection: 'column-reverse',
+      padding: '16px 16px 12px 16px',
+      gap: '10px'
+    }
+  },
+
+  jdPanelTitle: {
+    '&.MuiTypography-root': {
+      fontFamily: 'Satoshi, sans-serif',
+      fontSize: '22px',
+      fontWeight: 700,
+      color: '#04040E',
+      lineHeight: 1.3,
+      marginBottom: '6px',
+      [theme.breakpoints.down('sm')]: {
+        fontSize: '18px',
+        marginBottom: '4px'
+      }
+    }
+  },
+
+  jdPanelSubtitle: {
+    '&.MuiTypography-root': {
+      fontFamily: 'Inter, sans-serif',
+      fontSize: '16px',
+      fontWeight: 400,
+      color: '#04040E',
+      lineHeight: 1,
+      letterSpacing: '0px',
+      maxWidth: '520px',
+      [theme.breakpoints.down('sm')]: {
+        fontSize: '14px'
+      }
+    }
+  },
+
+  // Progress indicator (top-right)
+  jdProgressBlock: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'flex-end',
+    minWidth: '120px',
+    paddingTop: '4px',
+    [theme.breakpoints.down('sm')]: {
+      alignItems: 'flex-start'
+    }
+  },
+
+  jdProgressBarTrack: {
+    width: '110px',
+    height: '6px',
+    backgroundColor: '#e5e7eb',
+    borderRadius: '3px',
+    marginBottom: '4px'
+  },
+
+  jdProgressBarFill: {
+    width: '25%',
+    height: '100%',
+    backgroundColor: '#DABF67',
+    borderRadius: '3px'
+  },
+
+  jdProgressLabel: {
+    '&.MuiTypography-root': {
+      fontSize: '12px',
+      color: '#9ca3af'
+    }
+  },
+
+  // Scrollable form body
+  jdPanelContent: {
+    flex: 1,
+    padding: '28px 40px',
+    overflowY: 'auto',
+    [theme.breakpoints.down('md')]: {
+      overflowY: 'visible',
+      padding: '20px 24px'
+    },
+    [theme.breakpoints.down('sm')]: {
+      padding: '16px'
+    }
+  },
+
+  // Field label
+  jdFieldLabel: {
+    '&.MuiTypography-root': {
+      fontFamily: 'Satoshi, sans-serif',
+      fontSize: '14px',
+      fontWeight: 500,
+      color: '#04040E',
+      marginBottom: '4px',
+      display: 'block'
+    }
+  },
+
+  // Text fields
+  jdTextField: {
+    '& .MuiOutlinedInput-root': {
+      height: '48px',
+      backgroundColor: '#ffffff',
+      borderRadius: '8px',
+      fontFamily: 'Satoshi, sans-serif',
+      '& fieldset': {
+        borderColor: '#d1d5db'
+      },
+      '&:hover fieldset': {
+        borderColor: '#9ca3af'
+      },
+      '&.Mui-focused fieldset': {
+        borderColor: '#424246'
+      },
+      '&.Mui-error fieldset': {
+        borderColor: theme.palette.error.main
+      }
+    },
+    '& .MuiInputBase-input': {
+      fontFamily: 'Satoshi, sans-serif',
+      color: '#04040E',
+      fontSize: '16px',
+      '&::placeholder': {
+        fontFamily: 'Satoshi, sans-serif',
+        color: '#595959',
+        opacity: 1
+      }
+    }
+  },
+
+  // Draft.js editor wrapper
+  jdEditorContainer: {
+    border: '1px solid #d1d5db',
+    borderRadius: '8px',
+    backgroundColor: '#ffffff',
+    minHeight: '140px',
+    padding: '4px 8px',
+    position: 'relative',
+    zIndex: 0,
+    '&:hover': {
+      borderColor: '#9ca3af'
+    },
+    '&:focus-within': {
+      borderColor: '#424246',
+      borderWidth: '2px'
+    },
+    '& .rdw-editor-main': {
+      overflow: 'auto',
+      height: '130px'
+    },
+    '& .public-DraftEditorPlaceholder-root, & .public-DraftEditorPlaceholder-inner': {
+      fontFamily: 'Satoshi, sans-serif !important',
+      color: '#595959 !important',
+      fontSize: '16px !important',
+      letterSpacing: 0,
+      '& span, & *': {
+        fontFamily: 'Satoshi, sans-serif !important',
+        color: '#595959 !important',
+        fontSize: '16px !important'
+      }
+    },
+    '& .DraftEditor-editorContainer, & .public-DraftEditor-content': {
+      fontFamily: 'Satoshi, sans-serif !important',
+      fontSize: '16px !important',
+      color: '#04040E !important'
+    },
+    [theme.breakpoints.down('sm')]: {
+      minHeight: '160px',
+      '& .rdw-editor-main': {
+        height: '150px'
+      }
+    }
+  },
+
+  // Footer button bar
+  jdPanelFooter: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: '16px 40px',
+    borderTop: '1px solid #e5e7eb',
+    flexShrink: 0,
+    [theme.breakpoints.down('md')]: {
+      padding: '14px 24px'
+    },
+    [theme.breakpoints.down('sm')]: {
+      padding: '12px 16px',
+      flexWrap: 'wrap',
+      gap: '8px'
+    }
+  },
+
+  jdCancelBtn: {
+    '&.MuiButton-root': {
+      fontFamily: 'Satoshi, sans-serif',
+      color: '#FF3B30',
+      fontWeight: 500,
+      fontSize: '18px',
+      lineHeight: 1.5,
+      letterSpacing: '-0.36px',
+      textTransform: 'none',
+      padding: '0',
+      minWidth: 'auto',
+      '&:hover': {
+        backgroundColor: 'transparent',
+        textDecoration: 'underline'
+      },
+      [theme.breakpoints.down('sm')]: {
+        fontSize: '14px',
+        letterSpacing: '-0.28px'
+      }
+    }
+  },
+
+  jdBackBtn: {
+    '&.MuiButton-root': {
+      fontFamily: 'Satoshi, sans-serif',
+      backgroundColor: '#ffffff',
+      borderColor: '#DABF67',
+      color: '#04040E',
+      fontWeight: 500,
+      fontSize: '18px',
+      lineHeight: 1.5,
+      letterSpacing: '-0.36px',
+      textTransform: 'none',
+      borderRadius: '999px',
+      padding: '12px 32px',
+      height: '50px',
+      whiteSpace: 'nowrap',
+      '&:hover': {
+        borderColor: '#C8AD55',
+        backgroundColor: '#fffdf5'
+      },
+      [theme.breakpoints.down('sm')]: {
+        padding: '10px 20px',
+        fontSize: '14px',
+        letterSpacing: '-0.28px',
+        height: '42px'
+      }
+    }
+  },
+
+  jdSubmitBtn: {
+    '&.MuiButton-root': {
+      fontFamily: 'Satoshi, sans-serif',
+      backgroundColor: '#DABF67',
+      color: '#04040E',
+      fontWeight: 500,
+      fontSize: '18px',
+      lineHeight: 1.5,
+      letterSpacing: '-0.36px',
+      textTransform: 'none',
+      borderRadius: '999px',
+      padding: '12px 32px',
+      height: '50px',
+      boxShadow: 'none',
+      whiteSpace: 'nowrap',
+      '&:hover': {
+        backgroundColor: '#C8AD55',
+        boxShadow: 'none'
+      },
+      [theme.breakpoints.down('sm')]: {
+        padding: '10px 20px',
+        fontSize: '14px',
+        letterSpacing: '-0.28px',
+        height: '42px'
+      }
+    }
+  },
+
+  // Legacy styles kept for backward compatibility
   jdFormWrapper: {
     [theme.breakpoints.down('sm')]: {
       paddingTop: '50px',
@@ -172,23 +464,6 @@ export const useStyles = makeStyles((theme) => ({
       borderRadius: '6px',
       '& fieldset': {
         borderColor: '#d1d5db'
-      },
-      '&:hover fieldset': {
-        borderColor: '#9ca3af'
-      },
-      '&.Mui-focused fieldset': {
-        borderColor: '#0147fd'
-      },
-      '&.Mui-error fieldset': {
-        borderColor: theme.palette.error.main
-      }
-    },
-    '& .MuiInputBase-input': {
-      color: '#919295',
-      fontSize: '16px',
-      '&::placeholder': {
-        color: '#9ca3af',
-        opacity: 1
       }
     }
   },
@@ -197,27 +472,7 @@ export const useStyles = makeStyles((theme) => ({
     borderRadius: '6px',
     backgroundColor: '#ffffff',
     minHeight: '120px',
-    padding: '5px',
-    position: 'relative',
-    zIndex: 0,
-    '&:hover': {
-      borderColor: '#9ca3af'
-    },
-    '&:focus-within': {
-      borderColor: '#424246',
-      borderWidth: '2px',
-      zIndex: 0
-    },
-    '& .rdw-editor-main': {
-      overflow: 'scroll',
-      height: '120px',
-      position: 'relative',
-      zIndex: 3
-    },
-    '& .public-DraftEditorPlaceholder-inner': {
-      position: 'relative',
-      zIndex: 3
-    }
+    padding: '5px'
   },
   jdFormErrorText: {
     marginTop: '8px',

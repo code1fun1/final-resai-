@@ -20,7 +20,7 @@ const Footer = () => {
   // Get the current year
   const currentYear = new Date().getFullYear();
   return (
-    <Box position="fixed" bottom={0} width="100%">
+    <Box id="app-footer" position="fixed" bottom={0} width="100%">
       <Container maxWidth={false} className={`${styles.footerWrapper} ${styles.footerText}`}>
         <Box display="flex" alignItems="center" gap="5px">
           <Box display={{ xs: 'none', sm: 'block' }}>
