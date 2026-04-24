@@ -78,8 +78,7 @@ const FileUploader: React.FC<FileUploaderProps> = React.memo(
         <Box display="flex" flexDirection="column" alignItems="center" gap={0.5}>
           <CloudUploadIcon size={36} color="#735302" className={styles.uploadIcon} />
           <Typography className={styles.uploadText}>
-            <span className={styles.clickHereText}>Click here</span>
-            {' '}to upload or Drag and drop
+            <span className={styles.clickHereText}>Click here</span> to upload or Drag and drop
           </Typography>
           <Typography component="p" className={styles.pdfText}>
             PDF or DOC &nbsp;(Maximum size: 5MB)

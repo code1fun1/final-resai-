@@ -56,7 +56,7 @@ const Login: React.FC<LoginProps> = ({ setLoadWithoutMount }) => {
           <Divider className={styles.divider}>OR</Divider>
           <SingleSignOn onSingleSignOn={(value) => handleLoginClick(value)} />
           <Typography component="p" className={styles.linkWrap} textAlign="center">
-            {"Don't have an account?"}{' '}
+            {'Don\'t have an account?'}{' '}
             <Link href={ROUTES.SIGN_UP}>
               <Button variant="text" className={styles.linkText}>
                 Sign Up

@@ -40,4 +40,3 @@ const UploadedResumeIcon: React.FC<UploadedResumeIconProps> = ({ size = 40, clas
 );
 
 export default UploadedResumeIcon;
-

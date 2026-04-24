@@ -6,8 +6,8 @@ export const useStyles = makeStyles((theme) => ({
     height: '100vh',
     overflow: 'hidden',
     '@supports (height: 100dvh)': {
-      height: '100dvh',
-    },
+      height: '100dvh'
+    }
   },
   sidebar: {
     width: '340px',
@@ -19,11 +19,11 @@ export const useStyles = makeStyles((theme) => ({
     height: '100%',
     overflow: 'hidden',
     [theme.breakpoints.down('md')]: {
-      display: 'none',
-    },
+      display: 'none'
+    }
   },
   logoWrap: {
-    marginBottom: '36px',
+    marginBottom: '36px'
   },
   heroBadge: {
     color: '#DABF67',
@@ -33,7 +33,7 @@ export const useStyles = makeStyles((theme) => ({
     lineHeight: 1.25,
     letterSpacing: '-0.02em',
     marginBottom: '8px',
-    display: 'block',
+    display: 'block'
   },
   sidebarTitle: {
     color: '#FFFFFF',
@@ -42,7 +42,7 @@ export const useStyles = makeStyles((theme) => ({
     fontWeight: 700,
     lineHeight: 1.0,
     letterSpacing: '0em',
-    marginBottom: '12px',
+    marginBottom: '12px'
   },
   sidebarSubtitle: {
     color: 'rgba(255, 255, 255, 0.7)',
@@ -50,13 +50,13 @@ export const useStyles = makeStyles((theme) => ({
     fontFamily: 'Satoshi, sans-serif',
     fontWeight: 400,
     lineHeight: 1.35,
-    letterSpacing: '0em',
+    letterSpacing: '0em'
   },
   stepsSection: {
     display: 'flex',
     flexDirection: 'column',
     gap: '4px',
-    marginTop: '28px',
+    marginTop: '28px'
   },
   stepItem: {
     display: 'flex',
@@ -65,10 +65,10 @@ export const useStyles = makeStyles((theme) => ({
     gap: '16px',
     padding: '10px 8px',
     borderRadius: '8px',
-    cursor: 'default',
+    cursor: 'default'
   },
   stepItemActive: {
-    backgroundColor: 'rgba(255, 255, 255, 0.15)',
+    backgroundColor: 'rgba(255, 255, 255, 0.15)'
   },
   sidebarBottomText: {
     color: 'rgba(255, 255, 255, 0.7)',
@@ -77,7 +77,7 @@ export const useStyles = makeStyles((theme) => ({
     fontWeight: 400,
     lineHeight: 1.35,
     letterSpacing: '0em',
-    marginTop: '24px',
+    marginTop: '24px'
   },
   sidebarFooter: {
     marginTop: 'auto',
@@ -85,7 +85,7 @@ export const useStyles = makeStyles((theme) => ({
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-    borderTop: 'none',
+    borderTop: 'none'
   },
   copyrightText: {
     color: '#7B7B7B',
@@ -93,7 +93,7 @@ export const useStyles = makeStyles((theme) => ({
     fontFamily: 'Satoshi, sans-serif',
     fontWeight: 400,
     lineHeight: 1.0,
-    letterSpacing: '0em',
+    letterSpacing: '0em'
   },
   needHelpLink: {
     display: 'flex',
@@ -106,7 +106,7 @@ export const useStyles = makeStyles((theme) => ({
     lineHeight: 1.0,
     letterSpacing: '0em',
     cursor: 'pointer',
-    textDecoration: 'none',
+    textDecoration: 'none'
   },
   rightPanel: {
     flex: 1,
@@ -114,12 +114,12 @@ export const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'column',
     height: '100%',
-    overflow: 'hidden',
+    overflow: 'hidden'
   },
   // legacy
   resumeUploadWrapper: {},
   titleWrap: {},
   createResumeImage: { width: '100%', height: 'auto' },
   mobGetStartedButton: {},
-  TextBoxStyle: {},
+  TextBoxStyle: {}
 }));

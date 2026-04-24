@@ -11,7 +11,7 @@ export const useStyles = makeStyles((theme) => ({
     }
   },
   sideCustomStyle: {
-    backgroundImage: "url('/image/dottedCanvas.png')",
+    backgroundImage: 'url(\'/image/dottedCanvas.png\')',
     height: 'calc(100vh - 15px)'
   },
   gridContainer: {

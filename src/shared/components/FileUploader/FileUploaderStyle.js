@@ -3,7 +3,7 @@ import makeStyles from '@mui/styles/makeStyles';
 export const useStyles = makeStyles((theme) => ({
   inputWrap: {
     position: 'relative',
-    width: '100%',
+    width: '100%'
   },
   boxWrap: {
     display: 'flex',
@@ -20,25 +20,25 @@ export const useStyles = makeStyles((theme) => ({
     minHeight: '120px',
     transition: 'background 0.2s ease',
     '&:hover': {
-      background: '#F5F0E4',
+      background: '#F5F0E4'
     },
     '& p.MuiTypography-root': {
       fontSize: '13px',
       color: '#9CA3AF',
-      textAlign: 'center',
+      textAlign: 'center'
     },
     '& p.errorMessage.MuiTypography-root': {
-      color: theme.palette.error.main,
+      color: theme.palette.error.main
     },
     '& strong.MuiTypography-root': {
       color: '#DABF67',
       fontSize: '14px',
-      fontWeight: 600,
-    },
+      fontWeight: 600
+    }
   },
   uploadIcon: {
     marginBottom: '4px',
-    flexShrink: 0,
+    flexShrink: 0
   },
   clickHereText: {
     fontFamily: 'Satoshi, sans-serif',
@@ -49,7 +49,7 @@ export const useStyles = makeStyles((theme) => ({
     color: '#735302',
     textDecoration: 'underline',
     textDecorationStyle: 'solid',
-    display: 'inline',
+    display: 'inline'
   },
   uploadText: {
     fontFamily: 'Satoshi, sans-serif !important',
@@ -58,7 +58,7 @@ export const useStyles = makeStyles((theme) => ({
     lineHeight: '1.5 !important',
     letterSpacing: '-0.02em !important',
     color: '#7B7B7B !important',
-    textAlign: 'center',
+    textAlign: 'center'
   },
   pdfText: {
     fontFamily: 'Satoshi, sans-serif !important',
@@ -67,31 +67,31 @@ export const useStyles = makeStyles((theme) => ({
     lineHeight: '1.5 !important',
     letterSpacing: '-0.02em !important',
     color: '#7B7B7B !important',
-    textAlign: 'center',
+    textAlign: 'center'
   },
   spinnerWrap: {
     display: 'flex',
     alignItems: 'center',
-    gap: '15px',
+    gap: '15px'
   },
   selectedWrap: {
     width: '100%',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    gap: theme.spacing(1),
+    gap: theme.spacing(1)
   },
   selectedTopRow: {
     width: '100%',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    position: 'relative',
+    position: 'relative'
   },
   selectedAction: {
     position: 'absolute',
     right: 0,
-    top: 0,
+    top: 0
   },
   selectedFileName: {
     fontFamily: 'Satoshi, sans-serif',
@@ -101,23 +101,23 @@ export const useStyles = makeStyles((theme) => ({
     letterSpacing: '0em',
     color: '#04040E',
     textAlign: 'center',
-    wordBreak: 'break-word',
+    wordBreak: 'break-word'
   },
   inputFile: {
-    display: 'none',
+    display: 'none'
   },
   // responsive kept for compat
   viewDesktop: {
     [theme.breakpoints.down('sm')]: {
-      display: 'none',
-    },
+      display: 'none'
+    }
   },
   viewMob: {
     [theme.breakpoints.up('sm')]: {
-      display: 'none',
-    },
+      display: 'none'
+    }
   },
   arrowIcon: {
-    color: '#DABF67',
-  },
+    color: '#DABF67'
+  }
 }));

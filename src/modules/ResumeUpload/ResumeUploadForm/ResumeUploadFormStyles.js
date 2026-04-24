@@ -5,15 +5,15 @@ export const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'column',
     height: '100%',
-    flex: 1,
+    flex: 1
   },
   contentArea: {
     flex: 1,
     padding: '36px 40px 20px',
     overflowY: 'auto',
     [theme.breakpoints.down('sm')]: {
-      padding: '24px 16px 16px',
-    },
+      padding: '24px 16px 16px'
+    }
   },
   headerRow: {
     display: 'flex',
@@ -21,14 +21,14 @@ export const useStyles = makeStyles((theme) => ({
     alignItems: 'flex-start',
     marginBottom: '24px',
     flexWrap: 'wrap',
-    gap: '12px',
+    gap: '12px'
   },
   progressContainer: {
     display: 'flex',
     alignItems: 'center',
     gap: '10px',
     flexShrink: 0,
-    paddingTop: '4px',
+    paddingTop: '4px'
   },
   progressTrack: {
     width: '120px',
@@ -36,18 +36,18 @@ export const useStyles = makeStyles((theme) => ({
     backgroundColor: '#EDEDED',
     borderRadius: '5px',
     overflow: 'hidden',
-    flexShrink: 0,
+    flexShrink: 0
   },
   progressFill: {
     height: '100%',
     width: '10px',
     backgroundColor: '#DABF67',
-    borderRadius: '5px',
+    borderRadius: '5px'
   },
   scratchDivider: {
     margin: '28px 0',
     '&.MuiDivider-root::before, &.MuiDivider-root::after': {
-      borderColor: '#E5E7EB',
+      borderColor: '#E5E7EB'
     },
     '& .MuiDivider-wrapper': {
       color: '#04040E',
@@ -56,23 +56,23 @@ export const useStyles = makeStyles((theme) => ({
       fontWeight: 500,
       lineHeight: '100%',
       letterSpacing: '0em',
-      textTransform: 'uppercase',
-    },
+      textTransform: 'uppercase'
+    }
   },
   fieldsRow: {
     display: 'flex',
     gap: '16px',
     marginBottom: '20px',
     [theme.breakpoints.down('sm')]: {
-      flexDirection: 'column',
-    },
+      flexDirection: 'column'
+    }
   },
   inputField: {
     '& .MuiOutlinedInput-root': {
       borderRadius: '24px',
       '& fieldset': { borderColor: '#E5E7EB' },
       '&:hover fieldset': { borderColor: '#DABF67' },
-      '&.Mui-focused fieldset': { borderColor: '#DABF67' },
+      '&.Mui-focused fieldset': { borderColor: '#DABF67' }
     },
     '& .MuiInputLabel-root.Mui-focused': { color: '#DABF67' },
     '& .MuiInputBase-input::placeholder': {
@@ -82,15 +82,15 @@ export const useStyles = makeStyles((theme) => ({
       lineHeight: '100%',
       letterSpacing: '0%',
       color: '#595959',
-      opacity: 1,
-    },
+      opacity: 1
+    }
   },
   additionalLinksField: {
     '& .MuiOutlinedInput-root': {
       borderRadius: '12px',
       '& fieldset': { borderColor: '#E5E7EB' },
       '&:hover fieldset': { borderColor: '#DABF67' },
-      '&.Mui-focused fieldset': { borderColor: '#DABF67' },
+      '&.Mui-focused fieldset': { borderColor: '#DABF67' }
     },
     '& .MuiInputLabel-root.Mui-focused': { color: '#DABF67' },
     '& .MuiInputBase-input::placeholder': {
@@ -100,8 +100,8 @@ export const useStyles = makeStyles((theme) => ({
       lineHeight: '100%',
       letterSpacing: '0%',
       color: '#595959',
-      opacity: 1,
-    },
+      opacity: 1
+    }
   },
   footerRow: {
     display: 'flex',
@@ -119,8 +119,8 @@ export const useStyles = makeStyles((theme) => ({
       paddingBottom: 'calc(16px + env(safe-area-inset-bottom))',
       flexDirection: 'column',
       alignItems: 'stretch',
-      gap: '10px',
-    },
+      gap: '10px'
+    }
   },
   footerActions: {
     display: 'flex',
@@ -129,8 +129,8 @@ export const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.down('sm')]: {
       width: '100%',
       flexWrap: 'wrap',
-      justifyContent: 'space-between',
-    },
+      justifyContent: 'space-between'
+    }
   },
   cancelBtn: {
     color: '#FF3B30',
@@ -142,8 +142,8 @@ export const useStyles = makeStyles((theme) => ({
     textTransform: 'none',
     padding: '8px 4px',
     '&:hover': {
-      backgroundColor: 'rgba(255, 59, 48, 0.06)',
-    },
+      backgroundColor: 'rgba(255, 59, 48, 0.06)'
+    }
   },
   backBtn: {
     borderRadius: '999px',
@@ -161,13 +161,13 @@ export const useStyles = makeStyles((theme) => ({
     textTransform: 'none',
     '&:hover': {
       border: '1px solid #DABF67',
-      backgroundColor: 'rgba(218, 191, 103, 0.10)',
+      backgroundColor: 'rgba(218, 191, 103, 0.10)'
     },
     [theme.breakpoints.down('sm')]: {
       flex: 1,
       minWidth: 0,
-      padding: '0 16px',
-    },
+      padding: '0 16px'
+    }
   },
   getStartedBtn: {
     borderRadius: '999px',
@@ -185,22 +185,22 @@ export const useStyles = makeStyles((theme) => ({
     boxShadow: 'none',
     '&:hover': {
       backgroundColor: '#C9A84C',
-      boxShadow: 'none',
+      boxShadow: 'none'
     },
     '&.Mui-disabled': {
       backgroundColor: '#E5E7EB',
-      color: '#9CA3AF',
+      color: '#9CA3AF'
     },
     [theme.breakpoints.down('sm')]: {
       flex: 1,
       minWidth: 0,
-      padding: '0 16px',
-    },
+      padding: '0 16px'
+    }
   },
   // legacy kept for any external references
   titleWrap: {},
   divider: {},
   textEditorWrapper: {},
   mobGetStartedButton: {},
-  TextBoxStyle: {},
+  TextBoxStyle: {}
 }));
