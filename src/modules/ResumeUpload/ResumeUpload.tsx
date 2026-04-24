@@ -1,4 +1,4 @@
-import { Box, Grid, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { EditorState } from 'draft-js';
 import Image from 'next/image';
 import React, { useCallback, useEffect, useState } from 'react';
@@ -10,48 +10,51 @@ import { handleToast, removeSpecialChars } from '~/shared/utils/utils';
 import ResumeUploadForm from './ResumeUploadForm';
 import { useStyles } from './ResumeUploadStyles';
 import JDForm from './JDForm';
-// import { useStylesGoldTheme } from '~/modules/globalStyles';
 import {
   FileDetails,
-  // deleteDocument,
   getFileTypeByExtension,
   handleFileUpload,
   isValidFileType,
   handleSaveFileWithJDForm
 } from './Utils/ResumeUploadUtils';
-
-// import { useRouter } from 'next/navigation';
 import { useRouter } from 'next/router';
 import Toast from '~/shared/components/Toast';
 import { ROUTES } from '~/shared/constants/routes';
-// import * as Sentry from '@sentry/nextjs';
-//import sentryCaptureError from '~/sentryCaptureError';
-
-// For Doc/Pdf validation
 import useResumeDetector from './Utils/useResumeDetector';
-// Define the type for JDForm value
+import ProgressOverlay from '~/shared/components/ProgressOverlay/ProgressOverlay';
+import ChevronRightRoundedIcon from '@mui/icons-material/ChevronRightRounded';
+import HeadsetMicRoundedIcon from '@mui/icons-material/HeadsetMicRounded';
+import RadioButtonUncheckedRoundedIcon from '@mui/icons-material/RadioButtonUncheckedRounded';
+import SpinnerIcon from '~/shared/components/SpinnerIcon/SpinnerIcon';
+
 interface JDFormValue {
   jobTitle: string;
   companyName: string;
   jobDesc: string;
   editorState: EditorState;
 }
+
 interface ResumeUploadProps {
   setLoadWithoutMount: (value: boolean, message?: string) => void;
 }
 
-import ProgressOverlay from '~/shared/components/ProgressOverlay/ProgressOverlay';
+const STEPS = [
+  { label: 'Resume Upload', active: true },
+  { label: 'Target Job Role', active: false },
+  { label: 'Skills & Strengths', active: false },
+  { label: 'Personal Details', active: false },
+];
 
 const ResumeUpload: React.FC<ResumeUploadProps> = ({ setLoadWithoutMount }) => {
-  // ✅ reset loader each time this page mounts
   useEffect(() => {
     setLoadWithoutMount(false, '');
   }, [setLoadWithoutMount]);
+
   const { t: i18n } = useTranslation(LOCALE_PAGE.RESUME_UPLOAD);
   const styles = useStyles();
   const { SUCCESS } = API_STATUS;
   const { ERROR } = SEVERITY;
-  // const globalStyles = useStylesGoldTheme();
+
   const [toastState, setToastState] = useState<ToastMessage>({
     open: false,
     severity: SEVERITY.SUCCESS,
@@ -63,31 +66,11 @@ const ResumeUpload: React.FC<ResumeUploadProps> = ({ setLoadWithoutMount }) => {
   const [progressMessage, setProgressMessage] = useState('');
 
   const PROGRESS_STEPS = [
-    {
-      key: 'loaderMessages.uploadingResume',
-      start: 0,
-      end: 25
-    },
-    {
-      key: 'loaderMessages.extractingInformation',
-      start: 25,
-      end: 45
-    },
-    {
-      key: 'loaderMessages.analyzingResume',
-      start: 45,
-      end: 70
-    },
-    {
-      key: 'loaderMessages.processingJobDescription',
-      start: 70,
-      end: 90
-    },
-    {
-      key: 'loaderMessages.almostDonePreparingResults',
-      start: 90,
-      end: 98
-    }
+    { key: 'loaderMessages.uploadingResume', start: 0, end: 25 },
+    { key: 'loaderMessages.extractingInformation', start: 25, end: 45 },
+    { key: 'loaderMessages.analyzingResume', start: 45, end: 70 },
+    { key: 'loaderMessages.processingJobDescription', start: 70, end: 90 },
+    { key: 'loaderMessages.almostDonePreparingResults', start: 90, end: 98 },
   ];
 
   const [fileDetails, setFileDetails] = useState<FileDetails>({
@@ -99,27 +82,22 @@ const ResumeUpload: React.FC<ResumeUploadProps> = ({ setLoadWithoutMount }) => {
     fileUploadUrl: '',
     errorMessage: ''
   });
+
   const initialJDFormValue: JDFormValue = {
     jobTitle: '',
     companyName: '',
     jobDesc: '',
     editorState: EditorState.createEmpty()
   };
-  const [editorState, setEditorState] = useState<EditorState>(EditorState.createEmpty());
+
   const router = useRouter();
   const [jdFormValue, setJDFormValue] = useState<JDFormValue>(initialJDFormValue);
   const [showJDFormOnly, setShowJDFormOnly] = useState(false);
-
-  //
-  // resume detector hook (client-side quick check)
   const { detect: detectResumeClient } = useResumeDetector();
 
-  // Reset showJDFormOnly if navigating to /resume-upload (even if already there)
   useEffect(() => {
     const handleRouteChange = (url: string) => {
-      if (url === '/resume-upload') {
-        setShowJDFormOnly(false);
-      }
+      if (url === '/resume-upload') setShowJDFormOnly(false);
     };
     router.events?.on('routeChangeStart', handleRouteChange);
     return () => {
@@ -127,55 +105,44 @@ const ResumeUpload: React.FC<ResumeUploadProps> = ({ setLoadWithoutMount }) => {
     };
   }, [router]);
 
-  const handleSave = useCallback(async () => {
-    // const { asPath } = router;
-    setLoadWithoutMount(true, i18n('loaderMessages.thisMayTakeUptoAMinuteOrTwo', { ns: 'common' }));
-    const editorText: string = editorState?.getCurrentContent()?.getPlainText()?.trim();
-    // Save editorText and fileUploadUrl to localStorage
-    if (editorText) {
-      localStorage.setItem('editorText', editorText);
-    }
-    if (fileDetails?.fileUploadUrl) {
-      localStorage.setItem('fileUploadUrl', fileDetails.fileUploadUrl);
-    }
+  const handleSave = useCallback(
+    async (additionalLinksText: string) => {
+      setLoadWithoutMount(true, i18n('loaderMessages.thisMayTakeUptoAMinuteOrTwo', { ns: 'common' }));
+      if (additionalLinksText?.trim()) {
+        localStorage.setItem('editorText', additionalLinksText);
+      }
+      if (fileDetails?.fileUploadUrl) {
+        localStorage.setItem('fileUploadUrl', fileDetails.fileUploadUrl);
+      }
+      setShowJDFormOnly(true);
+      setLoadWithoutMount(false, '');
+    },
+    [fileDetails, i18n, setLoadWithoutMount]
+  );
 
-    setShowJDFormOnly(true);
-    setLoadWithoutMount(false, '');
-  }, [fileDetails, editorState]);
-
-  // Scroll to top when showJDFormOnly becomes true
   useEffect(() => {
-    if (showJDFormOnly) {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
+    if (showJDFormOnly) window.scrollTo({ top: 0, behavior: 'smooth' });
   }, [showJDFormOnly]);
 
   const handleSaveJDForm = useCallback(async () => {
     let progressInterval: NodeJS.Timeout | null = null;
-
     try {
       const editorText =
         typeof window !== 'undefined' ? localStorage.getItem('editorText') || '' : '';
-
       const fileUploadUrl =
         typeof window !== 'undefined' ? localStorage.getItem('fileUploadUrl') || '' : '';
 
-      // 🔹 START LOCAL PROGRESS OVERLAY
       setShowProgress(true);
-
       let stepIndex = 0;
       let progress = PROGRESS_STEPS[0].start;
-
       setProgressMessage(i18n(PROGRESS_STEPS[0].key, { ns: 'common' }));
       setProgressValue(progress);
 
       progressInterval = setInterval(() => {
         const step = PROGRESS_STEPS[stepIndex];
         progress += 1;
-
         if (progress >= step.end) {
           stepIndex += 1;
-
           if (stepIndex < PROGRESS_STEPS.length) {
             const next = PROGRESS_STEPS[stepIndex];
             progress = next.start;
@@ -185,13 +152,10 @@ const ResumeUpload: React.FC<ResumeUploadProps> = ({ setLoadWithoutMount }) => {
             clearInterval(progressInterval!);
           }
         }
-
         setProgressValue(progress);
       }, 800);
 
-      // 🔹 API CALL (UNCHANGED)
       const res = await handleSaveFileWithJDForm(fileUploadUrl, editorText, jdFormValue);
-
       if (progressInterval) clearInterval(progressInterval);
 
       if (res?.status !== SUCCESS) {
@@ -200,11 +164,8 @@ const ResumeUpload: React.FC<ResumeUploadProps> = ({ setLoadWithoutMount }) => {
         return;
       }
 
-      // ✅ STORE JD ON SUCCESS (EXACTLY LIKE BEFORE)
       const { ...jdFormValueWithoutEditor } = jdFormValue;
       localStorage.setItem('jdFormValue', JSON.stringify(jdFormValueWithoutEditor));
-
-      // 🔹 FINISH TO 100%
       setProgressMessage(i18n('loaderMessages.preparingResults', { ns: 'common' }));
       setProgressValue(100);
 
@@ -218,7 +179,7 @@ const ResumeUpload: React.FC<ResumeUploadProps> = ({ setLoadWithoutMount }) => {
       if (progressInterval) clearInterval(progressInterval);
       setShowProgress(false);
     }
-  }, [jdFormValue]);
+  }, [jdFormValue, i18n, ERROR, SUCCESS, toastState, router]);
 
   const updateFileDetails = useCallback(
     async (file: File) => {
@@ -227,24 +188,13 @@ const ResumeUpload: React.FC<ResumeUploadProps> = ({ setLoadWithoutMount }) => {
 
       if (fileSizeKb >= 5120) {
         handleToast(
-          {
-            severity: ERROR,
-            message: i18n('invalidFileSize')
-          },
+          { severity: ERROR, message: i18n('invalidFileSize') },
           setToastState,
           toastState
         );
-
-        setFileDetails((prev) => ({
-          ...prev,
-          fileName: '',
-          errorMessage: '',
-          showSpinner: false
-        }));
-
+        setFileDetails((prev) => ({ ...prev, fileName: '', errorMessage: '', showSpinner: false }));
         const inputEl = document.getElementById('contained-button-file') as HTMLInputElement | null;
         if (inputEl) inputEl.value = '';
-
         return;
       }
 
@@ -254,16 +204,10 @@ const ResumeUpload: React.FC<ResumeUploadProps> = ({ setLoadWithoutMount }) => {
         { type }
       );
 
-      // ---- RUN CLIENT-SIDE DETECTION BEFORE UPLOAD ----
       try {
-        // optional: show spinner while detecting
         setFileDetails((prev) => ({ ...prev, showSpinner: true }));
-
         const detection = await detectResumeClient(file);
-        // detection shape: { isResume, extractedText, matches, error }
-
         if (!detection.isResume) {
-          // show red toast error using your existing toast helper
           handleToast(
             {
               severity: ERROR,
@@ -272,23 +216,19 @@ const ResumeUpload: React.FC<ResumeUploadProps> = ({ setLoadWithoutMount }) => {
             setToastState,
             toastState
           );
-
           setFileDetails((prevState) => ({
             ...prevState,
             fileName: '',
             showSpinner: false,
             errorMessage: ''
           }));
-
           const inputEl = document.getElementById(
             'contained-button-file'
           ) as HTMLInputElement | null;
           if (inputEl) inputEl.value = '';
-
           return;
         }
-      } catch (e) {
-        // detection failed — allow upload but show a warning toast (non-blocking)
+      } catch {
         handleToast(
           {
             severity: ERROR,
@@ -297,12 +237,10 @@ const ResumeUpload: React.FC<ResumeUploadProps> = ({ setLoadWithoutMount }) => {
           setToastState,
           toastState
         );
-        // continue to upload
       } finally {
         setFileDetails((prev) => ({ ...prev, showSpinner: true }));
       }
 
-      // --- Existing upload flow ---
       setFileDetails((prevState) => ({
         ...prevState,
         fileName: name,
@@ -314,15 +252,9 @@ const ResumeUpload: React.FC<ResumeUploadProps> = ({ setLoadWithoutMount }) => {
       const res = await handleFileUpload(sanitizedFileName);
       if (res.status === API_STATUS.FAILED) {
         handleToast({ severity: ERROR, message: res.message }, setToastState, toastState);
-        setFileDetails((prevState) => ({
-          ...prevState,
-          showSpinner: false,
-          fileName: ''
-        }));
+        setFileDetails((prevState) => ({ ...prevState, showSpinner: false, fileName: '' }));
         const inputElement = document.getElementById('contained-button-file') as HTMLInputElement;
-        if (inputElement) {
-          inputElement.value = '';
-        }
+        if (inputElement) inputElement.value = '';
         return;
       }
 
@@ -334,40 +266,21 @@ const ResumeUpload: React.FC<ResumeUploadProps> = ({ setLoadWithoutMount }) => {
         errorMessage: ''
       }));
     },
-    [
-      handleFileUpload,
-      setFileDetails,
-      handleToast,
-      setToastState,
-      toastState,
-      detectResumeClient,
-      i18n
-    ]
+    [handleFileUpload, setFileDetails, handleToast, setToastState, toastState, detectResumeClient, i18n, ERROR, SUCCESS]
   );
 
   const processFile = (file: File | undefined) => {
-    if (!file) {
-      return;
-    }
+    if (!file) return;
     const fileTypeByExtension: string | null | undefined = getFileTypeByExtension(file?.name);
     if (typeof fileTypeByExtension === 'string' && isValidFileType(fileTypeByExtension)) {
       updateFileDetails(file);
     } else {
       handleToast(
-        {
-          severity: ERROR,
-          message: i18n('invalidFileType')
-        },
+        { severity: ERROR, message: i18n('invalidFileType') },
         setToastState,
         toastState
       );
-
-      setFileDetails((prev) => ({
-        ...prev,
-        errorMessage: '',
-        fileName: ''
-      }));
-
+      setFileDetails((prev) => ({ ...prev, errorMessage: '', fileName: '' }));
       const inputEl = document.getElementById('contained-button-file') as HTMLInputElement | null;
       if (inputEl) inputEl.value = '';
     }
@@ -390,55 +303,20 @@ const ResumeUpload: React.FC<ResumeUploadProps> = ({ setLoadWithoutMount }) => {
     [updateFileDetails, isValidFileType, setFileDetails]
   );
 
-  // const handleDeleteDocument = useCallback(async () => {
-  //   setLoadWithoutMount(true);
-  //   const res = await deleteDocument();
-  //   const severity: SEVERITY = res?.status === SUCCESS ? SEVERITY.SUCCESS : ERROR;
-  //   handleToast({ severity, message: res.message }, setToastState, toastState);
-  //   if (res?.status === SUCCESS) {
-  //     const inputElement = document.getElementById('contained-button-file') as HTMLInputElement;
-  //     if (inputElement) {
-  //       inputElement.value = '';
-  //     }
-  //     setFileDetails((prevState) => ({
-  //       ...prevState,
-  //       fileName: '',
-  //       fileType: '',
-  //       fileUploadUrl: ''
-  //     }));
-  //   }
-  //   setLoadWithoutMount(false);
-  // }, [handleToast, setToastState, setFileDetails]);
-
   const handleDeleteDocument = useCallback(async () => {
     setLoadWithoutMount(true);
-    const severity: SEVERITY = SEVERITY.SUCCESS;
     handleToast(
-      { severity, message: 'User uploaded resume deleted successfully.' },
+      { severity: SEVERITY.SUCCESS, message: 'User uploaded resume deleted successfully.' },
       setToastState,
       toastState
     );
     const inputElement = document.getElementById('contained-button-file') as HTMLInputElement;
-    if (inputElement) {
-      inputElement.value = '';
-    }
-    setFileDetails((prevState) => ({
-      ...prevState,
-      fileName: '',
-      fileType: '',
-      fileUploadUrl: ''
-    }));
+    if (inputElement) inputElement.value = '';
+    setFileDetails((prevState) => ({ ...prevState, fileName: '', fileType: '', fileUploadUrl: '' }));
     localStorage.setItem('fileUploadUrl', '');
     setLoadWithoutMount(false);
-  }, [handleToast, setToastState, setFileDetails]);
+  }, [handleToast, setToastState, setFileDetails, setLoadWithoutMount, toastState]);
 
-  const handleEditorChange = useCallback(
-    (value: EditorState) => {
-      setEditorState(value);
-    },
-    [EditorState]
-  );
-  // Handler for the Draft.js editor in JDForm
   const handleJDFormEditorChange = (editorState: EditorState) => {
     setJDFormValue((prevState) => ({
       ...prevState,
@@ -446,15 +324,12 @@ const ResumeUpload: React.FC<ResumeUploadProps> = ({ setLoadWithoutMount }) => {
       jobDesc: editorState.getCurrentContent().getPlainText()
     }));
   };
+
   useEffect(() => {
-    // Reset showJDFormOnly to false when component mounts (user navigates to resume-upload)
     setShowJDFormOnly(false);
-    // localStorage.setItem('editorText',  JSON.stringify(''));
-    // localStorage.setItem('fileUploadUrl',  JSON.stringify(''));
     localStorage.setItem('editorText', '');
     localStorage.setItem('fileUploadUrl', '');
     localStorage.setItem('userMissingTabs', JSON.stringify(''));
-    //localStorage.setItem('jdFormValue', JSON.stringify(''));
 
     if (fileDetails.showSpinner) {
       const timer: NodeJS.Timeout = setInterval(() => {
@@ -463,21 +338,22 @@ const ResumeUpload: React.FC<ResumeUploadProps> = ({ setLoadWithoutMount }) => {
           spinTimer: prevState.spinTimer >= 100 ? 0 : prevState.spinTimer + 25
         }));
       }, 800);
-      return () => {
-        clearInterval(timer);
-      };
+      return () => clearInterval(timer);
     }
   }, [fileDetails.showSpinner]);
 
-  // Reset showJDFormOnly when route changes to resume-upload
   useEffect(() => {
     setShowJDFormOnly(false);
   }, [router.asPath]);
-  // console.log('fileDetails', fileDetails);
+
+  const handleCancel = useCallback(() => {
+    router.push(ROUTES.MY_RESUMES);
+  }, [router]);
+
   return (
     <>
-      <Box bgcolor="primary.light" px={{ xs: 2, sm: 5, lg: 20 }}>
-        {showJDFormOnly === true ? (
+      {showJDFormOnly ? (
+        <Box bgcolor="primary.light" px={{ xs: 2, sm: 5, lg: 20 }}>
           <JDForm
             value={jdFormValue}
             onChange={setJDFormValue}
@@ -485,70 +361,106 @@ const ResumeUpload: React.FC<ResumeUploadProps> = ({ setLoadWithoutMount }) => {
             onEditorChange={handleJDFormEditorChange}
             onSubmit={handleSaveJDForm}
           />
-        ) : (
-          <>
-            <Grid container className={styles.resumeUploadWrapper}>
-              <Box
-                component={Grid}
-                item
-                xs={12}
-                md={4}
-                display={{ xs: 'none', md: 'block' }}
-                pr={{ xs: 0, md: 3 }}
-              >
-                <Box
-                  display="flex"
-                  flexDirection="column"
-                  gap={3}
-                  justifyContent="center"
-                  height="100%"
+        </Box>
+      ) : (
+        <Box className={styles.pageWrapper}>
+          {/* ── Dark Sidebar ── */}
+          <Box className={styles.sidebar}>
+            <Box className={styles.logoWrap}>
+              <Image
+                src="/image/ResAi-white-Logo.png"
+                alt="ResAI"
+                width={90}
+                height={30}
+                style={{ objectFit: 'contain', objectPosition: 'left' }}
+                priority
+              />
+            </Box>
+
+            <Box>
+              <Typography className={styles.heroBadge}>Your AI Powered Career Engineer</Typography>
+              <Typography className={styles.sidebarTitle}>Let&apos;s Get Started</Typography>
+              <Box sx={{ lineHeight: 0 }}>
+                <svg
+                  width="100%"
+                  viewBox="0 0 287 38"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  aria-hidden="true"
+                  focusable="false"
+                  style={{ display: 'none' }}
                 >
-                  <Box
-                    display="flex"
-                    alignItems={{ xs: 'center', md: 'flex-start' }}
-                    justifyContent="center"
-                    flexDirection="column"
-                    gap={2}
-                    textAlign={{ xs: 'center', md: 'left' }}
-                    className={styles.titleWrap}
-                  >
-                    <Typography variant="body2">{i18n('HiResAI')}</Typography>
-                    <Typography variant="h2">{i18n('craftingYourResume')}</Typography>
-                    <Typography variant="body2">{i18n('helpYouCreateResume')}</Typography>
-                  </Box>
-
-                  <Image
-                    src="/image/createResume-gold.png"
-                    alt="Create Resume"
-                    width={0}
-                    height={0}
-                    sizes="100vw"
-                    priority
-                    className={styles.createResumeImage}
-                  />
-                </Box>
+                  <path d="M5.376 11.8401C2.176 11.8401 -3.51667e-06 9.45606 -3.51667e-06 5.93606C-3.51667e-06 2.41606 2.208 0.0160618 5.44 0.0160618C7.904 0.0160618 9.84 1.50406 10.304 3.77606H9.072C8.592 2.12806 7.184 1.12006 5.392 1.12006C2.88 1.12006 1.2 3.04006 1.2 5.93606C1.2 8.81606 2.88 10.7361 5.392 10.7361C7.2 10.7361 8.64 9.76006 9.136 8.22406H10.368C9.84 10.3841 7.84 11.8401 5.376 11.8401ZM16.1682 3.82406V4.81606H15.5602C14.1362 4.81606 13.2242 5.77606 13.2242 7.24806V11.6641H12.1202V3.92006H13.1602L13.2402 5.12006C13.5442 4.28806 14.3602 3.74406 15.4482 3.74406C15.6882 3.74406 15.8962 3.76006 16.1682 3.82406ZM20.587 11.8561C18.315 11.8561 16.795 10.2241 16.795 7.79206C16.795 5.37606 18.299 3.71206 20.507 3.71206C22.603 3.71206 24.027 5.20006 24.027 7.39206V7.93606H17.867C17.947 9.82406 18.939 10.9121 20.603 10.9121C21.867 10.9121 22.683 10.3681 22.971 9.34406H24.027C23.611 10.9761 22.411 11.8561 20.587 11.8561ZM20.507 4.65606C19.051 4.65606 18.091 5.61606 17.899 7.13606H22.923C22.923 5.64806 21.963 4.65606 20.507 4.65606ZM27.938 11.8561C26.29 11.8561 25.314 10.9281 25.314 9.56806C25.314 8.14406 26.402 7.24806 28.21 7.10406L30.77 6.89606V6.64006C30.77 5.12006 29.858 4.64006 28.722 4.64006C27.378 4.64006 26.578 5.24806 26.578 6.28806H25.57C25.57 4.72006 26.85 3.71206 28.754 3.71206C30.546 3.71206 31.858 4.60806 31.858 6.65606V11.6641H30.93L30.786 10.3041C30.306 11.2801 29.25 11.8561 27.938 11.8561ZM28.194 10.9601C29.826 10.9601 30.77 9.82406 30.77 8.14406V7.72806L28.482 7.90406C27.026 8.03206 26.434 8.67206 26.434 9.53606C26.434 10.4801 27.138 10.9601 28.194 10.9601ZM35.7087 11.6641H34.6207V4.84806H33.0687V3.92006H34.6207V1.47206H35.7087V3.92006H37.2607V4.84806H35.7087V11.6641ZM41.8682 11.8561C39.5962 11.8561 38.0762 10.2241 38.0762 7.79206C38.0762 5.37606 39.5802 3.71206 41.7882 3.71206C43.8842 3.71206 45.3082 5.20006 45.3082 7.39206V7.93606H39.1482C39.2282 9.82406 40.2202 10.9121 41.8842 10.9121C43.1482 10.9121 43.9642 10.3681 44.2522 9.34406H45.3082C44.8922 10.9761 43.6922 11.8561 41.8682 11.8561ZM41.7882 4.65606C40.3322 4.65606 39.3722 5.61606 39.1802 7.13606H44.2042C44.2042 5.64806 43.2442 4.65606 41.7882 4.65606ZM55.5589 3.82406V4.81606H54.9509C53.5269 4.81606 52.6149 5.77606 52.6149 7.24806V11.6641H51.5109V3.92006H52.5509L52.6309 5.12006C52.9349 4.28806 53.7509 3.74406 54.8389 3.74406C55.0789 3.74406 55.2869 3.76006 55.5589 3.82406ZM59.9776 11.8561C57.7056 11.8561 56.1856 10.2241 56.1856 7.79206C56.1856 5.37606 57.6896 3.71206 59.8976 3.71206C61.9936 3.71206 63.4176 5.20006 63.4176 7.39206V7.93606H57.2576C57.3376 9.82406 58.3296 10.9121 59.9936 10.9121C61.2576 10.9121 62.0736 10.3681 62.3616 9.34406H63.4176C63.0016 10.9761 61.8016 11.8561 59.9776 11.8561ZM59.8976 4.65606C58.4416 4.65606 57.4816 5.61606 57.2896 7.13606H62.3136C62.3136 5.64806 61.3536 4.65606 59.8976 4.65606ZM64.5267 9.48806H65.5827C65.5827 10.3841 66.2547 10.9441 67.3427 10.9441C68.5427 10.9441 69.2467 10.4321 69.2467 9.60006C69.2467 8.96006 68.9267 8.59206 68.0147 8.36806L66.6867 8.03206C65.3427 7.69606 64.6867 6.99206 64.6867 5.93606C64.6867 4.57606 65.8227 3.71206 67.4867 3.71206C69.1187 3.71206 70.1747 4.60806 70.2227 6.04806H69.1507C69.1187 5.15206 68.4947 4.62406 67.4547 4.62406C66.3667 4.62406 65.7587 5.08806 65.7587 5.92006C65.7587 6.51206 66.1747 6.92806 67.0227 7.13606L68.3507 7.47206C69.6947 7.80806 70.3027 8.43206 70.3027 9.55206C70.3027 10.9441 69.1187 11.8561 67.3587 11.8561C65.6147 11.8561 64.5267 10.9281 64.5267 9.48806ZM77.5602 3.92006H78.6642V11.6641H77.7042L77.5602 10.3521C77.1282 11.2481 76.0562 11.8561 74.8402 11.8561C73.0162 11.8561 72.0242 10.6081 72.0242 8.72006V3.90406H73.1442V8.36806C73.1442 10.2081 73.9602 10.8641 75.1922 10.8641C76.6802 10.8641 77.5602 9.87206 77.5602 8.03206V3.92006ZM82.068 11.6641H80.964V3.92006H81.924L82.052 5.02406C82.436 4.20806 83.3 3.71206 84.388 3.71206C85.604 3.71206 86.516 4.35206 86.884 5.36006C87.236 4.35206 88.18 3.71206 89.428 3.71206C91.108 3.71206 92.212 4.80006 92.212 6.59206V11.6641H91.14V6.81606C91.14 5.48806 90.404 4.70406 89.22 4.70406C87.924 4.70406 87.156 5.68006 87.156 6.88006V11.6641H86.068V6.80006C86.068 5.48806 85.316 4.72006 84.148 4.72006C82.852 4.72006 82.068 5.68006 82.068 6.86406V11.6641ZM97.6807 11.8561C95.4087 11.8561 93.8887 10.2241 93.8887 7.79206C93.8887 5.37606 95.3927 3.71206 97.6007 3.71206C99.6967 3.71206 101.121 5.20006 101.121 7.39206V7.93606H94.9607C95.0407 9.82406 96.0327 10.9121 97.6967 10.9121C98.9607 10.9121 99.7767 10.3681 100.065 9.34406H101.121C100.705 10.9761 99.5047 11.8561 97.6807 11.8561ZM97.6007 4.65606C96.1447 4.65606 95.1847 5.61606 94.9927 7.13606H100.017C100.017 5.64806 99.0567 4.65606 97.6007 4.65606ZM102.23 9.48806H103.286C103.286 10.3841 103.958 10.9441 105.046 10.9441C106.246 10.9441 106.95 10.4321 106.95 9.60006C106.95 8.96006 106.63 8.59206 105.718 8.36806L104.39 8.03206C103.046 7.69606 102.39 6.99206 102.39 5.93606C102.39 4.57606 103.526 3.71206 105.19 3.71206C106.822 3.71206 107.878 4.60806 107.926 6.04806H106.854C106.822 5.15206 106.198 4.62406 105.158 4.62406C104.07 4.62406 103.462 5.08806 103.462 5.92006C103.462 6.51206 103.878 6.92806 104.726 7.13606L106.054 7.47206C107.398 7.80806 108.006 8.43206 108.006 9.55206C108.006 10.9441 106.822 11.8561 105.062 11.8561C103.318 11.8561 102.23 10.9281 102.23 9.48806ZM111.65 11.1201C111.65 12.1121 110.882 12.9761 109.89 13.1201V12.5281C110.466 12.4321 110.882 12.0161 110.882 11.5681C110.786 11.6321 110.658 11.6801 110.466 11.6801C110.018 11.6801 109.634 11.3601 109.634 10.8161C109.634 10.2561 110.018 9.85606 110.578 9.85606C111.154 9.85606 111.65 10.3201 111.65 11.1201ZM118.323 15.0401V3.92006H119.283L119.395 5.48806C119.939 4.28806 121.027 3.71206 122.323 3.71206C124.563 3.71206 125.907 5.42406 125.907 7.76006C125.907 10.0961 124.611 11.8561 122.323 11.8561C121.011 11.8561 119.971 11.2961 119.427 10.1761V15.0401H118.323ZM119.443 7.79206C119.443 9.56806 120.435 10.8641 122.131 10.8641C123.811 10.8641 124.787 9.56806 124.787 7.79206C124.787 6.00006 123.811 4.72006 122.131 4.72006C120.435 4.72006 119.443 6.00006 119.443 7.79206ZM128.819 11.6641H127.715V6.19888e-05H128.819V11.6641ZM133.391 11.8561C131.743 11.8561 130.767 10.9281 130.767 9.56806C130.767 8.14406 131.855 7.24806 133.663 7.10406L136.223 6.89606V6.64006C136.223 5.12006 135.311 4.64006 134.175 4.64006C132.831 4.64006 132.031 5.24806 132.031 6.28806H131.023C131.023 4.72006 132.303 3.71206 134.207 3.71206C135.999 3.71206 137.311 4.60806 137.311 6.65606V11.6641H136.383L136.239 10.3041C135.759 11.2801 134.703 11.8561 133.391 11.8561ZM133.647 10.9601C135.279 10.9601 136.223 9.82406 136.223 8.14406V7.72806L133.935 7.90406C132.479 8.03206 131.887 8.67206 131.887 9.53606C131.887 10.4801 132.591 10.9601 133.647 10.9601ZM140.63 11.6641H139.526V3.92006H140.486L140.646 5.26406C141.158 4.27206 142.182 3.71206 143.302 3.71206C145.43 3.71206 146.31 4.97606 146.31 6.92806V11.6641H145.206V7.16806C145.206 5.36006 144.39 4.72006 143.11 4.72006C141.526 4.72006 140.63 5.87206 140.63 7.61606V11.6641ZM152.42 7.56806C152.42 5.45606 153.78 3.71206 156.052 3.71206C157.396 3.71206 158.42 4.33606 158.916 5.47206L159.028 3.92006H159.988V11.4241C159.988 13.7281 158.516 15.2321 156.244 15.2321C154.26 15.2321 152.868 14.1121 152.564 12.2401H153.668C153.908 13.4881 154.868 14.2241 156.26 14.2241C157.844 14.2241 158.9 13.1521 158.9 11.5361V9.69606C158.372 10.7841 157.3 11.4241 155.972 11.4241C153.764 11.4241 152.42 9.68006 152.42 7.56806ZM153.524 7.55206C153.524 9.13606 154.5 10.4321 156.132 10.4321C157.812 10.4321 158.804 9.21606 158.804 7.55206C158.804 5.90406 157.844 4.68806 156.148 4.68806C154.484 4.68806 153.524 5.98406 153.524 7.55206ZM166.34 3.82406V4.81606H165.732C164.308 4.81606 163.396 5.77606 163.396 7.24806V11.6641H162.292V3.92006H163.332L163.412 5.12006C163.716 4.28806 164.532 3.74406 165.62 3.74406C165.86 3.74406 166.068 3.76006 166.34 3.82406ZM166.967 7.79206C166.967 5.42406 168.631 3.71206 170.903 3.71206C173.175 3.71206 174.839 5.42406 174.839 7.79206C174.839 10.1441 173.175 11.8561 170.903 11.8561C168.631 11.8561 166.967 10.1441 166.967 7.79206ZM168.087 7.77606C168.087 9.60006 169.239 10.8641 170.903 10.8641C172.551 10.8641 173.719 9.60006 173.719 7.77606C173.719 5.98406 172.551 4.70406 170.903 4.70406C169.239 4.70406 168.087 5.98406 168.087 7.77606ZM177.893 11.6641L175.333 3.92006H176.469L177.989 8.59206C178.165 9.10406 178.309 9.63206 178.469 10.2561C178.597 9.63206 178.853 8.84806 178.933 8.59206L180.469 3.92006H181.605L183.125 8.59206C183.269 9.00806 183.461 9.68006 183.605 10.2561C183.765 9.61606 183.797 9.42406 184.069 8.59206L185.605 3.92006H186.757L184.133 11.6641H183.061L181.461 6.80006C181.269 6.22406 181.141 5.74406 181.045 5.28006C180.933 5.69606 180.805 6.16006 180.597 6.80006L178.997 11.6641H177.893ZM189.912 11.6641H188.824V4.84806H187.272V3.92006H188.824V1.47206H189.912V3.92006H191.464V4.84806H189.912V11.6641ZM194.005 11.6481H192.901V6.19888e-05H194.005V5.26406C194.501 4.33606 195.445 3.71206 196.741 3.71206C198.773 3.71206 199.685 4.97606 199.685 6.92806V11.6641H198.581V7.16806C198.581 5.36006 197.733 4.72006 196.533 4.72006C194.869 4.72006 194.005 5.95206 194.005 7.44006V11.6481ZM203.838 11.1201C203.838 12.1121 203.07 12.9761 202.078 13.1201V12.5281C202.654 12.4321 203.07 12.0161 203.07 11.5681C202.974 11.6321 202.846 11.6801 202.654 11.6801C202.206 11.6801 201.822 11.3601 201.822 10.8161C201.822 10.2561 202.206 9.85606 202.766 9.85606C203.342 9.85606 203.838 10.3201 203.838 11.1201ZM212.735 11.8561C211.087 11.8561 210.111 10.9281 210.111 9.56806C210.111 8.14406 211.199 7.24806 213.007 7.10406L215.567 6.89606V6.64006C215.567 5.12006 214.655 4.64006 213.519 4.64006C212.175 4.64006 211.375 5.24806 211.375 6.28806H210.367C210.367 4.72006 211.647 3.71206 213.551 3.71206C215.343 3.71206 216.655 4.60806 216.655 6.65606V11.6641H215.727L215.583 10.3041C215.103 11.2801 214.047 11.8561 212.735 11.8561ZM212.991 10.9601C214.623 10.9601 215.567 9.82406 215.567 8.14406V7.72806L213.279 7.90406C211.823 8.03206 211.231 8.67206 211.231 9.53606C211.231 10.4801 211.935 10.9601 212.991 10.9601ZM219.974 11.6641H218.87V3.92006H219.83L219.99 5.26406C220.502 4.27206 221.526 3.71206 222.646 3.71206C224.774 3.71206 225.654 4.97606 225.654 6.92806V11.6641H224.55V7.16806C224.55 5.36006 223.734 4.72006 222.454 4.72006C220.87 4.72006 219.974 5.87206 219.974 7.61606V11.6641ZM230.895 11.8561C228.639 11.8561 227.311 10.1281 227.311 7.80806C227.311 5.47206 228.639 3.71206 230.943 3.71206C232.223 3.71206 233.247 4.27206 233.791 5.39206V6.19888e-05H234.895V11.6641H233.935L233.823 10.0801C233.279 11.2801 232.191 11.8561 230.895 11.8561ZM231.087 10.8481C232.783 10.8481 233.775 9.56806 233.775 7.77606C233.775 6.00006 232.783 4.70406 231.087 4.70406C229.407 4.70406 228.431 6.00006 228.431 7.77606C228.431 9.56806 229.407 10.8481 231.087 10.8481ZM247.076 3.92006H248.18V11.6641H247.22L247.076 10.3521C246.644 11.2481 245.572 11.8561 244.356 11.8561C242.532 11.8561 241.54 10.6081 241.54 8.72006V3.90406H242.66V8.36806C242.66 10.2081 243.476 10.8641 244.708 10.8641C246.196 10.8641 247.076 9.87206 247.076 8.03206V3.92006ZM251.584 11.6641H250.48V3.92006H251.44L251.6 5.26406C252.112 4.27206 253.136 3.71206 254.256 3.71206C256.384 3.71206 257.264 4.97606 257.264 6.92806V11.6641H256.16V7.16806C256.16 5.36006 255.344 4.72006 254.064 4.72006C252.48 4.72006 251.584 5.87206 251.584 7.61606V11.6641ZM260.616 11.6641H259.512V6.19888e-05H260.616V11.6641ZM262.42 7.79206C262.42 5.42406 264.084 3.71206 266.356 3.71206C268.628 3.71206 270.292 5.42406 270.292 7.79206C270.292 10.1441 268.628 11.8561 266.356 11.8561C264.084 11.8561 262.42 10.1441 262.42 7.79206ZM263.54 7.77606C263.54 9.60006 264.692 10.8641 266.356 10.8641C268.004 10.8641 269.172 9.60006 269.172 7.77606C269.172 5.98406 268.004 4.70406 266.356 4.70406C264.692 4.70406 263.54 5.98406 263.54 7.77606ZM271.514 7.80806C271.514 5.37606 273.002 3.71206 275.258 3.71206C277.05 3.71206 278.362 4.75206 278.666 6.35206H277.562C277.274 5.28006 276.346 4.68806 275.274 4.68806C273.706 4.68806 272.602 5.88806 272.602 7.79206C272.602 9.63206 273.626 10.8641 275.194 10.8641C276.346 10.8641 277.274 10.2241 277.578 9.23206H278.698C278.33 10.8161 276.954 11.8561 275.194 11.8561C273.002 11.8561 271.514 10.2401 271.514 7.80806ZM281.522 11.6641H280.418V6.19888e-05H281.522V7.92006L285.362 3.92006H286.754L283.778 7.00806L286.77 11.6641H285.49L283.026 7.79206L281.522 9.34406V11.6641ZM1.424 33.6641H0.463997V22.0001H1.568V27.4241C2.112 26.2881 3.168 25.7121 4.48 25.7121C6.736 25.7121 8.048 27.4721 8.048 29.8081C8.048 32.1281 6.704 33.8561 4.448 33.8561C3.152 33.8561 2.08 33.2801 1.536 32.0801L1.424 33.6641ZM1.584 29.7761C1.584 31.5681 2.576 32.8481 4.272 32.8481C5.952 32.8481 6.928 31.5681 6.928 29.7761C6.928 28.0001 5.952 26.7041 4.272 26.7041C2.576 26.7041 1.584 28.0001 1.584 29.7761ZM13.0557 33.8561C10.7837 33.8561 9.26375 32.2241 9.26375 29.7921C9.26375 27.3761 10.7677 25.7121 12.9757 25.7121C15.0717 25.7121 16.4957 27.2001 16.4957 29.3921V29.9361H10.3357C10.4157 31.8241 11.4077 32.9121 13.0717 32.9121C14.3357 32.9121 15.1517 32.3681 15.4397 31.3441H16.4957C16.0797 32.9761 14.8797 33.8561 13.0557 33.8561ZM12.9757 26.6561C11.5197 26.6561 10.5597 27.6161 10.3677 29.1361H15.3917C15.3917 27.6481 14.4317 26.6561 12.9757 26.6561ZM19.9587 33.6641H18.8707V26.8481H17.3187V25.9201H18.8707V23.4721H19.9587V25.9201H21.5107V26.8481H19.9587V33.6641ZM24.7869 33.6641H23.6989V26.8481H22.1469V25.9201H23.6989V23.4721H24.7869V25.9201H26.3389V26.8481H24.7869V33.6641ZM30.9464 33.8561C28.6744 33.8561 27.1544 32.2241 27.1544 29.7921C27.1544 27.3761 28.6584 25.7121 30.8664 25.7121C32.9624 25.7121 34.3864 27.2001 34.3864 29.3921V29.9361H28.2264C28.3064 31.8241 29.2984 32.9121 30.9624 32.9121C32.2264 32.9121 33.0424 32.3681 33.3304 31.3441H34.3864C33.9704 32.9761 32.7704 33.8561 30.9464 33.8561ZM30.8664 26.6561C29.4104 26.6561 28.4504 27.6161 28.2584 29.1361H33.2824C33.2824 27.6481 32.3224 26.6561 30.8664 26.6561ZM40.1995 25.8241V26.8161H39.5915C38.1675 26.8161 37.2555 27.7761 37.2555 29.2481V33.6641H36.1515V25.9201H37.1915L37.2715 27.1201C37.5755 26.2881 38.3915 25.7441 39.4795 25.7441C39.7195 25.7441 39.9275 25.7601 40.1995 25.8241ZM45.5606 29.7921C45.5606 27.4241 47.2246 25.7121 49.4966 25.7121C51.7686 25.7121 53.4326 27.4241 53.4326 29.7921C53.4326 32.1441 51.7686 33.8561 49.4966 33.8561C47.2246 33.8561 45.5606 32.1441 45.5606 29.7921ZM46.6806 29.7761C46.6806 31.6001 47.8326 32.8641 49.4966 32.8641C51.1446 32.8641 52.3126 31.6001 52.3126 29.7761C52.3126 27.9841 51.1446 26.7041 49.4966 26.7041C47.8326 26.7041 46.6806 27.9841 46.6806 29.7761ZM55.1984 37.0401V25.9201H56.1584L56.2704 27.4881C56.8144 26.2881 57.9024 25.7121 59.1984 25.7121C61.4384 25.7121 62.7824 27.4241 62.7824 29.7601C62.7824 32.0961 61.4864 33.8561 59.1984 33.8561C57.8864 33.8561 56.8464 33.2961 56.3024 32.1761V37.0401H55.1984ZM56.3184 29.7921C56.3184 31.5681 57.3104 32.8641 59.0064 32.8641C60.6864 32.8641 61.6624 31.5681 61.6624 29.7921C61.6624 28.0001 60.6864 26.7201 59.0064 26.7201C57.3104 26.7201 56.3184 28.0001 56.3184 29.7921ZM64.5421 37.0401V25.9201H65.5021L65.6141 27.4881C66.1581 26.2881 67.2461 25.7121 68.5421 25.7121C70.7821 25.7121 72.1261 27.4241 72.1261 29.7601C72.1261 32.0961 70.8301 33.8561 68.5421 33.8561C67.2301 33.8561 66.1901 33.2961 65.6461 32.1761V37.0401H64.5421ZM65.6621 29.7921C65.6621 31.5681 66.6541 32.8641 68.3501 32.8641C70.0301 32.8641 71.0061 31.5681 71.0061 29.7921C71.0061 28.0001 70.0301 26.7201 68.3501 26.7201C66.6541 26.7201 65.6621 28.0001 65.6621 29.7921ZM73.3419 29.7921C73.3419 27.4241 75.0059 25.7121 77.2779 25.7121C79.5499 25.7121 81.2139 27.4241 81.2139 29.7921C81.2139 32.1441 79.5499 33.8561 77.2779 33.8561C75.0059 33.8561 73.3419 32.1441 73.3419 29.7921ZM74.4619 29.7761C74.4619 31.6001 75.6139 32.8641 77.2779 32.8641C78.9259 32.8641 80.0939 31.6001 80.0939 29.7761C80.0939 27.9841 78.9259 26.7041 77.2779 26.7041C75.6139 26.7041 74.4619 27.9841 74.4619 29.7761ZM87.0276 25.8241V26.8161H86.4196C84.9956 26.8161 84.0836 27.7761 84.0836 29.2481V33.6641H82.9796V25.9201H84.0196L84.0996 27.1201C84.4036 26.2881 85.2196 25.7441 86.3076 25.7441C86.5476 25.7441 86.7556 25.7601 87.0276 25.8241ZM90.5837 33.6641H89.4957V26.8481H87.9437V25.9201H89.4957V23.4721H90.5837V25.9201H92.1357V26.8481H90.5837V33.6641ZM99.0134 25.9201H100.117V33.6641H99.1574L99.0134 32.3521C98.5814 33.2481 97.5094 33.8561 96.2934 33.8561C94.4694 33.8561 93.4774 32.6081 93.4774 30.7201V25.9041H94.5974V30.3681C94.5974 32.2081 95.4134 32.8641 96.6454 32.8641C98.1334 32.8641 99.0134 31.8721 99.0134 30.0321V25.9201ZM103.521 33.6641H102.417V25.9201H103.377L103.537 27.2641C104.049 26.2721 105.073 25.7121 106.193 25.7121C108.321 25.7121 109.201 26.9761 109.201 28.9281V33.6641H108.097V29.1681C108.097 27.3601 107.281 26.7201 106.001 26.7201C104.417 26.7201 103.521 27.8721 103.521 29.6161V33.6641ZM111.945 23.7921C111.497 23.7921 111.129 23.4241 111.129 22.9761C111.129 22.5281 111.497 22.1441 111.945 22.1441C112.393 22.1441 112.777 22.5281 112.777 22.9761C112.777 23.4241 112.393 23.7921 111.945 23.7921ZM111.401 33.6641V25.9201H112.505V33.6641H111.401ZM116.584 33.6641H115.496V26.8481H113.944V25.9201H115.496V23.4721H116.584V25.9201H118.136V26.8481H116.584V33.6641ZM120.117 23.7921C119.669 23.7921 119.301 23.4241 119.301 22.9761C119.301 22.5281 119.669 22.1441 120.117 22.1441C120.565 22.1441 120.949 22.5281 120.949 22.9761C120.949 23.4241 120.565 23.7921 120.117 23.7921ZM119.573 33.6641V25.9201H120.677V33.6641H119.573ZM126.228 33.8561C123.956 33.8561 122.436 32.2241 122.436 29.7921C122.436 27.3761 123.94 25.7121 126.148 25.7121C128.244 25.7121 129.668 27.2001 129.668 29.3921V29.9361H123.508C123.588 31.8241 124.58 32.9121 126.244 32.9121C127.508 32.9121 128.324 32.3681 128.612 31.3441H129.668C129.252 32.9761 128.052 33.8561 126.228 33.8561ZM126.148 26.6561C124.692 26.6561 123.732 27.6161 123.54 29.1361H128.564C128.564 27.6481 127.604 26.6561 126.148 26.6561ZM130.777 31.4881H131.833C131.833 32.3841 132.505 32.9441 133.593 32.9441C134.793 32.9441 135.497 32.4321 135.497 31.6001C135.497 30.9601 135.177 30.5921 134.265 30.3681L132.937 30.0321C131.593 29.6961 130.937 28.9921 130.937 27.9361C130.937 26.5761 132.073 25.7121 133.737 25.7121C135.369 25.7121 136.425 26.6081 136.473 28.0481H135.401C135.369 27.1521 134.745 26.6241 133.705 26.6241C132.617 26.6241 132.009 27.0881 132.009 27.9201C132.009 28.5121 132.425 28.9281 133.273 29.1361L134.601 29.4721C135.945 29.8081 136.553 30.4321 136.553 31.5521C136.553 32.9441 135.369 33.8561 133.609 33.8561C131.865 33.8561 130.777 32.9281 130.777 31.4881ZM143.352 23.7921C142.904 23.7921 142.536 23.4241 142.536 22.9761C142.536 22.5281 142.904 22.1441 143.352 22.1441C143.8 22.1441 144.184 22.5281 144.184 22.9761C144.184 23.4241 143.8 23.7921 143.352 23.7921ZM142.808 33.6641V25.9201H143.912V33.6641H142.808ZM147.318 33.6641H146.214V25.9201H147.174L147.334 27.2641C147.846 26.2721 148.87 25.7121 149.99 25.7121C152.118 25.7121 152.998 26.9761 152.998 28.9281V33.6641H151.894V29.1681C151.894 27.3601 151.078 26.7201 149.798 26.7201C148.214 26.7201 147.318 27.8721 147.318 29.6161V33.6641ZM158.772 25.9201H159.956V24.4161C159.956 22.6721 160.916 22.0001 162.1 22.0001C162.372 22.0001 162.692 22.0161 162.948 22.0641V23.0081H162.292C161.316 23.0081 161.06 23.5041 161.06 24.4161V25.9201H162.884V26.8481H161.06V33.6641H159.956V26.8481H158.772V25.9201ZM167.399 33.8561C165.127 33.8561 163.607 32.2241 163.607 29.7921C163.607 27.3761 165.111 25.7121 167.319 25.7121C169.415 25.7121 170.839 27.2001 170.839 29.3921V29.9361H164.679C164.759 31.8241 165.751 32.9121 167.415 32.9121C168.679 32.9121 169.495 32.3681 169.783 31.3441H170.839C170.423 32.9761 169.223 33.8561 167.399 33.8561ZM167.319 26.6561C165.863 26.6561 164.903 27.6161 164.711 29.1361H169.735C169.735 27.6481 168.775 26.6561 167.319 26.6561ZM174.033 33.6641L171.473 25.9201H172.609L174.129 30.5921C174.305 31.1041 174.449 31.6321 174.609 32.2561C174.737 31.6321 174.993 30.8481 175.073 30.5921L176.609 25.9201H177.745L179.265 30.5921C179.409 31.0081 179.601 31.6801 179.745 32.2561C179.905 31.6161 179.937 31.4241 180.209 30.5921L181.745 25.9201H182.897L180.273 33.6641H179.201L177.601 28.8001C177.409 28.2241 177.281 27.7441 177.185 27.2801C177.073 27.6961 176.945 28.1601 176.737 28.8001L175.137 33.6641H174.033ZM188.058 31.4881H189.114C189.114 32.3841 189.786 32.9441 190.874 32.9441C192.074 32.9441 192.778 32.4321 192.778 31.6001C192.778 30.9601 192.458 30.5921 191.546 30.3681L190.218 30.0321C188.874 29.6961 188.218 28.9921 188.218 27.9361C188.218 26.5761 189.354 25.7121 191.018 25.7121C192.65 25.7121 193.706 26.6081 193.754 28.0481H192.682C192.65 27.1521 192.026 26.6241 190.986 26.6241C189.898 26.6241 189.29 27.0881 189.29 27.9201C189.29 28.5121 189.706 28.9281 190.554 29.1361L191.882 29.4721C193.226 29.8081 193.834 30.4321 193.834 31.5521C193.834 32.9441 192.65 33.8561 190.89 33.8561C189.146 33.8561 188.058 32.9281 188.058 31.4881ZM196.195 23.7921C195.747 23.7921 195.379 23.4241 195.379 22.9761C195.379 22.5281 195.747 22.1441 196.195 22.1441C196.643 22.1441 197.027 22.5281 197.027 22.9761C197.027 23.4241 196.643 23.7921 196.195 23.7921ZM195.651 33.6641V25.9201H196.755V33.6641H195.651ZM200.162 33.6641H199.058V25.9201H200.018L200.146 27.0241C200.53 26.2081 201.394 25.7121 202.482 25.7121C203.698 25.7121 204.61 26.3521 204.978 27.3601C205.33 26.3521 206.274 25.7121 207.522 25.7121C209.202 25.7121 210.306 26.8001 210.306 28.5921V33.6641H209.234V28.8161C209.234 27.4881 208.498 26.7041 207.314 26.7041C206.018 26.7041 205.25 27.6801 205.25 28.8801V33.6641H204.162V28.8001C204.162 27.4881 203.41 26.7201 202.242 26.7201C200.946 26.7201 200.162 27.6801 200.162 28.8641V33.6641ZM212.526 37.0401V25.9201H213.486L213.598 27.4881C214.142 26.2881 215.23 25.7121 216.526 25.7121C218.766 25.7121 220.11 27.4241 220.11 29.7601C220.11 32.0961 218.814 33.8561 216.526 33.8561C215.214 33.8561 214.174 33.2961 213.63 32.1761V37.0401H212.526ZM213.646 29.7921C213.646 31.5681 214.638 32.8641 216.334 32.8641C218.014 32.8641 218.99 31.5681 218.99 29.7921C218.99 28.0001 218.014 26.7201 216.334 26.7201C214.638 26.7201 213.646 28.0001 213.646 29.7921ZM223.022 33.6641H221.918V22.0001H223.022V33.6641ZM228.618 33.8561C226.346 33.8561 224.826 32.2241 224.826 29.7921C224.826 27.3761 226.33 25.7121 228.538 25.7121C230.634 25.7121 232.058 27.2001 232.058 29.3921V29.9361H225.898C225.978 31.8241 226.97 32.9121 228.634 32.9121C229.898 32.9121 230.714 32.3681 231.002 31.3441H232.058C231.642 32.9761 230.442 33.8561 228.618 33.8561ZM228.538 26.6561C227.082 26.6561 226.122 27.6161 225.93 29.1361H230.954C230.954 27.6481 229.994 26.6561 228.538 26.6561ZM237.605 31.4881H238.661C238.661 32.3841 239.333 32.9441 240.421 32.9441C241.621 32.9441 242.325 32.4321 242.325 31.6001C242.325 30.9601 242.005 30.5921 241.093 30.3681L239.765 30.0321C238.421 29.6961 237.765 28.9921 237.765 27.9361C237.765 26.5761 238.901 25.7121 240.565 25.7121C242.197 25.7121 243.253 26.6081 243.301 28.0481H242.229C242.197 27.1521 241.573 26.6241 240.533 26.6241C239.445 26.6241 238.837 27.0881 238.837 27.9201C238.837 28.5121 239.253 28.9281 240.101 29.1361L241.429 29.4721C242.773 29.8081 243.381 30.4321 243.381 31.5521C243.381 32.9441 242.197 33.8561 240.437 33.8561C238.693 33.8561 237.605 32.9281 237.605 31.4881ZM246.974 33.6641H245.886V26.8481H244.334V25.9201H245.886V23.4721H246.974V25.9201H248.526V26.8481H246.974V33.6641ZM253.134 33.8561C250.862 33.8561 249.342 32.2241 249.342 29.7921C249.342 27.3761 250.846 25.7121 253.054 25.7121C255.15 25.7121 256.574 27.2001 256.574 29.3921V29.9361H250.414C250.494 31.8241 251.486 32.9121 253.15 32.9121C254.414 32.9121 255.23 32.3681 255.518 31.3441H256.574C256.158 32.9761 254.958 33.8561 253.134 33.8561ZM253.054 26.6561C251.598 26.6561 250.638 27.6161 250.446 29.1361H255.47C255.47 27.6481 254.51 26.6561 253.054 26.6561ZM258.339 37.0401V25.9201H259.299L259.411 27.4881C259.955 26.2881 261.043 25.7121 262.339 25.7121C264.579 25.7121 265.923 27.4241 265.923 29.7601C265.923 32.0961 264.627 33.8561 262.339 33.8561C261.027 33.8561 259.987 33.2961 259.443 32.1761V37.0401H258.339ZM259.459 29.7921C259.459 31.5681 260.451 32.8641 262.147 32.8641C263.827 32.8641 264.803 31.5681 264.803 29.7921C264.803 28.0001 263.827 26.7201 262.147 26.7201C260.451 26.7201 259.459 28.0001 259.459 29.7921ZM267.027 31.4881H268.083C268.083 32.3841 268.755 32.9441 269.843 32.9441C271.043 32.9441 271.747 32.4321 271.747 31.6001C271.747 30.9601 271.427 30.5921 270.515 30.3681L269.187 30.0321C267.843 29.6961 267.187 28.9921 267.187 27.9361C267.187 26.5761 268.323 25.7121 269.987 25.7121C271.619 25.7121 272.675 26.6081 272.723 28.0481H271.651C271.619 27.1521 270.995 26.6241 269.955 26.6241C268.867 26.6241 268.259 27.0881 268.259 27.9201C268.259 28.5121 268.675 28.9281 269.523 29.1361L270.851 29.4721C272.195 29.8081 272.803 30.4321 272.803 31.5521C272.803 32.9441 271.619 33.8561 269.859 33.8561C268.115 33.8561 267.027 32.9281 267.027 31.4881Z" fill="white"/>
+                </svg>
               </Box>
+              <Typography className={styles.sidebarSubtitle}>
+                Create resumes, plan growth, and unlock better opportunities in few simple steps
+              </Typography>
+            </Box>
 
-              <Grid item xs={12} md={8}>
-                <ResumeUploadForm
-                  onSave={handleSave}
-                  onChange={handleFileChange}
-                  onDrop={handleDrop}
-                  spinTimer={fileDetails.spinTimer}
-                  onDelete={handleDeleteDocument}
-                  onEditorChange={handleEditorChange}
-                  editorData={editorState}
-                  fileDetails={fileDetails}
-                />
-              </Grid>
-            </Grid>
-          </>
-        )}
+            <Box className={styles.stepsSection}>
+              {STEPS.map((step) => (
+                <Box
+                  key={step.label}
+                  className={`${styles.stepItem} ${step.active ? styles.stepItemActive : ''}`}
+                >
+                  <Box display="flex" alignItems="center" gap="12px">
+                    {step.active ? (
+                      <SpinnerIcon size={20} color="#DABF67" animate={true} />
+                    ) : (
+                      <RadioButtonUncheckedRoundedIcon
+                        sx={{ fontSize: 20, color: 'rgba(254,252,232,0.35)', flexShrink: 0 }}
+                      />
+                    )}
+                    <Typography
+                      sx={{
+                        fontFamily: 'Satoshi, sans-serif',
+                        fontSize: '16px',
+                        fontWeight: 500,
+                        lineHeight: 1.0,
+                        letterSpacing: '0em',
+                        color: step.active ? '#FFFFFF' : 'rgba(255,255,255,0.55)',
+                      }}
+                    >
+                      {step.label}
+                    </Typography>
+                  </Box>
+                  {step.active && (
+                    <ChevronRightRoundedIcon sx={{ fontSize: 18, color: '#DABF67' }} />
+                  )}
+                </Box>
+              ))}
+            </Box>
 
-        {toastState.open && <Toast toastState={toastState} />}
-      </Box>
+            <Typography className={styles.sidebarBottomText}>
+              Reengineer your career based on today&apos;s hiring
+            </Typography>
 
-      {/* ✅ Local Progress Overlay (outside Box, inside Fragment) */}
+            <Box className={styles.sidebarFooter}>
+              <Typography className={styles.copyrightText}>Copyright © 2024 ResAI</Typography>
+              <Box component="a" href="#" className={styles.needHelpLink}>
+                <HeadsetMicRoundedIcon sx={{ fontSize: 15 }} />
+                Need help?
+              </Box>
+            </Box>
+          </Box>
+
+          {/* ── Right Panel ── */}
+          <Box className={styles.rightPanel}>
+            <ResumeUploadForm
+              onSave={handleSave}
+              onCancel={handleCancel}
+              onChange={handleFileChange}
+              onDrop={handleDrop}
+              spinTimer={fileDetails.spinTimer}
+              onDelete={handleDeleteDocument}
+              fileDetails={fileDetails}
+            />
+          </Box>
+        </Box>
+      )}
+
+      {toastState.open && <Toast toastState={toastState} />}
       <ProgressOverlay open={showProgress} message={progressMessage} progress={progressValue} />
     </>
   );

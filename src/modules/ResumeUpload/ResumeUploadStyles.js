@@ -1,45 +1,125 @@
 import makeStyles from '@mui/styles/makeStyles';
 
 export const useStyles = makeStyles((theme) => ({
-  resumeUploadWrapper: {
-    minHeight: 'calc(100vh - 69px)',
-    alignItems: 'center',
-    paddingBottom: '74px',
-    paddingTop: '24px',
+  pageWrapper: {
+    display: 'flex',
+    height: '100vh',
+    overflow: 'hidden',
+    '@supports (height: 100dvh)': {
+      height: '100dvh',
+    },
+  },
+  sidebar: {
+    width: '340px',
+    minWidth: '340px',
+    backgroundColor: '#04040E',
+    display: 'flex',
+    flexDirection: 'column',
+    padding: '40px 24px 32px',
+    height: '100%',
+    overflow: 'hidden',
     [theme.breakpoints.down('md')]: {
-      marginBottom: '79px'
-    }
+      display: 'none',
+    },
   },
-  titleWrap: {
-    '& .MuiTypography-root': {
-      '&.MuiTypography-body2': {
-        color: theme.palette.neutral[60]
-      },
-      '&.MuiTypography-h2': {
-        color: theme.palette.cool.dark,
-        [theme.breakpoints.down('md')]: {
-          ...theme.typography.h4
-        }
-      }
-    }
+  logoWrap: {
+    marginBottom: '36px',
   },
-  createResumeImage: {
-    width: '100%',
-    height: 'auto'
+  heroBadge: {
+    color: '#DABF67',
+    fontSize: '18px',
+    fontFamily: 'Satoshi, sans-serif',
+    fontWeight: 500,
+    lineHeight: 1.25,
+    letterSpacing: '-0.02em',
+    marginBottom: '8px',
+    display: 'block',
   },
-  mobGetStartedButton: {
-    position: 'fixed',
-    left: 0,
-    bottom: '43px',
-    width: '100%',
-    '& .MuiButton-contained': {
-      width: '100%'
-    }
+  sidebarTitle: {
+    color: '#FFFFFF',
+    fontSize: '36px',
+    fontFamily: 'Satoshi, sans-serif',
+    fontWeight: 700,
+    lineHeight: 1.0,
+    letterSpacing: '0em',
+    marginBottom: '12px',
   },
-
-  TextBoxStyle: {
-    '& .public-DraftEditorPlaceholder-inner': {
-      marginTop: '10px'
-    }
-  }
+  sidebarSubtitle: {
+    color: 'rgba(255, 255, 255, 0.7)',
+    fontSize: '16px',
+    fontFamily: 'Satoshi, sans-serif',
+    fontWeight: 400,
+    lineHeight: 1.35,
+    letterSpacing: '0em',
+  },
+  stepsSection: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '4px',
+    marginTop: '28px',
+  },
+  stepItem: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: '16px',
+    padding: '10px 8px',
+    borderRadius: '8px',
+    cursor: 'default',
+  },
+  stepItemActive: {
+    backgroundColor: 'rgba(255, 255, 255, 0.15)',
+  },
+  sidebarBottomText: {
+    color: 'rgba(255, 255, 255, 0.7)',
+    fontSize: '16px',
+    fontFamily: 'Satoshi, sans-serif',
+    fontWeight: 400,
+    lineHeight: 1.35,
+    letterSpacing: '0em',
+    marginTop: '24px',
+  },
+  sidebarFooter: {
+    marginTop: 'auto',
+    paddingTop: '20px',
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    borderTop: 'none',
+  },
+  copyrightText: {
+    color: '#7B7B7B',
+    fontSize: '12px',
+    fontFamily: 'Satoshi, sans-serif',
+    fontWeight: 400,
+    lineHeight: 1.0,
+    letterSpacing: '0em',
+  },
+  needHelpLink: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '5px',
+    color: '#DABF67',
+    fontSize: '12px',
+    fontFamily: 'Satoshi, sans-serif',
+    fontWeight: 500,
+    lineHeight: 1.0,
+    letterSpacing: '0em',
+    cursor: 'pointer',
+    textDecoration: 'none',
+  },
+  rightPanel: {
+    flex: 1,
+    backgroundColor: '#FFFFFF',
+    display: 'flex',
+    flexDirection: 'column',
+    height: '100%',
+    overflow: 'hidden',
+  },
+  // legacy
+  resumeUploadWrapper: {},
+  titleWrap: {},
+  createResumeImage: { width: '100%', height: 'auto' },
+  mobGetStartedButton: {},
+  TextBoxStyle: {},
 }));
