@@ -186,199 +186,209 @@ const JDForm: React.FC<JDFormProps> = ({
       <Box className={styles.jdPanelWrapper}>
         {/* Top: title + progress */}
         <Box className={styles.jdPanelHeader}>
-        <Box sx={{ flex: 1, pr: 2 }}>
-          <Typography
-            className={styles.jdPanelTitle}
-            sx={{
-              fontFamily: 'Satoshi, sans-serif !important',
-              fontSize: { xs: '18px', sm: '22px' },
-              fontWeight: '700 !important',
-              color: '#04040E !important',
-              lineHeight: '1.3 !important',
-              mb: '6px'
-            }}
-          >
-            Tailor your resume apt for a specific role
-          </Typography>
-          <Typography
-            className={styles.jdPanelSubtitle}
-            sx={{
-              fontFamily: 'Inter, sans-serif !important',
-              fontSize: { xs: '14px', sm: '16px' },
-              fontWeight: '400 !important',
-              color: '#04040E !important',
-              lineHeight: '1.5 !important',
-              letterSpacing: '0px !important',
-              maxWidth: '520px'
-            }}
-          >
-            Paste the job description and we&apos;ll automatically align your resume&apos;s language
-            to match what hiring managers want to see.
-          </Typography>
-        </Box>
-        <Box className={styles.jdProgressBlock}>
-          <Box className={styles.jdProgressBarTrack}>
-            <Box className={styles.jdProgressBarFill} />
+          <Box sx={{ flex: 1, pr: 2 }}>
+            <Typography
+              className={styles.jdPanelTitle}
+              sx={{
+                fontFamily: 'Satoshi, sans-serif !important',
+                fontSize: { xs: '18px', sm: '22px' },
+                fontWeight: '700 !important',
+                color: '#04040E !important',
+                lineHeight: '1.3 !important',
+                mb: '6px'
+              }}
+            >
+              Tailor your resume apt for a specific role
+            </Typography>
+            <Typography
+              className={styles.jdPanelSubtitle}
+              sx={{
+                fontFamily: 'Inter, sans-serif !important',
+                fontSize: { xs: '14px', sm: '16px' },
+                fontWeight: '400 !important',
+                color: '#04040E !important',
+                lineHeight: '1.5 !important',
+                letterSpacing: '0px !important',
+                maxWidth: '520px'
+              }}
+            >
+              Paste the job description and we&apos;ll automatically align your resume&apos;s
+              language to match what hiring managers want to see.
+            </Typography>
           </Box>
-          <Typography className={styles.jdProgressLabel}>1/4 completed</Typography>
+          <Box className={styles.jdProgressBlock}>
+            <Box className={styles.jdProgressBarTrack}>
+              <Box className={styles.jdProgressBarFill} />
+            </Box>
+            <Typography className={styles.jdProgressLabel}>1/4 completed</Typography>
+          </Box>
         </Box>
-      </Box>
 
-      {/* Form */}
-      <Box className={styles.jdPanelContent}>
-        <form onSubmit={handleFormSubmit} id="jd-form">
-          <Stack spacing={2.5}>
-            {/* Role + Company row */}
-            <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
-              <Stack spacing={0.5} sx={{ flex: 1 }}>
-                <Typography
-                  className={styles.jdFieldLabel}
-                  sx={{ fontFamily: 'Satoshi, sans-serif !important', fontWeight: '500 !important', color: '#04040E !important', fontSize: '14px !important' }}
-                >
-                  Role you&apos;re applying for
-                </Typography>
-                <TextField
-                  placeholder="e.g. Senior Product Manager"
-                  variant="outlined"
-                  fullWidth
-                  name="jobTitle"
-                  onChange={handleChange}
-                  onFocus={() => formik.setFieldTouched('jobTitle', true)}
-                  onBlur={() => formik.setFieldTouched('jobTitle', true)}
-                  value={formik.values.jobTitle}
-                  error={formik.touched.jobTitle && Boolean(formik.errors.jobTitle)}
-                  helperText={
-                    formik.touched.jobTitle && formik.errors.jobTitle
-                      ? formik.errors.jobTitle
-                      : ''
-                  }
-                  FormHelperTextProps={{ style: { color: theme.palette.error.main } }}
-                  className={`${styles.jdTextField} ${globalStyles.focusedTextField}`}
-                />
+        {/* Form */}
+        <Box className={styles.jdPanelContent}>
+          <form onSubmit={handleFormSubmit} id="jd-form">
+            <Stack spacing={2.5}>
+              {/* Role + Company row */}
+              <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
+                <Stack spacing={0.5} sx={{ flex: 1 }}>
+                  <Typography
+                    className={styles.jdFieldLabel}
+                    sx={{
+                      fontFamily: 'Satoshi, sans-serif !important',
+                      fontWeight: '500 !important',
+                      color: '#04040E !important',
+                      fontSize: '14px !important'
+                    }}
+                  >
+                    Role you&apos;re applying for
+                  </Typography>
+                  <TextField
+                    placeholder="e.g. Senior Product Manager"
+                    variant="outlined"
+                    fullWidth
+                    name="jobTitle"
+                    onChange={handleChange}
+                    onFocus={() => formik.setFieldTouched('jobTitle', true)}
+                    onBlur={() => formik.setFieldTouched('jobTitle', true)}
+                    value={formik.values.jobTitle}
+                    error={formik.touched.jobTitle && Boolean(formik.errors.jobTitle)}
+                    helperText={
+                      formik.touched.jobTitle && formik.errors.jobTitle
+                        ? formik.errors.jobTitle
+                        : ''
+                    }
+                    FormHelperTextProps={{ style: { color: theme.palette.error.main } }}
+                    className={`${styles.jdTextField} ${globalStyles.focusedTextField}`}
+                  />
+                </Stack>
+
+                <Stack spacing={0.5} sx={{ flex: 1 }}>
+                  <Typography
+                    className={styles.jdFieldLabel}
+                    sx={{
+                      fontFamily: 'Satoshi, sans-serif !important',
+                      fontWeight: '500 !important',
+                      color: '#04040E !important',
+                      fontSize: '14px !important'
+                    }}
+                  >
+                    Company
+                  </Typography>
+                  <TextField
+                    placeholder="e.g. Acme Corp"
+                    variant="outlined"
+                    fullWidth
+                    name="companyName"
+                    onChange={handleChange}
+                    onFocus={() => formik.setFieldTouched('companyName', true)}
+                    onBlur={() => formik.setFieldTouched('companyName', true)}
+                    value={formik.values.companyName}
+                    error={formik.touched.companyName && Boolean(formik.errors.companyName)}
+                    helperText={
+                      formik.touched.companyName && formik.errors.companyName
+                        ? formik.errors.companyName
+                        : ''
+                    }
+                    FormHelperTextProps={{ style: { color: theme.palette.error.main } }}
+                    className={`${styles.jdTextField} ${globalStyles.focusedTextField}`}
+                  />
+                </Stack>
               </Stack>
 
-              <Stack spacing={0.5} sx={{ flex: 1 }}>
+              {/* Job description */}
+              <Stack spacing={0.5}>
                 <Typography
-                  className={styles.jdFieldLabel}
-                  sx={{ fontFamily: 'Satoshi, sans-serif !important', fontWeight: '500 !important', color: '#04040E !important', fontSize: '14px !important' }}
+                  sx={{
+                    fontFamily: 'Satoshi, sans-serif',
+                    fontWeight: 500,
+                    color: '#04040E',
+                    fontSize: '14px',
+                    mb: '4px',
+                    display: 'block'
+                  }}
                 >
-                  Company
+                  Job description
                 </Typography>
-                <TextField
-                  placeholder="e.g. Acme Corp"
-                  variant="outlined"
-                  fullWidth
-                  name="companyName"
-                  onChange={handleChange}
-                  onFocus={() => formik.setFieldTouched('companyName', true)}
-                  onBlur={() => formik.setFieldTouched('companyName', true)}
-                  value={formik.values.companyName}
-                  error={formik.touched.companyName && Boolean(formik.errors.companyName)}
-                  helperText={
-                    formik.touched.companyName && formik.errors.companyName
-                      ? formik.errors.companyName
-                      : ''
-                  }
-                  FormHelperTextProps={{ style: { color: theme.palette.error.main } }}
-                  className={`${styles.jdTextField} ${globalStyles.focusedTextField}`}
-                />
+                <Box className={`${styles.jdEditorContainer} jd-editor-container`}>
+                  <Editor
+                    editorData={editorState}
+                    onChange={handleEditorChange}
+                    placeholder="Copy and paste the full job posting here. The more detail the better match."
+                  />
+                </Box>
+                {formik.touched.jobDesc && formik.errors.jobDesc && (
+                  <Typography variant="caption" sx={{ color: theme.palette.error.main, mt: 0.5 }}>
+                    {formik.errors.jobDesc}
+                  </Typography>
+                )}
               </Stack>
             </Stack>
+          </form>
+        </Box>
 
-            {/* Job description */}
-            <Stack spacing={0.5}>
-              <Typography
-                sx={{
-                  fontFamily: 'Satoshi, sans-serif',
-                  fontWeight: 500,
-                  color: '#04040E',
-                  fontSize: '14px',
-                  mb: '4px',
-                  display: 'block'
-                }}
-              >
-                Job description
-              </Typography>
-              <Box className={`${styles.jdEditorContainer} jd-editor-container`}>
-                <Editor
-                  editorData={editorState}
-                  onChange={handleEditorChange}
-                  placeholder="Copy and paste the full job posting here. The more detail the better match."
-                />
-              </Box>
-              {formik.touched.jobDesc && formik.errors.jobDesc && (
-                <Typography variant="caption" sx={{ color: theme.palette.error.main, mt: 0.5 }}>
-                  {formik.errors.jobDesc}
-                </Typography>
-              )}
-            </Stack>
-          </Stack>
-        </form>
-      </Box>
-
-      {/* Footer buttons */}
-      <Box className={styles.jdPanelFooter}>
-        <Button
-          type="button"
-          onClick={onCancel}
-          className={styles.jdCancelBtn}
-          disableRipple
-          sx={{
-            fontFamily: 'Satoshi, sans-serif !important',
-            fontSize: { xs: '14px', sm: '18px' },
-            fontWeight: '500 !important',
-            color: '#FF3B30 !important',
-            lineHeight: '1.5 !important',
-            letterSpacing: '-0.36px !important'
-          }}
-        >
-          Cancel
-        </Button>
-        <Box sx={{ display: 'flex', gap: 1.5 }}>
+        {/* Footer buttons */}
+        <Box className={styles.jdPanelFooter}>
           <Button
             type="button"
-            variant="outlined"
-            onClick={onBack}
-            className={styles.jdBackBtn}
+            onClick={onCancel}
+            className={styles.jdCancelBtn}
+            disableRipple
             sx={{
               fontFamily: 'Satoshi, sans-serif !important',
               fontSize: { xs: '14px', sm: '18px' },
               fontWeight: '500 !important',
-              color: '#04040E !important',
-              backgroundColor: '#ffffff !important',
-              borderColor: '#DABF67 !important',
-              borderRadius: '999px !important',
-              padding: { xs: '10px 20px', sm: '12px 32px' },
-              height: { xs: '42px', sm: '50px' },
+              color: '#FF3B30 !important',
               lineHeight: '1.5 !important',
               letterSpacing: '-0.36px !important'
             }}
           >
-            Back
+            Cancel
           </Button>
-          <Button
-            variant="contained"
-            type="submit"
-            form="jd-form"
-            className={styles.jdSubmitBtn}
-            sx={{
-              fontFamily: 'Satoshi, sans-serif !important',
-              fontSize: { xs: '14px', sm: '18px' },
-              fontWeight: '500 !important',
-              color: '#04040E !important',
-              backgroundColor: '#DABF67 !important',
-              borderRadius: '999px !important',
-              padding: { xs: '10px 20px', sm: '12px 32px' },
-              height: { xs: '42px', sm: '50px' },
-              lineHeight: '1.5 !important',
-              letterSpacing: '-0.36px !important',
-              '&:hover': { backgroundColor: '#C8AD55 !important' }
-            }}
-          >
-            Analyse &amp; continue
-          </Button>
+          <Box sx={{ display: 'flex', gap: 1.5 }}>
+            <Button
+              type="button"
+              variant="outlined"
+              onClick={onBack}
+              className={styles.jdBackBtn}
+              sx={{
+                fontFamily: 'Satoshi, sans-serif !important',
+                fontSize: { xs: '14px', sm: '18px' },
+                fontWeight: '500 !important',
+                color: '#04040E !important',
+                backgroundColor: '#ffffff !important',
+                borderColor: '#DABF67 !important',
+                borderRadius: '999px !important',
+                padding: { xs: '10px 20px', sm: '12px 32px' },
+                height: { xs: '42px', sm: '50px' },
+                lineHeight: '1.5 !important',
+                letterSpacing: '-0.36px !important'
+              }}
+            >
+              Back
+            </Button>
+            <Button
+              variant="contained"
+              type="submit"
+              form="jd-form"
+              className={styles.jdSubmitBtn}
+              sx={{
+                fontFamily: 'Satoshi, sans-serif !important',
+                fontSize: { xs: '14px', sm: '18px' },
+                fontWeight: '500 !important',
+                color: '#04040E !important',
+                backgroundColor: '#DABF67 !important',
+                borderRadius: '999px !important',
+                padding: { xs: '10px 20px', sm: '12px 32px' },
+                height: { xs: '42px', sm: '50px' },
+                lineHeight: '1.5 !important',
+                letterSpacing: '-0.36px !important',
+                '&:hover': { backgroundColor: '#C8AD55 !important' }
+              }}
+            >
+              Analyse &amp; continue
+            </Button>
+          </Box>
         </Box>
-      </Box>
       </Box>
     </>
   );

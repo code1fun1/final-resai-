@@ -469,52 +469,52 @@ const ResumeUpload: React.FC<ResumeUploadProps> = ({ setLoadWithoutMount }) => {
 
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
           {SIDEBAR_STEPS.map((step) => (
-          <Box
-            key={step.label}
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              pt: '10px',
-              pb: '10px',
-              pr: '8px',
-              pl: '8px',
-              minHeight: '44px',
-              borderRadius: '6px',
-              bgcolor: step.state === 'active' ? 'rgba(255,255,255,0.08)' : 'transparent'
-            }}
-          >
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-              {step.state === 'completed' && (
-                <CheckCircleIcon sx={{ color: '#DABF67', fontSize: 22 }} />
-              )}
+            <Box
+              key={step.label}
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                pt: '10px',
+                pb: '10px',
+                pr: '8px',
+                pl: '8px',
+                minHeight: '44px',
+                borderRadius: '6px',
+                bgcolor: step.state === 'active' ? 'rgba(255,255,255,0.08)' : 'transparent'
+              }}
+            >
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+                {step.state === 'completed' && (
+                  <CheckCircleIcon sx={{ color: '#DABF67', fontSize: 22 }} />
+                )}
+                {step.state === 'active' && (
+                  <AutoAwesomeIcon sx={{ color: '#DABF67', fontSize: 20 }} />
+                )}
+                {step.state === 'pending' && (
+                  <RadioButtonUncheckedIcon sx={{ color: 'rgba(255,255,255,0.3)', fontSize: 22 }} />
+                )}
+                <Typography
+                  sx={{
+                    fontFamily: 'Satoshi, sans-serif',
+                    fontSize: '14px',
+                    fontWeight: step.state === 'active' ? 600 : 400,
+                    color:
+                      step.state === 'active'
+                        ? '#ffffff'
+                        : step.state === 'completed'
+                          ? 'rgba(255,255,255,0.75)'
+                          : 'rgba(255,255,255,0.45)'
+                  }}
+                >
+                  {step.label}
+                </Typography>
+              </Box>
               {step.state === 'active' && (
-                <AutoAwesomeIcon sx={{ color: '#DABF67', fontSize: 20 }} />
+                <ChevronRightIcon sx={{ color: 'rgba(255,255,255,0.4)', fontSize: 20 }} />
               )}
-              {step.state === 'pending' && (
-                <RadioButtonUncheckedIcon sx={{ color: 'rgba(255,255,255,0.3)', fontSize: 22 }} />
-              )}
-              <Typography
-                sx={{
-                  fontFamily: 'Satoshi, sans-serif',
-                  fontSize: '14px',
-                  fontWeight: step.state === 'active' ? 600 : 400,
-                  color:
-                    step.state === 'active'
-                      ? '#ffffff'
-                      : step.state === 'completed'
-                      ? 'rgba(255,255,255,0.75)'
-                      : 'rgba(255,255,255,0.45)'
-                }}
-              >
-                {step.label}
-              </Typography>
             </Box>
-            {step.state === 'active' && (
-              <ChevronRightIcon sx={{ color: 'rgba(255,255,255,0.4)', fontSize: 20 }} />
-            )}
-          </Box>
-        ))}
+          ))}
         </Box>
       </Box>
 
@@ -564,7 +564,15 @@ const ResumeUpload: React.FC<ResumeUploadProps> = ({ setLoadWithoutMount }) => {
           }}
         >
           {renderSidebar()}
-          <Box sx={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', bgcolor: '#ffffff' }}>
+          <Box
+            sx={{
+              flex: 1,
+              minWidth: 0,
+              display: 'flex',
+              flexDirection: 'column',
+              bgcolor: '#ffffff'
+            }}
+          >
             <JDForm
               value={jdFormValue}
               onChange={setJDFormValue}
@@ -587,7 +595,13 @@ const ResumeUpload: React.FC<ResumeUploadProps> = ({ setLoadWithoutMount }) => {
               display={{ xs: 'none', md: 'block' }}
               pr={{ xs: 0, md: 3 }}
             >
-              <Box display="flex" flexDirection="column" gap={3} justifyContent="center" height="100%">
+              <Box
+                display="flex"
+                flexDirection="column"
+                gap={3}
+                justifyContent="center"
+                height="100%"
+              >
                 <Box
                   display="flex"
                   alignItems={{ xs: 'center', md: 'flex-start' }}
