@@ -28,7 +28,6 @@ import ProgressOverlay from '~/shared/components/ProgressOverlay/ProgressOverlay
 // MUI icons for step indicators
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
-import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 
 interface JDFormValue {
@@ -471,6 +470,16 @@ const ResumeUpload: React.FC<ResumeUploadProps> = ({ setLoadWithoutMount }) => {
           {SIDEBAR_STEPS.map((step) => (
             <Box
               key={step.label}
+              onClick={() => {
+                if (step.label === 'Skills & Strengths') {
+                  localStorage.setItem('forceOnboardingStep', '0');
+                  router.push(ROUTES.ONBOARDING);
+                }
+                if (step.label === 'Personal Details') {
+                  localStorage.setItem('forceOnboardingStep', '1');
+                  router.push(ROUTES.ONBOARDING);
+                }
+              }}
               sx={{
                 display: 'flex',
                 alignItems: 'center',
@@ -481,7 +490,15 @@ const ResumeUpload: React.FC<ResumeUploadProps> = ({ setLoadWithoutMount }) => {
                 pl: '8px',
                 minHeight: '44px',
                 borderRadius: '6px',
-                bgcolor: step.state === 'active' ? 'rgba(255,255,255,0.08)' : 'transparent'
+                bgcolor: step.state === 'active' ? 'rgba(255,255,255,0.08)' : 'transparent',
+                cursor:
+                  step.label === 'Skills & Strengths' || step.label === 'Personal Details'
+                    ? 'pointer'
+                    : 'default',
+                '&:hover':
+                  step.label === 'Skills & Strengths' || step.label === 'Personal Details'
+                    ? { bgcolor: 'rgba(255,255,255,0.05)' }
+                    : {}
               }}
             >
               <Box sx={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
@@ -489,7 +506,11 @@ const ResumeUpload: React.FC<ResumeUploadProps> = ({ setLoadWithoutMount }) => {
                   <CheckCircleIcon sx={{ color: '#DABF67', fontSize: 22 }} />
                 )}
                 {step.state === 'active' && (
-                  <AutoAwesomeIcon sx={{ color: '#DABF67', fontSize: 20 }} />
+                  <img
+                    src="/image/figma/logo1.png"
+                    alt=""
+                    style={{ width: 20, height: 20, objectFit: 'contain' }}
+                  />
                 )}
                 {step.state === 'pending' && (
                   <RadioButtonUncheckedIcon sx={{ color: 'rgba(255,255,255,0.3)', fontSize: 22 }} />
@@ -516,34 +537,71 @@ const ResumeUpload: React.FC<ResumeUploadProps> = ({ setLoadWithoutMount }) => {
             </Box>
           ))}
         </Box>
-      </Box>
 
-      <Box>
         <Typography
           sx={{
             fontFamily: 'Satoshi, sans-serif',
-            color: 'rgba(255,255,255,0.45)',
-            fontSize: '14px',
+            color: '#FFFFFF',
+            fontSize: '16px',
             fontWeight: 400,
-            lineHeight: '125%',
-            mb: '16px'
+            lineHeight: '100%',
+            letterSpacing: '0%',
+            width: '292px',
+            height: '44px',
+            mt: '16px',
+            display: 'flex',
+            alignItems: 'center'
           }}
         >
           Reengineer your career based on today&apos;s hiring
         </Typography>
+      </Box>
+
+      <Box>
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <Typography sx={{ color: 'rgba(255,255,255,0.35)', fontSize: '11px' }}>
+          <Typography
+            sx={{
+              fontFamily: 'Satoshi, sans-serif',
+              color: '#7B7B7B',
+              fontSize: '14px',
+              fontWeight: 500,
+              lineHeight: '14px',
+              letterSpacing: '2%',
+              width: '162px',
+              height: '14px'
+            }}
+          >
             Copyright © 2024 ResAI
           </Typography>
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              flexDirection: 'row',
+              borderRadius: '8px',
+              padding: '8px',
+              gap: '8px',
+              height: '40px',
+              width: 'fit-content'
+            }}
+          >
             <Image
               src="/image/figma/image.png"
               alt="Need help"
-              width={20}
-              height={20}
+              width={24}
+              height={24}
               style={{ objectFit: 'contain' }}
             />
-            <Typography sx={{ color: 'rgba(255,255,255,0.35)', fontSize: '11px' }}>
+            <Typography
+              sx={{
+                fontFamily: 'Satoshi, sans-serif',
+                color: '#7B7B7B',
+                fontSize: '14px',
+                fontWeight: 500,
+                lineHeight: '14px',
+                letterSpacing: '2%'
+              }}
+            >
               Need help?
             </Typography>
           </Box>

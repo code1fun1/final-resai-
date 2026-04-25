@@ -1,9 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { S3, PutObjectCommand, GetObjectCommand } from '@aws-sdk/client-s3';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
-import getConfig from 'next/config';
-
-const { serverRuntimeConfig } = getConfig();
 
 export const config = {
   api: {
@@ -20,7 +17,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   try {
     const { file, fileName, fileType } = req.body;
-    const { S3_ACCESS_KEY_ID, S3_SECRET_KEY, S3_BUCKET_NAME, S3_REGION } = serverRuntimeConfig;
+    const S3_ACCESS_KEY_ID = process.env.NEXT_PUBLIC_S3_ACCESS_KEY_ID ?? '';
+    const S3_SECRET_KEY = process.env.NEXT_PUBLIC_S3_SECRET_KEY ?? '';
+    const S3_BUCKET_NAME = process.env.NEXT_PUBLIC_S3_BUCKET_NAME ?? '';
+    const S3_REGION = process.env.NEXT_PUBLIC_S3_REGION ?? '';
 
     const fileSize = Buffer.from(file, 'base64').length;
     const maxSize = 10 * 1024 * 1024; // 10MB in bytes

@@ -191,10 +191,13 @@ const JDForm: React.FC<JDFormProps> = ({
               className={styles.jdPanelTitle}
               sx={{
                 fontFamily: 'Satoshi, sans-serif !important',
-                fontSize: { xs: '18px', sm: '22px' },
+                fontSize: { xs: '16px', sm: '20px', md: '24px' },
                 fontWeight: '700 !important',
                 color: '#04040E !important',
-                lineHeight: '1.3 !important',
+                lineHeight: '100% !important',
+                letterSpacing: '0 !important',
+                width: { xs: '100%', sm: '100%', md: '600px' },
+                height: { xs: 'auto', sm: 'auto', md: '32px' },
                 mb: '6px'
               }}
             >

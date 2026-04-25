@@ -1,8 +1,12 @@
-import { Box } from '@mui/material';
+import { Box, Typography } from '@mui/material';
+import Image from 'next/image';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import { ContentState, EditorState } from 'draft-js';
 import { useTranslation } from 'next-i18next';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import withLoader from '~/shared/components/HOC/withLoader';
 import StepNavigation from '~/shared/components/StepNavigation';
 // import Toast from '~/shared/components/Toast';
@@ -61,6 +65,23 @@ const initialValue: OnboardingData = {
 const DEFAULT_STEP: number = -1;
 const NEVER_DONE_THAT: string = 'Never done that';
 
+const SKILLS_SIDEBAR_STEPS: { label: string; state: 'completed' | 'active' | 'pending' }[] = [
+  { label: 'Resume Upload', state: 'completed' },
+  { label: 'Target Job Role', state: 'completed' },
+  { label: 'Skills & Strengths', state: 'active' },
+  { label: 'Personal Details', state: 'pending' }
+];
+
+const PERSONAL_DETAILS_SIDEBAR_STEPS: {
+  label: string;
+  state: 'completed' | 'active' | 'pending';
+}[] = [
+  { label: 'Resume Upload', state: 'completed' },
+  { label: 'Target Job Role', state: 'completed' },
+  { label: 'Skills & Strengths', state: 'completed' },
+  { label: 'Personal Details', state: 'active' }
+];
+
 const Onboarding: React.FC<OnboardingProps> = ({ setLoadWithoutMount }) => {
   /* eslint-disable @typescript-eslint/no-explicit-any */
   const [localskillData, setLocaluserSkillData] = useState<any[]>(
@@ -84,6 +105,7 @@ const Onboarding: React.FC<OnboardingProps> = ({ setLoadWithoutMount }) => {
   //const pathname = usePathname();
   const { t: i18n } = useTranslation(LOCALE_PAGE.ONBOARDING);
   const [activeSteps, setActiveSteps] = useState<number>(DEFAULT_STEP);
+  const skipAutoAdvance = useRef(false);
   const [onboardingData, setOnboardingData] = useState<OnboardingData>(initialValue);
   const [isQuestionFetched, setIsQuestionFetched] = useState<boolean>(false);
 
@@ -768,7 +790,14 @@ const Onboarding: React.FC<OnboardingProps> = ({ setLoadWithoutMount }) => {
       }
     }
 
-    if (activeSteps === 1) {
+    if (activeSteps === 0) {
+      // Clear skip guard so it doesn't bleed into step 1 when user clicks Continue
+      skipAutoAdvance.current = false;
+    } else if (activeSteps === 1) {
+      if (skipAutoAdvance.current) {
+        skipAutoAdvance.current = false;
+        return;
+      }
       handleUserStep();
     } else if (activeSteps === 2 && !isQuestionFetched) {
       handleAIQuestion();
@@ -776,9 +805,28 @@ const Onboarding: React.FC<OnboardingProps> = ({ setLoadWithoutMount }) => {
   }, [activeSteps]);
 
   useEffect(() => {
+    if (activeSteps === 0 || activeSteps === 1) {
+      document.body.classList.add('jd-wizard-mode');
+    } else {
+      document.body.classList.remove('jd-wizard-mode');
+    }
+    return () => {
+      document.body.classList.remove('jd-wizard-mode');
+    };
+  }, [activeSteps]);
+
+  useEffect(() => {
     const fetchUserDetails = async () => {
       setLoadWithoutMount(true);
       try {
+        const forcedStep = localStorage.getItem('forceOnboardingStep');
+        if (forcedStep !== null) {
+          localStorage.removeItem('forceOnboardingStep');
+          skipAutoAdvance.current = true;
+          setActiveSteps(parseInt(forcedStep, 10));
+          setLoadWithoutMount(false);
+          return;
+        }
         const res = await getUserData();
         const userJobDetailStep: number = 3;
         if (res.status === API_STATUS.SUCCESS) {
@@ -809,67 +857,272 @@ const Onboarding: React.FC<OnboardingProps> = ({ setLoadWithoutMount }) => {
     }
   }
 
+  const renderSidebar = (steps: typeof SKILLS_SIDEBAR_STEPS) => (
+    <Box
+      sx={{
+        width: '340px',
+        minWidth: '340px',
+        minHeight: '100vh',
+        display: { xs: 'none', md: 'flex' },
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+        bgcolor: '#04040E',
+        pl: '24px',
+        pr: '24px',
+        pt: '40px',
+        pb: '40px'
+      }}
+    >
+      <Box sx={{ display: 'flex', flexDirection: 'column', gap: '30px' }}>
+        <Image
+          src="/image/ResAi-white-Logo.png"
+          alt="ResAI"
+          width={90}
+          height={32}
+          style={{ objectFit: 'contain' }}
+        />
+        <Box>
+          <Typography
+            sx={{
+              fontFamily: 'Satoshi, sans-serif',
+              color: '#DABF67',
+              fontSize: '18px',
+              fontWeight: 500,
+              lineHeight: '125%',
+              letterSpacing: '-0.36px',
+              textTransform: 'capitalize',
+              mb: '10px'
+            }}
+          >
+            Your AI Powered Career Engineer
+          </Typography>
+          <Typography
+            sx={{
+              fontFamily: 'Satoshi, sans-serif',
+              color: '#ffffff',
+              fontSize: '36px',
+              fontWeight: 700,
+              lineHeight: '100%',
+              mb: '10px'
+            }}
+          >
+            Let&apos;s Get Started
+          </Typography>
+          <Typography
+            sx={{
+              fontFamily: 'Satoshi, sans-serif',
+              color: '#9CA3AF',
+              fontSize: '14px',
+              fontWeight: 400,
+              lineHeight: '125%'
+            }}
+          >
+            Create resumes, plan growth, and unlock better opportunities in few simple steps
+          </Typography>
+        </Box>
+
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+          {steps.map((step) => (
+            <Box
+              key={step.label}
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                pt: '10px',
+                pb: '10px',
+                pr: '8px',
+                pl: '8px',
+                minHeight: '44px',
+                borderRadius: '6px',
+                bgcolor: step.state === 'active' ? 'rgba(255,255,255,0.08)' : 'transparent'
+              }}
+            >
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+                {step.state === 'completed' && (
+                  <CheckCircleIcon sx={{ color: '#DABF67', fontSize: 22 }} />
+                )}
+                {step.state === 'active' && (
+                  <img
+                    src="/image/figma/logo1.png"
+                    alt=""
+                    style={{ width: 20, height: 20, objectFit: 'contain' }}
+                  />
+                )}
+                {step.state === 'pending' && (
+                  <RadioButtonUncheckedIcon sx={{ color: 'rgba(255,255,255,0.3)', fontSize: 22 }} />
+                )}
+                <Typography
+                  sx={{
+                    fontFamily: 'Satoshi, sans-serif',
+                    fontSize: '14px',
+                    fontWeight: step.state === 'active' ? 600 : 400,
+                    color:
+                      step.state === 'active'
+                        ? '#ffffff'
+                        : step.state === 'completed'
+                          ? 'rgba(255,255,255,0.75)'
+                          : 'rgba(255,255,255,0.45)'
+                  }}
+                >
+                  {step.label}
+                </Typography>
+              </Box>
+              {step.state === 'active' && (
+                <ChevronRightIcon sx={{ color: 'rgba(255,255,255,0.4)', fontSize: 20 }} />
+              )}
+            </Box>
+          ))}
+        </Box>
+
+        <Typography
+          sx={{
+            fontFamily: 'Satoshi, sans-serif',
+            color: '#FFFFFF',
+            fontSize: '16px',
+            fontWeight: 400,
+            lineHeight: '100%',
+            width: '292px',
+            height: '44px',
+            mt: '16px',
+            display: 'flex',
+            alignItems: 'center'
+          }}
+        >
+          Reengineer your career based on today&apos;s hiring
+        </Typography>
+      </Box>
+
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <Typography
+          sx={{
+            fontFamily: 'Satoshi, sans-serif',
+            color: '#7B7B7B',
+            fontSize: '14px',
+            fontWeight: 500,
+            lineHeight: '14px',
+            width: '162px'
+          }}
+        >
+          Copyright © 2024 ResAI
+        </Typography>
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            borderRadius: '8px',
+            padding: '8px',
+            gap: '8px',
+            height: '40px'
+          }}
+        >
+          <Image
+            src="/image/figma/image.png"
+            alt="Need help"
+            width={24}
+            height={24}
+            style={{ objectFit: 'contain' }}
+          />
+          <Typography
+            sx={{
+              fontFamily: 'Satoshi, sans-serif',
+              color: '#7B7B7B',
+              fontSize: '14px',
+              fontWeight: 500,
+              lineHeight: '14px'
+            }}
+          >
+            Need help?
+          </Typography>
+        </Box>
+      </Box>
+    </Box>
+  );
+
   return (
     <>
-      <Box bgcolor="primary.light">
-        {/** Step 0 - Skill Set */}
-        {activeSteps === 0 && (
-          <Box px={{ xs: 2, sm: 5, lg: 20 }}>
-            <SkillSetProfile
+      {activeSteps === 0 || activeSteps === 1 ? (
+        /* ── Skills & Personal Details: full-page sidebar layout ── */
+        <Box sx={{ display: 'flex', width: '100%', minHeight: '100vh' }}>
+          {renderSidebar(activeSteps === 0 ? SKILLS_SIDEBAR_STEPS : PERSONAL_DETAILS_SIDEBAR_STEPS)}
+
+          {/* Main content */}
+          <Box
+            sx={{
+              flex: 1,
+              minWidth: 0,
+              display: 'flex',
+              flexDirection: 'column',
+              bgcolor: '#f3f4f6',
+              px: { xs: 0, sm: 3 },
+              py: { xs: 0, sm: 3 },
+              minHeight: '100vh'
+            }}
+          >
+            {activeSteps === 0 && (
+              <SkillSetProfile
+                userProfileData={onboardingData.profileData}
+                onSave={setOnboardingData}
+                onBack={handleBack}
+                onCancel={() => router.push(ROUTES.RESUME_UPLOAD)}
+                onContinue={handleSave}
+              />
+            )}
+            {activeSteps === 1 && (
+              <AdditionalDetails
+                onSave={setOnboardingData}
+                additionalData={onboardingData.additionalData}
+                onBack={handleBack}
+                onCancel={() => router.push(ROUTES.RESUME_UPLOAD)}
+                onContinue={handleSave}
+              />
+            )}
+          </Box>
+        </Box>
+      ) : (
+        /* ── All other steps ── */
+        <Box bgcolor="primary.light">
+          {activeSteps === 2 && onboardingData?.aiPromptData?.questionList?.length > 0 && (
+            <AIQuestionPanel
+              aiPromptData={onboardingData.aiPromptData}
               userProfileData={onboardingData.profileData}
               onSave={setOnboardingData}
+              IsDataLoading={IsDataLoading}
             />
-          </Box>
-        )}
-        {/** Step 1 - Additional Details */}
-        {activeSteps === 1 && (
-          <Box px={{ xs: 2, sm: 5, lg: 20 }}>
-            <AdditionalDetails
+          )}
+          {activeSteps === 3 && localJobTitle?.title === '' && (
+            <JobProfile
+              userJobData={onboardingData?.jobData}
+              targetJob={onboardingData?.profileData?.targetJob?.name}
+              similarityData={onboardingData?.similarityScoreData}
               onSave={setOnboardingData}
-              additionalData={onboardingData.additionalData}
+              setActiveSteps={setActiveSteps}
             />
-          </Box>
-        )}
-        {/** Step 2 - AI Question Panel */}
-        {activeSteps === 2 && onboardingData?.aiPromptData?.questionList?.length > 0 && (
-          <AIQuestionPanel
-            aiPromptData={onboardingData.aiPromptData}
-            userProfileData={onboardingData.profileData}
-            onSave={setOnboardingData}
-            IsDataLoading={IsDataLoading}
-          />
-        )}
-        {/** Step 3 - Job Profile */}
-        {activeSteps === 3 && localJobTitle?.title === '' && (
-          <JobProfile
-            userJobData={onboardingData?.jobData}
-            targetJob={onboardingData?.profileData?.targetJob?.name}
-            similarityData={onboardingData?.similarityScoreData}
-            onSave={setOnboardingData}
-            setActiveSteps={setActiveSteps}
-          />
-        )}
-      </Box>
-      <StepNavigation
-        backButtonText={i18n('buttonTexts.back', { ns: 'common' })}
-        continueButtonText={i18n('buttonTexts.continue', { ns: 'common' })}
-        onBackButtonClick={handleBack}
-        onContinueButtonClick={handleSave}
-        isContinueButtonDisable={
-          activeSteps === 3
-            ? !(isJDFormValueFilled || isCurrentStepValid(onboardingData, activeSteps))
-            : !isCurrentStepValid(onboardingData, activeSteps)
-        }
-        showSkipButton={activeSteps === 2 ? true : false}
-        skipBtnName={i18n('buttonTexts.neverDoneThat', { ns: 'common' })}
-        onSkipButtonClick={handleSkip}
-        showSkipAllButton={activeSteps === 2 ? true : false}
-        skipAllBtnName={i18n('buttonTexts.skipAll', { ns: 'common' })}
-        onSkipAllButtonClick={handleSkipAllQuestions}
-        aiPromptData={onboardingData.aiPromptData} // Passing AIPromptData
-        currentSteps={activeSteps} // Passing AIPromptData
-      />
-      {/* {toastState.open && <Toast toastState={toastState} />} */}
+          )}
+        </Box>
+      )}
+
+      {activeSteps !== 0 && activeSteps !== 1 && (
+        <StepNavigation
+          backButtonText={i18n('buttonTexts.back', { ns: 'common' })}
+          continueButtonText={i18n('buttonTexts.continue', { ns: 'common' })}
+          onBackButtonClick={handleBack}
+          onContinueButtonClick={handleSave}
+          isContinueButtonDisable={
+            activeSteps === 3
+              ? !(isJDFormValueFilled || isCurrentStepValid(onboardingData, activeSteps))
+              : !isCurrentStepValid(onboardingData, activeSteps)
+          }
+          showSkipButton={activeSteps === 2 ? true : false}
+          skipBtnName={i18n('buttonTexts.neverDoneThat', { ns: 'common' })}
+          onSkipButtonClick={handleSkip}
+          showSkipAllButton={activeSteps === 2 ? true : false}
+          skipAllBtnName={i18n('buttonTexts.skipAll', { ns: 'common' })}
+          onSkipAllButtonClick={handleSkipAllQuestions}
+          aiPromptData={onboardingData.aiPromptData}
+          currentSteps={activeSteps}
+        />
+      )}
     </>
   );
 };
