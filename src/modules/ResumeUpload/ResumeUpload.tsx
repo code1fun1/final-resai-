@@ -38,12 +38,14 @@ interface ResumeUploadProps {
   setLoadWithoutMount: (value: boolean, message?: string) => void;
 }
 
+type SidebarStepId = 'resume_upload' | 'target_job_role' | 'skills_strengths' | 'personal_details';
+
 const STEPS = [
-  { label: 'Resume Upload', active: true },
-  { label: 'Target Job Role', active: false },
-  { label: 'Skills & Strengths', active: false },
-  { label: 'Personal Details', active: false }
-];
+  { id: 'resume_upload' as const, label: 'Resume Upload' },
+  { id: 'target_job_role' as const, label: 'Target Job Role' },
+  { id: 'skills_strengths' as const, label: 'Skills & Strengths' },
+  { id: 'personal_details' as const, label: 'Personal Details' }
+] satisfies Array<{ id: SidebarStepId; label: string }>;
 
 const ResumeUpload: React.FC<ResumeUploadProps> = ({ setLoadWithoutMount }) => {
   useEffect(() => {
@@ -364,6 +366,74 @@ const ResumeUpload: React.FC<ResumeUploadProps> = ({ setLoadWithoutMount }) => {
     router.push(ROUTES.MY_RESUMES);
   }, [router]);
 
+  const handleSidebarStepClick = useCallback(
+    async (stepId: SidebarStepId) => {
+      if (typeof window === 'undefined') return;
+
+      if (stepId === 'resume_upload') {
+        setShowJDFormOnly(false);
+        return;
+      }
+
+      if (stepId === 'target_job_role') {
+        if (fileDetails.showSpinner) {
+          handleToast(
+            { severity: ERROR, message: 'Please wait until resume upload completes.' },
+            setToastState,
+            toastState
+          );
+          return;
+        }
+
+        const hasUploadedResume = !!fileDetails.fileUploadUrl;
+        const hasStartFromScratchText = !!localStorage.getItem('editorText')?.trim();
+
+        if (!hasUploadedResume && !hasStartFromScratchText) {
+          handleToast(
+            {
+              severity: ERROR,
+              message:
+                "Please upload your resume (or paste resume details) and click 'Get started' to continue."
+            },
+            setToastState,
+            toastState
+          );
+          return;
+        }
+
+        if (fileDetails.fileUploadUrl) {
+          localStorage.setItem('fileUploadUrl', fileDetails.fileUploadUrl);
+        }
+        setShowJDFormOnly(true);
+        return;
+      }
+
+      const jdFormValueStr = localStorage.getItem('jdFormValue');
+      if (!jdFormValueStr) {
+        handleToast(
+          { severity: ERROR, message: 'Please complete Target Job Role first.' },
+          setToastState,
+          toastState
+        );
+        return;
+      }
+
+      localStorage.setItem('forceOnboardingStep', stepId === 'skills_strengths' ? '0' : '1');
+      await router.push(ROUTES.ONBOARDING);
+    },
+    [ERROR, fileDetails.fileUploadUrl, fileDetails.showSpinner, router, setToastState, toastState]
+  );
+
+  const handleSidebarStepKeyDown = useCallback(
+    (event: React.KeyboardEvent<HTMLDivElement>, stepId: SidebarStepId) => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        handleSidebarStepClick(stepId);
+      }
+    },
+    [handleSidebarStepClick]
+  );
+
   return (
     <>
       {showJDFormOnly ? (
@@ -374,6 +444,8 @@ const ResumeUpload: React.FC<ResumeUploadProps> = ({ setLoadWithoutMount }) => {
             editorState={jdFormValue.editorState}
             onEditorChange={handleJDFormEditorChange}
             onSubmit={handleSaveJDForm}
+            onBack={() => setShowJDFormOnly(false)}
+            onCancel={handleCancel}
           />
         </Box>
       ) : (
@@ -416,37 +488,47 @@ const ResumeUpload: React.FC<ResumeUploadProps> = ({ setLoadWithoutMount }) => {
             </Box>
 
             <Box className={styles.stepsSection}>
-              {STEPS.map((step) => (
-                <Box
-                  key={step.label}
-                  className={`${styles.stepItem} ${step.active ? styles.stepItemActive : ''}`}
-                >
-                  <Box display="flex" alignItems="center" gap="12px">
-                    {step.active ? (
-                      <SpinnerIcon size={20} color="#DABF67" animate={true} />
-                    ) : (
-                      <RadioButtonUncheckedRoundedIcon
-                        sx={{ fontSize: 20, color: 'rgba(254,252,232,0.35)', flexShrink: 0 }}
-                      />
+              {STEPS.map((step) => {
+                const isActive = step.id === 'resume_upload';
+                const isClickable = step.id !== 'resume_upload';
+
+                return (
+                  <Box
+                    key={step.id}
+                    className={`${styles.stepItem} ${isActive ? styles.stepItemActive : ''}`}
+                    onClick={isClickable ? () => handleSidebarStepClick(step.id) : undefined}
+                    onKeyDown={isClickable ? (e) => handleSidebarStepKeyDown(e, step.id) : undefined}
+                    role={isClickable ? 'button' : undefined}
+                    tabIndex={isClickable ? 0 : undefined}
+                    sx={{ cursor: isClickable ? 'pointer' : 'default' }}
+                  >
+                    <Box display="flex" alignItems="center" gap="12px">
+                      {isActive ? (
+                        <SpinnerIcon size={20} color="#DABF67" animate={true} />
+                      ) : (
+                        <RadioButtonUncheckedRoundedIcon
+                          sx={{ fontSize: 20, color: 'rgba(254,252,232,0.35)', flexShrink: 0 }}
+                        />
+                      )}
+                      <Typography
+                        sx={{
+                          fontFamily: 'Satoshi, sans-serif',
+                          fontSize: '16px',
+                          fontWeight: 500,
+                          lineHeight: 1.0,
+                          letterSpacing: '0em',
+                          color: isActive ? '#FFFFFF' : 'rgba(255,255,255,0.55)'
+                        }}
+                      >
+                        {step.label}
+                      </Typography>
+                    </Box>
+                    {isActive && (
+                      <ChevronRightRoundedIcon sx={{ fontSize: 18, color: '#DABF67' }} />
                     )}
-                    <Typography
-                      sx={{
-                        fontFamily: 'Satoshi, sans-serif',
-                        fontSize: '16px',
-                        fontWeight: 500,
-                        lineHeight: 1.0,
-                        letterSpacing: '0em',
-                        color: step.active ? '#FFFFFF' : 'rgba(255,255,255,0.55)'
-                      }}
-                    >
-                      {step.label}
-                    </Typography>
                   </Box>
-                  {step.active && (
-                    <ChevronRightRoundedIcon sx={{ fontSize: 18, color: '#DABF67' }} />
-                  )}
-                </Box>
-              ))}
+                );
+              })}
             </Box>
 
             <Typography className={styles.sidebarBottomText}>
