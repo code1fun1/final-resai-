@@ -8,7 +8,7 @@ function ResumeUploadPage() {
   const { t: i18n } = useTranslation();
 
   return (
-    <Layout includeHeaderFooter={true} pageTitle={i18n('pageTitles.resumeUpload')}>
+    <Layout includeHeaderFooter={false} pageTitle={i18n('pageTitles.resumeUpload')}>
       <ResumeUpload />
     </Layout>
   );
