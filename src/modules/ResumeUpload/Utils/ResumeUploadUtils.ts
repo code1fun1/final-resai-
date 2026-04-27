@@ -45,10 +45,13 @@ export const handleFileUpload = async (file: File) => {
     if (result.status === 'success') {
       return { status: API_STATUS.SUCCESS, data: result.data, message: 'success' };
     } else {
-      if (result.message === 'Region is missing' || result.message?.includes?.('Region is missing')) {
+      if (
+        result.message === 'Region is missing' ||
+        result.message?.includes?.('Region is missing')
+      ) {
         return {
           status: API_STATUS.FAILED,
-          message: "We're experiencing a technical issue. Kindly try again shortly."
+          message: 'We\'re experiencing a technical issue. Kindly try again shortly.'
         };
       }
       return { status: API_STATUS.FAILED, message: result.message };

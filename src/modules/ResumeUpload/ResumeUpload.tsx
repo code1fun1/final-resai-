@@ -393,7 +393,7 @@ const ResumeUpload: React.FC<ResumeUploadProps> = ({ setLoadWithoutMount }) => {
             {
               severity: ERROR,
               message:
-                "Please upload your resume (or paste resume details) and click 'Get started' to continue."
+                'Please upload your resume (or paste resume details) and click "Get started" to continue.'
             },
             setToastState,
             toastState
