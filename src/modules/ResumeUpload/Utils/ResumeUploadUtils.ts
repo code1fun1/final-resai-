@@ -45,16 +45,24 @@ export const handleFileUpload = async (file: File) => {
     if (result.status === 'success') {
       return { status: API_STATUS.SUCCESS, data: result.data, message: 'success' };
     } else {
+      if (result.message === 'Region is missing' || result.message?.includes?.('Region is missing')) {
+        return {
+          status: API_STATUS.FAILED,
+          message: "We're experiencing a technical issue. Kindly try again shortly."
+        };
+      }
       return { status: API_STATUS.FAILED, message: result.message };
     }
   } catch (error: unknown) {
-    if (error === 'Region is missing') {
+    const errorMessage =
+      error instanceof Error ? error.message : typeof error === 'string' ? error : '';
+    if (errorMessage === 'Region is missing' || errorMessage.includes('Region is missing')) {
       return {
         status: API_STATUS.FAILED,
         message: 'We\'re experiencing a technical issue. Kindly try again shortly.'
       };
     } else {
-      return { status: API_STATUS.FAILED, message: (error as Error).message };
+      return { status: API_STATUS.FAILED, message: errorMessage || (error as Error).message };
     }
   }
 };

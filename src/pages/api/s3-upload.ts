@@ -17,10 +17,39 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   try {
     const { file, fileName, fileType } = req.body;
-    const S3_ACCESS_KEY_ID = process.env.NEXT_PUBLIC_S3_ACCESS_KEY_ID ?? '';
-    const S3_SECRET_KEY = process.env.NEXT_PUBLIC_S3_SECRET_KEY ?? '';
-    const S3_BUCKET_NAME = process.env.NEXT_PUBLIC_S3_BUCKET_NAME ?? '';
-    const S3_REGION = process.env.NEXT_PUBLIC_S3_REGION ?? '';
+    const S3_ACCESS_KEY_ID =
+      process.env.S3_ACCESS_KEY_ID ?? process.env.NEXT_PUBLIC_S3_ACCESS_KEY_ID ?? '';
+    const S3_SECRET_KEY = process.env.S3_SECRET_KEY ?? process.env.NEXT_PUBLIC_S3_SECRET_KEY ?? '';
+    const S3_BUCKET_NAME =
+      process.env.S3_BUCKET_NAME ?? process.env.NEXT_PUBLIC_S3_BUCKET_NAME ?? '';
+    const S3_REGION =
+      process.env.S3_REGION ??
+      process.env.AWS_REGION ??
+      process.env.AWS_DEFAULT_REGION ??
+      process.env.NEXT_PUBLIC_S3_REGION ??
+      '';
+
+    if (!S3_REGION) {
+      return res.status(500).json({
+        status: 'failed',
+        message: 'S3 region is missing. Set S3_REGION (or NEXT_PUBLIC_S3_REGION).'
+      });
+    }
+
+    if (!S3_BUCKET_NAME) {
+      return res.status(500).json({
+        status: 'failed',
+        message: 'S3 bucket is missing. Set S3_BUCKET_NAME (or NEXT_PUBLIC_S3_BUCKET_NAME).'
+      });
+    }
+
+    if (!S3_ACCESS_KEY_ID || !S3_SECRET_KEY) {
+      return res.status(500).json({
+        status: 'failed',
+        message:
+          'S3 credentials are missing. Set S3_ACCESS_KEY_ID/S3_SECRET_KEY (or NEXT_PUBLIC_S3_*).'
+      });
+    }
 
     const fileSize = Buffer.from(file, 'base64').length;
     const maxSize = 10 * 1024 * 1024; // 10MB in bytes
@@ -49,7 +78,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     };
 
     await S3Client.send(new PutObjectCommand(params));
-    const command = new GetObjectCommand(params);
+    const command = new GetObjectCommand({ Bucket: S3_BUCKET_NAME, Key: fileName });
     const uploadUrl = await getSignedUrl(S3Client, command);
     // console.log('res',res)
     return res.status(200).json({ status: 'success', data: uploadUrl });
