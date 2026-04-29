@@ -291,11 +291,12 @@ const PersonalDetailsForm: FC<PersonalDetailsFormProps> = ({
                 flexGrow: i === 0 ? 0 : 1,
                 minWidth: i === 0 ? '185px' : 'auto',
                 bgcolor: activeTab === i ? '#F8F2E1' : '#ffffff',
-                clipPath: i < TABS.length - 1
-                  ? 'polygon(0 0, calc(100% - 15px) 0, 100% 50%, calc(100% - 15px) 100%, 0 100%)'
-                  : i === TABS.length - 1
-                  ? 'polygon(15px 0, 100% 0, 100% 100%, 15px 100%, 0 50%)'
-                  : undefined,
+                clipPath:
+                  i < TABS.length - 1
+                    ? 'polygon(0 0, calc(100% - 15px) 0, 100% 50%, calc(100% - 15px) 100%, 0 100%)'
+                    : i === TABS.length - 1
+                      ? 'polygon(15px 0, 100% 0, 100% 100%, 15px 100%, 0 50%)'
+                      : undefined,
                 border: activeTab !== i && i === TABS.length - 1 ? '1px solid #DFDFDF' : 'none',
                 '&:hover': {
                   bgcolor: activeTab === i ? '#F8F2E1' : '#f9f9f9'
