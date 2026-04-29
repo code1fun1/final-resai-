@@ -436,22 +436,9 @@ const ResumeUpload: React.FC<ResumeUploadProps> = ({ setLoadWithoutMount }) => {
 
   return (
     <>
-      {showJDFormOnly ? (
-        <Box bgcolor="primary.light" px={{ xs: 2, sm: 5, lg: 20 }}>
-          <JDForm
-            value={jdFormValue}
-            onChange={setJDFormValue}
-            editorState={jdFormValue.editorState}
-            onEditorChange={handleJDFormEditorChange}
-            onSubmit={handleSaveJDForm}
-            onBack={() => setShowJDFormOnly(false)}
-            onCancel={handleCancel}
-          />
-        </Box>
-      ) : (
-        <Box className={styles.pageWrapper}>
-          {/* ── Dark Sidebar ── */}
-          <Box className={styles.sidebar}>
+      <Box className={styles.pageWrapper}>
+        {/* ── Dark Sidebar ── */}
+        <Box className={styles.sidebar}>
             <Box className={styles.logoWrap}>
               <Image
                 src="/image/ResAi-white-Logo.png"
@@ -489,8 +476,8 @@ const ResumeUpload: React.FC<ResumeUploadProps> = ({ setLoadWithoutMount }) => {
 
             <Box className={styles.stepsSection}>
               {STEPS.map((step) => {
-                const isActive = step.id === 'resume_upload';
-                const isClickable = step.id !== 'resume_upload';
+                const isActive = showJDFormOnly ? step.id === 'target_job_role' : step.id === 'resume_upload';
+                const isClickable = !isActive;
 
                 return (
                   <Box
@@ -546,18 +533,29 @@ const ResumeUpload: React.FC<ResumeUploadProps> = ({ setLoadWithoutMount }) => {
 
           {/* ── Right Panel ── */}
           <Box className={styles.rightPanel}>
-            <ResumeUploadForm
-              onSave={handleSave}
-              onCancel={handleCancel}
-              onChange={handleFileChange}
-              onDrop={handleDrop}
-              spinTimer={fileDetails.spinTimer}
-              onDelete={handleDeleteDocument}
-              fileDetails={fileDetails}
-            />
+            {showJDFormOnly ? (
+              <JDForm
+                value={jdFormValue}
+                onChange={setJDFormValue}
+                editorState={jdFormValue.editorState}
+                onEditorChange={handleJDFormEditorChange}
+                onSubmit={handleSaveJDForm}
+                onBack={() => setShowJDFormOnly(false)}
+                onCancel={handleCancel}
+              />
+            ) : (
+              <ResumeUploadForm
+                onSave={handleSave}
+                onCancel={handleCancel}
+                onChange={handleFileChange}
+                onDrop={handleDrop}
+                spinTimer={fileDetails.spinTimer}
+                onDelete={handleDeleteDocument}
+                fileDetails={fileDetails}
+              />
+            )}
           </Box>
         </Box>
-      )}
 
       {toastState.open && <Toast toastState={toastState} />}
       <ProgressOverlay open={showProgress} message={progressMessage} progress={progressValue} />

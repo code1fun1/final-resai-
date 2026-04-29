@@ -1,4 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
+import getConfig from 'next/config';
 import { S3, PutObjectCommand, GetObjectCommand } from '@aws-sdk/client-s3';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 
@@ -17,15 +18,28 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   try {
     const { file, fileName, fileType } = req.body;
+    const { serverRuntimeConfig = {} } = getConfig() || {};
+
     const S3_ACCESS_KEY_ID =
-      process.env.S3_ACCESS_KEY_ID ?? process.env.NEXT_PUBLIC_S3_ACCESS_KEY_ID ?? '';
-    const S3_SECRET_KEY = process.env.S3_SECRET_KEY ?? process.env.NEXT_PUBLIC_S3_SECRET_KEY ?? '';
+      process.env.S3_ACCESS_KEY_ID ??
+      serverRuntimeConfig.S3_ACCESS_KEY_ID ??
+      process.env.NEXT_PUBLIC_S3_ACCESS_KEY_ID ??
+      '';
+    const S3_SECRET_KEY =
+      process.env.S3_SECRET_KEY ??
+      serverRuntimeConfig.S3_SECRET_KEY ??
+      process.env.NEXT_PUBLIC_S3_SECRET_KEY ??
+      '';
     const S3_BUCKET_NAME =
-      process.env.S3_BUCKET_NAME ?? process.env.NEXT_PUBLIC_S3_BUCKET_NAME ?? '';
+      process.env.S3_BUCKET_NAME ??
+      serverRuntimeConfig.S3_BUCKET_NAME ??
+      process.env.NEXT_PUBLIC_S3_BUCKET_NAME ??
+      '';
     const S3_REGION =
       process.env.S3_REGION ??
       process.env.AWS_REGION ??
       process.env.AWS_DEFAULT_REGION ??
+      serverRuntimeConfig.S3_REGION ??
       process.env.NEXT_PUBLIC_S3_REGION ??
       '';
 

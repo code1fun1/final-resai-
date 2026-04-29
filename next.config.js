@@ -6,9 +6,6 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 });
 
 module.exports = withBundleAnalyzer({
-  env: {
-    apiEndPoint: process.env.API_ENDPOINT
-  },
   devIndicators: {
     buildActivity: false
   },
@@ -16,10 +13,14 @@ module.exports = withBundleAnalyzer({
     includePaths: [path.join(__dirname, 'styles')]
   },
   serverRuntimeConfig: {
-    S3_ACCESS_KEY_ID: process.env.NEXT_PUBLIC_S3_ACCESS_KEY_ID,
-    S3_SECRET_KEY: process.env.NEXT_PUBLIC_S3_SECRET_KEY,
-    S3_BUCKET_NAME: process.env.NEXT_PUBLIC_S3_BUCKET_NAME,
-    S3_REGION: process.env.NEXT_PUBLIC_S3_REGION,
+    S3_ACCESS_KEY_ID: process.env.S3_ACCESS_KEY_ID ?? process.env.NEXT_PUBLIC_S3_ACCESS_KEY_ID,
+    S3_SECRET_KEY: process.env.S3_SECRET_KEY ?? process.env.NEXT_PUBLIC_S3_SECRET_KEY,
+    S3_BUCKET_NAME: process.env.S3_BUCKET_NAME ?? process.env.NEXT_PUBLIC_S3_BUCKET_NAME,
+    S3_REGION:
+      process.env.S3_REGION ??
+      process.env.AWS_REGION ??
+      process.env.AWS_DEFAULT_REGION ??
+      process.env.NEXT_PUBLIC_S3_REGION,
     WEB_RAZORPAYKEY: process.env.RAZARPAY_KEY,
     WebsiteUrl: process.env.WEBSITE_URL,
     apiUrl: process.env.API_URL

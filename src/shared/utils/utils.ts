@@ -20,10 +20,12 @@ export const getBaseUrl: () => string = () => {
   const { apiUrl } = configs;
   if (apiUrl) {
     return apiUrl;
-  } else {
-    return getStoredApiUrl();
   }
-  // return API_END_POINT;
+  const storedUrl = getStoredApiUrl();
+  if (storedUrl) {
+    return storedUrl;
+  }
+  return 'https://dev.resai.co/api/v1/';
 };
 
 export const isEmptyObject: (obj: object) => boolean = (obj: object) => {

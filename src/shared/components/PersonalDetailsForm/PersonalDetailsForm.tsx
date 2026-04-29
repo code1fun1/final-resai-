@@ -24,7 +24,7 @@ const TABS = ['Personal Details', 'Work Experience', 'Education', 'Certification
 
 const labelSx = {
   fontFamily: 'Satoshi, sans-serif',
-  fontSize: { xs: '13px', sm: '14px' },
+  fontSize: '13px',
   fontWeight: 500,
   color: '#1a1a1a',
   mb: '6px'
@@ -265,14 +265,12 @@ const PersonalDetailsForm: FC<PersonalDetailsFormProps> = ({
         <Box
           sx={{
             display: 'flex',
-            gap: '10px',
-            px: { xs: '12px', sm: '16px' },
-            py: '10px',
-            bgcolor: '#f3f4f6',
-            borderTop: '1px solid #e5e7eb',
-            borderBottom: '1px solid #e5e7eb',
-            overflowX: 'auto',
-            '&::-webkit-scrollbar': { display: 'none' }
+            width: '100%',
+            height: '50px',
+            border: '1px solid #DFDFDF',
+            borderRadius: '6px',
+            overflow: 'hidden',
+            bgcolor: '#ffffff'
           }}
         >
           {TABS.map((tab, i) => (
@@ -280,32 +278,41 @@ const PersonalDetailsForm: FC<PersonalDetailsFormProps> = ({
               key={tab}
               onClick={() => setActiveTab(i)}
               sx={{
-                flex: '1 1 185px',
-                height: '50px',
+                position: 'relative',
                 display: 'flex',
-                alignItems: 'center',
-                pl: '16px',
-                pr: i < TABS.length - 1 ? '28px' : '16px',
+                flexDirection: 'column',
+                alignItems: 'flex-start',
+                padding: '15px 16px',
+                gap: '10px',
+                isolation: 'isolate',
+                height: '50px',
                 cursor: 'pointer',
-                bgcolor: activeTab === i ? 'rgba(218,191,103,0.18)' : '#ffffff',
-                clipPath:
-                  i < TABS.length - 1
-                    ? 'polygon(0 0, calc(100% - 16px) 0, 100% 50%, calc(100% - 16px) 100%, 0 100%)'
-                    : undefined,
-                transition: 'background-color 0.2s',
-                minWidth: 0
+                flex: i === 0 ? 'none' : 1,
+                flexGrow: i === 0 ? 0 : 1,
+                minWidth: i === 0 ? '185px' : 'auto',
+                bgcolor: activeTab === i ? '#F8F2E1' : '#ffffff',
+                clipPath: i < TABS.length - 1
+                  ? 'polygon(0 0, calc(100% - 15px) 0, 100% 50%, calc(100% - 15px) 100%, 0 100%)'
+                  : i === TABS.length - 1
+                  ? 'polygon(15px 0, 100% 0, 100% 100%, 15px 100%, 0 50%)'
+                  : undefined,
+                border: activeTab !== i && i === TABS.length - 1 ? '1px solid #DFDFDF' : 'none',
+                '&:hover': {
+                  bgcolor: activeTab === i ? '#F8F2E1' : '#f9f9f9'
+                }
               }}
             >
               <Typography
                 sx={{
-                  fontFamily: 'Satoshi, sans-serif',
-                  fontSize: { xs: '11px', sm: '12px', md: '14px' },
-                  fontWeight: activeTab === i ? 600 : 500,
-                  color: activeTab === i ? '#DABF67' : '#374151',
-                  overflow: 'hidden',
-                  textOverflow: 'ellipsis',
-                  whiteSpace: 'nowrap',
-                  lineHeight: 1
+                  fontFamily: 'Roboto, sans-serif',
+                  fontSize: '14px',
+                  fontWeight: 500,
+                  lineHeight: '20px',
+                  color: activeTab === i ? '#735302' : '#04040E',
+                  display: 'flex',
+                  alignItems: 'center',
+                  textAlign: 'center',
+                  zIndex: 1
                 }}
               >
                 {tab}
@@ -321,7 +328,7 @@ const PersonalDetailsForm: FC<PersonalDetailsFormProps> = ({
               <Typography
                 sx={{
                   fontFamily: 'Satoshi, sans-serif',
-                  fontSize: { xs: '16px', sm: '18px' },
+                  fontSize: { xs: '15px', sm: '16px' },
                   fontWeight: 700,
                   color: '#0f172a',
                   mb: '4px'
@@ -332,8 +339,8 @@ const PersonalDetailsForm: FC<PersonalDetailsFormProps> = ({
               <Typography
                 sx={{
                   fontFamily: 'Satoshi, sans-serif',
-                  fontSize: { xs: '13px', sm: '14px' },
-                  color: '#374151',
+                  fontSize: { xs: '12px', sm: '13px' },
+                  color: '#6b7280',
                   mb: { xs: 2.5, sm: 3 }
                 }}
               >
