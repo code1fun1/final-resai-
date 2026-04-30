@@ -56,7 +56,7 @@ interface Certification {
 
 interface Award {
   id?: number;
-  bullets: string[];
+  bullets?: string[];
 }
 
 interface CertCardProps {
@@ -172,7 +172,7 @@ const AwardCard = ({ award, onEdit, onDelete }: AwardCardProps) => (
           m: 0
         }}
       >
-        {award.bullets.map((b: string, i: number) => (
+        {(award.bullets || []).map((b: string, i: number) => (
           <li key={i} style={{ marginBottom: '6px' }}>
             {b}
           </li>
@@ -320,7 +320,10 @@ export const CertificationsSection = () => {
     } else {
       const res = await createCertificate(payload);
       if (res.status === 'success')
-        setCertList((prev) => [...prev, (res.data as Certification) ?? { ...savedCert, id: Date.now() }]);
+        setCertList((prev) => [
+          ...prev,
+          (res.data as Certification) ?? { ...savedCert, id: Date.now() }
+        ]);
     }
   };
 
