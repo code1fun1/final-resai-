@@ -320,7 +320,7 @@ export const CertificationsSection = () => {
     } else {
       const res = await createCertificate(payload);
       if (res.status === 'success')
-        setCertList((prev) => [...prev, res.data ?? { ...savedCert, id: Date.now() }]);
+        setCertList((prev) => [...prev, (res.data as Certification) ?? { ...savedCert, id: Date.now() }]);
     }
   };
 
@@ -348,7 +348,7 @@ export const CertificationsSection = () => {
     } else {
       const res = await createAward(payload);
       if (res.status === 'success')
-        setAwardList((prev) => [...prev, res.data ?? { ...savedAward, id: Date.now() }]);
+        setAwardList((prev) => [...prev, (res.data as Award) ?? { ...savedAward, id: Date.now() }]);
     }
   };
 
