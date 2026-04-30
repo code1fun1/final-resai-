@@ -166,7 +166,7 @@ const EducationCard = ({ edu, onEdit, onDelete }: EducationCardProps) => {
           </Box>
           <Box
             component="button"
-            onClick={() => onDelete(edu.id)}
+            onClick={() => edu.id !== undefined && onDelete(edu.id)}
             sx={{
               width: 36,
               height: 36,
@@ -249,7 +249,7 @@ export const EducationSection = () => {
       const res = await createEducation(payload);
       if (res.status === 'success') {
         // Use server-returned data if available, otherwise use local
-        const newEntry = res.data ?? { ...savedEdu, id: Date.now() };
+        const newEntry = (res.data as Education) ?? { ...savedEdu, id: Date.now() };
         setEduList((prev) => [...prev, newEntry]);
       }
     }
