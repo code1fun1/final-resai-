@@ -92,7 +92,12 @@ interface AddAwardModalProps {
   initialData?: AwardFormData | null;
 }
 
-export default function AddAwardModal({ isOpen, onClose, onSave, initialData }: AddAwardModalProps) {
+export default function AddAwardModal({
+  isOpen,
+  onClose,
+  onSave,
+  initialData
+}: AddAwardModalProps) {
   const [form, setForm] = useState(EMPTY_FORM);
 
   useEffect(() => {

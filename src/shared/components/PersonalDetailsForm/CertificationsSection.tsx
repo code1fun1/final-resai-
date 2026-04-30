@@ -47,8 +47,6 @@ const TrashIcon = () => (
   </svg>
 );
 
-
-
 interface Certification {
   id?: number;
   title: string;

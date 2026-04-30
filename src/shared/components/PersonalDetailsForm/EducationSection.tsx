@@ -60,7 +60,6 @@ const TrashIcon = () => (
   </svg>
 );
 
-
 const EducationCard = ({ edu, onEdit, onDelete }: EducationCardProps) => {
   return (
     <Box

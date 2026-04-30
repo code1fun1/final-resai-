@@ -142,9 +142,7 @@ export type RequestBodyType<T> = {
     'org-id'?: string;
     'role-id'?: string;
   };
-  body?: {
-    req_param: T;
-  };
+  body?: { req_param: T } | object;
 };
 
 export enum CARD_VARIANT {

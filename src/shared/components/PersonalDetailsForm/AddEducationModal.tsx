@@ -139,7 +139,12 @@ interface AddEducationModalProps {
   initialData?: EducationFormData | null;
 }
 
-export default function AddEducationModal({ isOpen, onClose, onSave, initialData }: AddEducationModalProps) {
+export default function AddEducationModal({
+  isOpen,
+  onClose,
+  onSave,
+  initialData
+}: AddEducationModalProps) {
   const [form, setForm] = useState(EMPTY_FORM);
 
   useEffect(() => {

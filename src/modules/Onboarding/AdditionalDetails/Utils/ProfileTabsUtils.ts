@@ -26,9 +26,8 @@ type ApiResponseData = Record<string, unknown> & {
   message?: string;
   err?: { response?: { responseMessage?: { error?: { message?: string } } }; message?: string };
 };
-type ApiResponse = [ApiResponseData | null, ApiResponseData | null];
 
-const handleResponse = (response: ApiResponse) => {
+const handleResponse = (response: Array<ApiResponseData | null>) => {
   const [success, error] = response;
   if (success !== null) {
     return {

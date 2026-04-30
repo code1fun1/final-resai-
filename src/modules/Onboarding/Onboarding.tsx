@@ -860,11 +860,7 @@ const Onboarding: React.FC<OnboardingProps> = ({ setLoadWithoutMount }) => {
         /* ── Skills & Personal Details: full-page sidebar layout ── */
         <Box sx={{ display: 'flex', width: '100%', minHeight: '100vh' }}>
           <Sidebar
-            steps={
-              activeSteps === 0
-                ? SKILLS_SIDEBAR_STEPS
-                : PERSONAL_DETAILS_SIDEBAR_STEPS
-            }
+            steps={activeSteps === 0 ? SKILLS_SIDEBAR_STEPS : PERSONAL_DETAILS_SIDEBAR_STEPS}
           />
 
           {/* Main content */}

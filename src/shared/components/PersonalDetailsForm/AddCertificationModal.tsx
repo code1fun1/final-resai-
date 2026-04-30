@@ -93,7 +93,12 @@ interface AddCertificationModalProps {
   initialData?: CertificationFormData | null;
 }
 
-export default function AddCertificationModal({ isOpen, onClose, onSave, initialData }: AddCertificationModalProps) {
+export default function AddCertificationModal({
+  isOpen,
+  onClose,
+  onSave,
+  initialData
+}: AddCertificationModalProps) {
   const [form, setForm] = useState(EMPTY_FORM);
 
   useEffect(() => {
