@@ -1,4 +1,4 @@
-import { FC, useState, useRef } from 'react';
+import { FC, useState, useRef, useEffect } from 'react';
 import {
   Box,
   Typography,
@@ -11,6 +11,9 @@ import {
 import Image from 'next/image';
 import { Dispatch, SetStateAction } from 'react';
 import { OnboardingData, AdditionalData } from '~/modules/Onboarding/Utils/OnboardingUtils';
+import { EducationSection } from './EducationSection';
+import { CertificationsSection } from './CertificationsSection';
+import { getPersonal } from '~/modules/Onboarding/AdditionalDetails/Utils/ProfileTabsUtils';
 
 interface PersonalDetailsFormProps {
   onSave: Dispatch<SetStateAction<OnboardingData>>;
@@ -48,6 +51,7 @@ const PersonalDetailsForm: FC<PersonalDetailsFormProps> = ({
   const [activeTab, setActiveTab] = useState(0);
   const [profileImage, setProfileImage] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const hasFetchedPersonal = useRef(false);
 
   const [fullName, setFullName] = useState('');
   const [language, setLanguage] = useState('');
@@ -62,6 +66,28 @@ const PersonalDetailsForm: FC<PersonalDetailsFormProps> = ({
     reader.onload = (ev) => setProfileImage(ev.target?.result as string);
     reader.readAsDataURL(file);
   };
+
+  // ── Fetch personal details when Tab 0 is active ───────────────
+  useEffect(() => {
+    if (activeTab !== 0) return;
+    if (hasFetchedPersonal.current) return; // prevent double-fire in React StrictMode
+    hasFetchedPersonal.current = true;
+    const fetchPersonalDetails = async () => {
+      const res = await getPersonal();
+      if (res.status === 'success' && res.data) {
+        const d = res.data;
+        if (d.first_name || d.last_name) {
+          setFullName(`${d.first_name ?? ''} ${d.last_name ?? ''}`.trim());
+        }
+        if (d.email) setEmail(d.email);
+        if (d.phone) setPhone(d.phone);
+        if (d.linkedin) setLinkedIn(d.linkedin);
+        if (d.language) setLanguage(d.language);
+        if (d.profile_pic) setProfileImage(d.profile_pic);
+      }
+    };
+    fetchPersonalDetails();
+  }, [activeTab]);
 
   const handleContinue = () => {
     onSave((prev: OnboardingData) => ({
@@ -90,7 +116,7 @@ const PersonalDetailsForm: FC<PersonalDetailsFormProps> = ({
 
   return (
     <>
-      {/* Mobile dark header — hidden on md+ (sidebar handles branding there) */}
+      {/* Mobile dark header */}
       <Box
         sx={{
           display: { xs: 'flex', md: 'none' },
@@ -139,7 +165,6 @@ const PersonalDetailsForm: FC<PersonalDetailsFormProps> = ({
             Create resumes, plan growth, and unlock better opportunities in few simple steps
           </Typography>
 
-          {/* Progress indicator */}
           <Box
             sx={{
               display: 'flex',
@@ -158,22 +183,10 @@ const PersonalDetailsForm: FC<PersonalDetailsFormProps> = ({
                 overflow: 'hidden'
               }}
             >
-              <Box
-                sx={{
-                  width: '75%',
-                  height: '100%',
-                  bgcolor: '#DABF67',
-                  borderRadius: '3px'
-                }}
-              />
+              <Box sx={{ width: '75%', height: '100%', bgcolor: '#DABF67', borderRadius: '3px' }} />
             </Box>
             <Typography
-              sx={{
-                fontSize: '14px',
-                color: '#9CA3AF',
-                fontWeight: 400,
-                lineHeight: '140%'
-              }}
+              sx={{ fontSize: '14px', color: '#9CA3AF', fontWeight: 400, lineHeight: '140%' }}
             >
               3/4 completed
             </Typography>
@@ -190,7 +203,7 @@ const PersonalDetailsForm: FC<PersonalDetailsFormProps> = ({
           borderRadius: { xs: 0, md: '12px' },
           border: '1px solid #f0f0f0',
           overflow: 'hidden',
-          minHeight: 0
+          minHeight: { xs: 0, md: 'calc(100vh - 48px)' }
         }}
       >
         {/* Header */}
@@ -233,7 +246,6 @@ const PersonalDetailsForm: FC<PersonalDetailsFormProps> = ({
             </Typography>
           </Box>
 
-          {/* Progress */}
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, flexShrink: 0 }}>
             <Box
               sx={{
@@ -261,65 +273,73 @@ const PersonalDetailsForm: FC<PersonalDetailsFormProps> = ({
           </Box>
         </Box>
 
-        {/* Tabs — chevron breadcrumb */}
+        {/* ── Chevron Tab Nav ── */}
+        {/* Outer border makes white tabs visible without using outline (which bleeds through) */}
         <Box
           sx={{
             display: 'flex',
-            width: '100%',
-            height: '50px',
-            border: '1px solid #DFDFDF',
+            width: 'auto',
+            mx: { xs: 2, sm: 4 },
+            border: '1px solid #e0dbd2',
             borderRadius: '6px',
-            overflow: 'hidden',
-            bgcolor: '#ffffff'
+            overflow: 'hidden'
           }}
         >
-          {TABS.map((tab, i) => (
-            <Box
-              key={tab}
-              onClick={() => setActiveTab(i)}
-              sx={{
-                position: 'relative',
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'flex-start',
-                padding: '15px 16px',
-                gap: '10px',
-                isolation: 'isolate',
-                height: '50px',
-                cursor: 'pointer',
-                flex: i === 0 ? 'none' : 1,
-                flexGrow: i === 0 ? 0 : 1,
-                minWidth: i === 0 ? '185px' : 'auto',
-                bgcolor: activeTab === i ? '#F8F2E1' : '#ffffff',
-                clipPath:
-                  i < TABS.length - 1
-                    ? 'polygon(0 0, calc(100% - 15px) 0, 100% 50%, calc(100% - 15px) 100%, 0 100%)'
-                    : i === TABS.length - 1
-                      ? 'polygon(15px 0, 100% 0, 100% 100%, 15px 100%, 0 50%)'
-                      : undefined,
-                border: activeTab !== i && i === TABS.length - 1 ? '1px solid #DFDFDF' : 'none',
-                '&:hover': {
-                  bgcolor: activeTab === i ? '#F8F2E1' : '#f9f9f9'
-                }
-              }}
-            >
-              <Typography
+          {TABS.map((tab, i) => {
+            const isActive = i === activeTab;
+            const isDone = i < activeTab;
+            const isLast = i === TABS.length - 1;
+            const ARROW = 12; // px — keep small for minimal gap
+
+            // Active → golden | Done → light beige | Upcoming → white
+            const bg = isActive ? '#C9A84C' : isDone ? '#e8dfc8' : '#ffffff';
+            const textColor = isActive ? '#ffffff' : isDone ? '#9a8a6a' : '#6b7280';
+            const fontWeight = isActive ? 700 : isDone ? 600 : 500;
+
+            return (
+              <Box
+                key={tab}
+                onClick={() => setActiveTab(i)}
                 sx={{
-                  fontFamily: 'Roboto, sans-serif',
-                  fontSize: '14px',
-                  fontWeight: 500,
-                  lineHeight: '20px',
-                  color: activeTab === i ? '#735302' : '#04040E',
+                  position: 'relative',
+                  flex: 1,
                   display: 'flex',
                   alignItems: 'center',
-                  textAlign: 'center',
-                  zIndex: 1
+                  justifyContent: 'center',
+                  height: '48px',
+                  background: bg,
+                  cursor: 'pointer',
+                  paddingLeft: i === 0 ? '16px' : `${ARROW + 14}px`,
+                  paddingRight: isLast ? '16px' : `${ARROW + 8}px`,
+                  // Pull tabs together so clip-path edges touch exactly
+                  marginRight: isLast ? 0 : `-${ARROW}px`,
+                  // Earlier tabs sit on top so their arrow clips cleanly over the next
+                  zIndex: TABS.length - i,
+                  userSelect: 'none',
+                  clipPath:
+                    i === 0 && isLast
+                      ? 'none'
+                      : i === 0
+                        ? `polygon(0% 0%, calc(100% - ${ARROW}px) 0%, 100% 50%, calc(100% - ${ARROW}px) 100%, 0% 100%)`
+                        : isLast
+                          ? `polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%, ${ARROW}px 50%)`
+                          : `polygon(0% 0%, calc(100% - ${ARROW}px) 0%, 100% 50%, calc(100% - ${ARROW}px) 100%, 0% 100%, ${ARROW}px 50%)`
                 }}
               >
-                {tab}
-              </Typography>
-            </Box>
-          ))}
+                <Typography
+                  sx={{
+                    fontSize: '13px',
+                    fontWeight,
+                    color: textColor,
+                    fontFamily: 'Satoshi, sans-serif',
+                    whiteSpace: 'nowrap'
+                  }}
+                >
+                  {tab}
+                </Typography>
+              </Box>
+            );
+          })}
         </Box>
 
         {/* Content */}
@@ -423,7 +443,6 @@ const PersonalDetailsForm: FC<PersonalDetailsFormProps> = ({
                   gap: { xs: 2, sm: 2.5 }
                 }}
               >
-                {/* Full Name */}
                 <Box>
                   <Typography sx={labelSx}>Full Name</Typography>
                   <TextField
@@ -435,7 +454,6 @@ const PersonalDetailsForm: FC<PersonalDetailsFormProps> = ({
                   />
                 </Box>
 
-                {/* Language */}
                 <Box>
                   <Typography sx={labelSx}>Language</Typography>
                   <Select
@@ -467,7 +485,6 @@ const PersonalDetailsForm: FC<PersonalDetailsFormProps> = ({
                   </Select>
                 </Box>
 
-                {/* Email */}
                 <Box>
                   <Typography sx={labelSx}>Email Address</Typography>
                   <TextField
@@ -479,7 +496,6 @@ const PersonalDetailsForm: FC<PersonalDetailsFormProps> = ({
                   />
                 </Box>
 
-                {/* Phone */}
                 <Box>
                   <Typography sx={labelSx}>Phone Number</Typography>
                   <TextField
@@ -519,7 +535,6 @@ const PersonalDetailsForm: FC<PersonalDetailsFormProps> = ({
                   />
                 </Box>
 
-                {/* LinkedIn – full width */}
                 <Box sx={{ gridColumn: { xs: '1', sm: '1 / -1' } }}>
                   <Typography sx={labelSx}>LinkedIn Profile</Typography>
                   <TextField
@@ -553,7 +568,10 @@ const PersonalDetailsForm: FC<PersonalDetailsFormProps> = ({
             </>
           )}
 
-          {activeTab !== 0 && (
+          {activeTab === 2 && <EducationSection />}
+          {activeTab === 3 && <CertificationsSection />}
+
+          {activeTab === 1 && (
             <Box
               sx={{
                 display: 'flex',
@@ -563,11 +581,7 @@ const PersonalDetailsForm: FC<PersonalDetailsFormProps> = ({
               }}
             >
               <Typography
-                sx={{
-                  fontFamily: 'Satoshi, sans-serif',
-                  fontSize: '15px',
-                  color: '#9ca3af'
-                }}
+                sx={{ fontFamily: 'Satoshi, sans-serif', fontSize: '15px', color: '#9ca3af' }}
               >
                 Coming soon
               </Typography>

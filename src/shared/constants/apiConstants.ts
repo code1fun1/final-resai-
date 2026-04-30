@@ -59,5 +59,11 @@ export const APIS: KeyValuePair = {
   CREDIT_HISTORY: 'credits/get_user_credit_history',
   PROFILE_IMAGE_UPLOAD: '',
   ADMIN_DASHBOARD: 'admin/dashboard',
-  TRAINING_PLAN_GENERATOR: 'training-plan/generator'
+  TRAINING_PLAN_GENERATOR: 'training-plan/generator',
+  // ── Profile Tabs ──────────────────────────────────────────────────────────
+  PROFILE_TABS_PERSONAL: 'user/profile-tabs/personal',
+  PROFILE_TABS_EXPERIENCE: 'user/profile-tabs/experience',
+  PROFILE_TABS_EDUCATION: 'user/profile-tabs/education',
+  PROFILE_TABS_CERTIFICATE: 'user/profile-tabs/certificate',
+  PROFILE_TABS_AWARD: 'user/profile-tabs/award'
 };
