@@ -8,8 +8,12 @@ import {
   InputAdornment,
   Divider,
   Drawer,
-  IconButton
+  IconButton,
+  Tabs,
+  Tab,
+  useMediaQuery
 } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 import Image from 'next/image';
 import { Dispatch, SetStateAction } from 'react';
 import { OnboardingData, AdditionalData } from '~/modules/Onboarding/Utils/OnboardingUtils';
@@ -76,6 +80,8 @@ const PersonalDetailsForm: FC<PersonalDetailsFormProps> = ({
   onCancel,
   onContinue
 }) => {
+  const theme = useTheme();
+  const isTabletOrDown = useMediaQuery(theme.breakpoints.down('md'));
   const [activeTab, setActiveTab] = useState(0);
   const [profileImage, setProfileImage] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -239,7 +245,7 @@ const PersonalDetailsForm: FC<PersonalDetailsFormProps> = ({
           gap: '20px',
           bgcolor: '#04040E',
           color: '#ffffff',
-          p: '32px 20px',
+          p: { xs: '24px 16px', sm: '32px 20px' },
           textAlign: 'center',
           alignItems: 'center'
         }}
@@ -260,7 +266,7 @@ const PersonalDetailsForm: FC<PersonalDetailsFormProps> = ({
           <Typography
             sx={{
               fontFamily: 'Satoshi, sans-serif',
-              fontSize: '36px',
+              fontSize: { xs: '28px', sm: '32px' },
               fontWeight: 700,
               lineHeight: '100%',
               color: '#ffffff'
@@ -271,7 +277,7 @@ const PersonalDetailsForm: FC<PersonalDetailsFormProps> = ({
           <Typography
             sx={{
               fontFamily: 'Satoshi, sans-serif',
-              fontSize: '16px',
+              fontSize: { xs: '14px', sm: '16px' },
               fontWeight: 400,
               lineHeight: '140%',
               color: '#9CA3AF'
@@ -388,74 +394,118 @@ const PersonalDetailsForm: FC<PersonalDetailsFormProps> = ({
           </Box>
         </Box>
 
-        {/* ── Chevron Tab Nav ── */}
-        {/* Outer border makes white tabs visible without using outline (which bleeds through) */}
-        <Box
-          sx={{
-            display: 'flex',
-            width: 'auto',
-            mx: { xs: 2, sm: 4 },
-            border: '1px solid #e0dbd2',
-            borderRadius: '6px',
-            overflow: 'hidden'
-          }}
-        >
-          {TABS.map((tab, i) => {
-            const isActive = i === activeTab;
-            const isDone = i < activeTab;
-            const isLast = i === TABS.length - 1;
-            const ARROW = 12; // px — keep small for minimal gap
-
-            // Active → golden | Done → light beige | Upcoming → white
-            const bg = isActive ? '#C9A84C' : isDone ? '#e8dfc8' : '#ffffff';
-            const textColor = isActive ? '#ffffff' : isDone ? '#9a8a6a' : '#6b7280';
-            const fontWeight = isActive ? 700 : isDone ? 600 : 500;
-
-            return (
-              <Box
-                key={tab}
-                onClick={() => setActiveTab(i)}
-                sx={{
-                  position: 'relative',
-                  flex: 1,
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  height: '48px',
-                  background: bg,
-                  cursor: 'pointer',
-                  paddingLeft: i === 0 ? '16px' : `${ARROW + 14}px`,
-                  paddingRight: isLast ? '16px' : `${ARROW + 8}px`,
-                  // Pull tabs together so clip-path edges touch exactly
-                  marginRight: isLast ? 0 : `-${ARROW}px`,
-                  // Earlier tabs sit on top so their arrow clips cleanly over the next
-                  zIndex: TABS.length - i,
-                  userSelect: 'none',
-                  clipPath:
-                    i === 0 && isLast
-                      ? 'none'
-                      : i === 0
-                        ? `polygon(0% 0%, calc(100% - ${ARROW}px) 0%, 100% 50%, calc(100% - ${ARROW}px) 100%, 0% 100%)`
-                        : isLast
-                          ? `polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%, ${ARROW}px 50%)`
-                          : `polygon(0% 0%, calc(100% - ${ARROW}px) 0%, 100% 50%, calc(100% - ${ARROW}px) 100%, 0% 100%, ${ARROW}px 50%)`
-                }}
-              >
-                <Typography
+        {isTabletOrDown ? (
+          <Box
+            sx={{
+              mx: { xs: 2, sm: 4 },
+              border: '1px solid #e0dbd2',
+              borderRadius: '6px',
+              overflow: 'hidden'
+            }}
+          >
+            <Tabs
+              value={activeTab}
+              onChange={(_, v) => setActiveTab(v)}
+              variant="scrollable"
+              scrollButtons="auto"
+              sx={{
+                minHeight: 44,
+                '& .MuiTabs-indicator': { bgcolor: '#C9A84C', height: 3 },
+                '& .MuiTabs-scrollButtons': { color: '#6b7280' }
+              }}
+            >
+              {TABS.map((tab) => (
+                <Tab
+                  key={tab}
+                  label={tab}
                   sx={{
-                    fontSize: '13px',
-                    fontWeight,
-                    color: textColor,
+                    minHeight: 44,
+                    py: 1,
+                    px: 1.5,
+                    textTransform: 'none',
                     fontFamily: 'Satoshi, sans-serif',
-                    whiteSpace: 'nowrap'
+                    fontSize: { xs: '12px', sm: '13px' },
+                    fontWeight: 600,
+                    color: '#6b7280',
+                    whiteSpace: 'nowrap',
+                    '&.Mui-selected': { color: '#0f172a' }
                   }}
-                >
-                  {tab}
-                </Typography>
-              </Box>
-            );
-          })}
-        </Box>
+                />
+              ))}
+            </Tabs>
+          </Box>
+        ) : (
+          <>
+            {/* ── Chevron Tab Nav ── */}
+            {/* Outer border makes white tabs visible without using outline (which bleeds through) */}
+            <Box
+              sx={{
+                display: 'flex',
+                width: 'auto',
+                mx: { xs: 2, sm: 4 },
+                border: '1px solid #e0dbd2',
+                borderRadius: '6px',
+                overflow: 'hidden'
+              }}
+            >
+              {TABS.map((tab, i) => {
+                const isActive = i === activeTab;
+                const isDone = i < activeTab;
+                const isLast = i === TABS.length - 1;
+                const ARROW = 12; // px — keep small for minimal gap
+
+                // Active → golden | Done → light beige | Upcoming → white
+                const bg = isActive ? '#C9A84C' : isDone ? '#e8dfc8' : '#ffffff';
+                const textColor = isActive ? '#ffffff' : isDone ? '#9a8a6a' : '#6b7280';
+                const fontWeight = isActive ? 700 : isDone ? 600 : 500;
+
+                return (
+                  <Box
+                    key={tab}
+                    onClick={() => setActiveTab(i)}
+                    sx={{
+                      position: 'relative',
+                      flex: 1,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      height: '48px',
+                      background: bg,
+                      cursor: 'pointer',
+                      paddingLeft: i === 0 ? '16px' : `${ARROW + 14}px`,
+                      paddingRight: isLast ? '16px' : `${ARROW + 8}px`,
+                      // Pull tabs together so clip-path edges touch exactly
+                      marginRight: isLast ? 0 : `-${ARROW}px`,
+                      // Earlier tabs sit on top so their arrow clips cleanly over the next
+                      zIndex: TABS.length - i,
+                      userSelect: 'none',
+                      clipPath:
+                        i === 0 && isLast
+                          ? 'none'
+                          : i === 0
+                            ? `polygon(0% 0%, calc(100% - ${ARROW}px) 0%, 100% 50%, calc(100% - ${ARROW}px) 100%, 0% 100%)`
+                            : isLast
+                              ? `polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%, ${ARROW}px 50%)`
+                              : `polygon(0% 0%, calc(100% - ${ARROW}px) 0%, 100% 50%, calc(100% - ${ARROW}px) 100%, 0% 100%, ${ARROW}px 50%)`
+                    }}
+                  >
+                    <Typography
+                      sx={{
+                        fontSize: '13px',
+                        fontWeight,
+                        color: textColor,
+                        fontFamily: 'Satoshi, sans-serif',
+                        whiteSpace: 'nowrap'
+                      }}
+                    >
+                      {tab}
+                    </Typography>
+                  </Box>
+                );
+              })}
+            </Box>
+          </>
+        )}
 
         {/* Content */}
         <Box sx={{ flex: 1, overflowY: 'auto', px: { xs: 2, sm: 4 }, py: { xs: 2, sm: 3 } }}>
@@ -688,7 +738,9 @@ const PersonalDetailsForm: FC<PersonalDetailsFormProps> = ({
 
           {activeTab === 1 && (
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: { xs: 2, sm: 2.5 } }}>
-              <Box sx={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between' }}>
+              <Box
+                sx={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between' }}
+              >
                 <Box>
                   <Typography
                     sx={{
@@ -787,7 +839,10 @@ const PersonalDetailsForm: FC<PersonalDetailsFormProps> = ({
                           >
                             {item.companyLocation}
                             {(item.startDate || item.endDate) && (
-                              <> - ({item.startDate || 'Start'} - {item.endDate || 'Present'})</>
+                              <>
+                                {' '}
+                                - ({item.startDate || 'Start'} - {item.endDate || 'Present'})
+                              </>
                             )}
                           </Typography>
 
@@ -1032,9 +1087,7 @@ const PersonalDetailsForm: FC<PersonalDetailsFormProps> = ({
                   fullWidth
                   placeholder="e.g. Jan 2022"
                   value={experienceDraft.startDate}
-                  onChange={(e) =>
-                    setExperienceDraft((p) => ({ ...p, startDate: e.target.value }))
-                  }
+                  onChange={(e) => setExperienceDraft((p) => ({ ...p, startDate: e.target.value }))}
                   sx={inputSx}
                 />
               </Box>
@@ -1045,9 +1098,7 @@ const PersonalDetailsForm: FC<PersonalDetailsFormProps> = ({
                   fullWidth
                   placeholder="e.g. Present / Mar 2025"
                   value={experienceDraft.endDate}
-                  onChange={(e) =>
-                    setExperienceDraft((p) => ({ ...p, endDate: e.target.value }))
-                  }
+                  onChange={(e) => setExperienceDraft((p) => ({ ...p, endDate: e.target.value }))}
                   sx={inputSx}
                 />
               </Box>
