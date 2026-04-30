@@ -127,7 +127,7 @@ const CertCard = ({ cert, onEdit, onDelete }: CertCardProps) => (
       </Box>
       <Box
         component="button"
-        onClick={() => onDelete(cert.id)}
+        onClick={() => cert.id !== undefined && onDelete(cert.id)}
         sx={{
           width: 36,
           height: 36,
@@ -201,7 +201,7 @@ const AwardCard = ({ award, onEdit, onDelete }: AwardCardProps) => (
       </Box>
       <Box
         component="button"
-        onClick={() => onDelete(award.id)}
+        onClick={() => award.id !== undefined && onDelete(award.id)}
         sx={{
           width: 36,
           height: 36,
