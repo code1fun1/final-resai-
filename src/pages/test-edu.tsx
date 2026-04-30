@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Box } from '@mui/material';
 import PersonalDetailsForm from '~/shared/components/PersonalDetailsForm';
 import { Sidebar } from '~/shared/components/Sidebar/Sidebar';
+import { OnboardingData } from '~/modules/Onboarding/Utils/OnboardingUtils';
 
 interface SidebarStep {
   label: string;
@@ -16,11 +17,11 @@ const PERSONAL_DETAILS_SIDEBAR_STEPS: SidebarStep[] = [
 ];
 
 export default function TestEduPage() {
-  const [data, setData] = useState<{ additionalData: { stepData: Record<string, unknown> } }>({
+  const [data, setData] = useState<OnboardingData>({
     additionalData: {
       stepData: {}
     }
-  });
+  } as OnboardingData);
 
   return (
     <Box sx={{ display: 'flex', width: '100%', minHeight: '100vh' }}>
