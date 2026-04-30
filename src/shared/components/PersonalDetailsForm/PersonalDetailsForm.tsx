@@ -6,7 +6,9 @@ import {
   Select,
   MenuItem,
   InputAdornment,
-  Divider
+  Divider,
+  Drawer,
+  IconButton
 } from '@mui/material';
 import Image from 'next/image';
 import { Dispatch, SetStateAction } from 'react';
@@ -14,6 +16,10 @@ import { OnboardingData, AdditionalData } from '~/modules/Onboarding/Utils/Onboa
 import { EducationSection } from './EducationSection';
 import { CertificationsSection } from './CertificationsSection';
 import { getPersonal } from '~/modules/Onboarding/AdditionalDetails/Utils/ProfileTabsUtils';
+
+import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
+import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
+import DeleteOutlineRoundedIcon from '@mui/icons-material/DeleteOutlineRounded';
 
 interface PersonalDetailsFormProps {
   onSave: Dispatch<SetStateAction<OnboardingData>>;
@@ -42,6 +48,28 @@ const inputSx = {
   }
 };
 
+type ExperienceItem = {
+  id: string;
+  jobTitle: string;
+  companyName: string;
+  companyLocation: string;
+  startDate: string;
+  endDate: string;
+  achievements: string;
+  keyResponsibilities: string;
+};
+
+const pillButtonSx = {
+  px: { xs: 2.5, sm: 3 },
+  py: { xs: 1, sm: 1.1 },
+  borderRadius: '999px',
+  cursor: 'pointer',
+  fontFamily: 'Satoshi, sans-serif',
+  fontSize: { xs: '13px', sm: '14px' },
+  fontWeight: 600,
+  userSelect: 'none' as const
+};
+
 const PersonalDetailsForm: FC<PersonalDetailsFormProps> = ({
   onSave,
   onBack,
@@ -58,6 +86,20 @@ const PersonalDetailsForm: FC<PersonalDetailsFormProps> = ({
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [linkedIn, setLinkedIn] = useState('');
+
+  const [experienceItems, setExperienceItems] = useState<ExperienceItem[]>([]);
+  const [experienceExpanded, setExperienceExpanded] = useState<Record<string, boolean>>({});
+  const [isExperienceModalOpen, setIsExperienceModalOpen] = useState(false);
+  const [editingExperienceId, setEditingExperienceId] = useState<string | null>(null);
+  const [experienceDraft, setExperienceDraft] = useState<Omit<ExperienceItem, 'id'>>({
+    jobTitle: '',
+    companyName: '',
+    companyLocation: '',
+    startDate: '',
+    endDate: '',
+    achievements: '',
+    keyResponsibilities: ''
+  });
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -112,6 +154,79 @@ const PersonalDetailsForm: FC<PersonalDetailsFormProps> = ({
       }
     }));
     onContinue?.();
+  };
+
+  const openExperienceModalForCreate = () => {
+    setEditingExperienceId(null);
+    setExperienceDraft({
+      jobTitle: '',
+      companyName: '',
+      companyLocation: '',
+      startDate: '',
+      endDate: '',
+      achievements: '',
+      keyResponsibilities: ''
+    });
+    setIsExperienceModalOpen(true);
+  };
+
+  const openExperienceModalForEdit = (item: ExperienceItem) => {
+    setEditingExperienceId(item.id);
+    setExperienceDraft({
+      jobTitle: item.jobTitle,
+      companyName: item.companyName,
+      companyLocation: item.companyLocation,
+      startDate: item.startDate,
+      endDate: item.endDate,
+      achievements: item.achievements,
+      keyResponsibilities: item.keyResponsibilities
+    });
+    setIsExperienceModalOpen(true);
+  };
+
+  const closeExperienceModal = () => {
+    setIsExperienceModalOpen(false);
+  };
+
+  const saveExperienceDraft = () => {
+    if (!experienceDraft.jobTitle.trim() || !experienceDraft.companyName.trim()) return;
+
+    if (editingExperienceId) {
+      setExperienceItems((prev) =>
+        prev.map((it) => (it.id === editingExperienceId ? { ...it, ...experienceDraft } : it))
+      );
+    } else {
+      const id = `exp_${Date.now()}_${Math.random().toString(16).slice(2)}`;
+      setExperienceItems((prev) => [{ id, ...experienceDraft }, ...prev]);
+    }
+    setIsExperienceModalOpen(false);
+  };
+
+  const deleteExperience = (id: string) => {
+    setExperienceItems((prev) => prev.filter((it) => it.id !== id));
+    setExperienceExpanded((prev) => {
+      const next = { ...prev };
+      delete next[id];
+      return next;
+    });
+  };
+
+  const toggleExperienceExpanded = (id: string) => {
+    setExperienceExpanded((prev) => ({ ...prev, [id]: !prev[id] }));
+  };
+
+  const experienceBullets = (item: ExperienceItem) => {
+    const bullets = [
+      ...item.keyResponsibilities
+        .split('\n')
+        .map((s) => s.trim())
+        .filter(Boolean),
+      ...item.achievements
+        .split('\n')
+        .map((s) => s.trim())
+        .filter(Boolean)
+    ];
+    return bullets.map((b) => b.replace(/^[-•]\s*/, '')).filter(Boolean);
   };
 
   return (
@@ -572,19 +687,182 @@ const PersonalDetailsForm: FC<PersonalDetailsFormProps> = ({
           {activeTab === 3 && <CertificationsSection />}
 
           {activeTab === 1 && (
-            <Box
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                minHeight: 200
-              }}
-            >
-              <Typography
-                sx={{ fontFamily: 'Satoshi, sans-serif', fontSize: '15px', color: '#9ca3af' }}
-              >
-                Coming soon
-              </Typography>
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: { xs: 2, sm: 2.5 } }}>
+              <Box sx={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between' }}>
+                <Box>
+                  <Typography
+                    sx={{
+                      fontFamily: 'Satoshi, sans-serif',
+                      fontSize: { xs: '16px', sm: '18px' },
+                      fontWeight: 700,
+                      color: '#0f172a',
+                      mb: '4px'
+                    }}
+                  >
+                    Experience
+                  </Typography>
+                  <Typography
+                    sx={{
+                      fontFamily: 'Satoshi, sans-serif',
+                      fontSize: { xs: '13px', sm: '14px' },
+                      color: '#374151'
+                    }}
+                  >
+                    Review your experience history.
+                  </Typography>
+                </Box>
+
+                <Box
+                  onClick={openExperienceModalForCreate}
+                  sx={{
+                    ...pillButtonSx,
+                    border: '1.5px solid #DABF67',
+                    color: '#1a1a1a',
+                    bgcolor: '#fff',
+                    '&:hover': { bgcolor: '#fffaf0' }
+                  }}
+                >
+                  Add
+                </Box>
+              </Box>
+
+              {experienceItems.length === 0 ? (
+                <Box
+                  sx={{
+                    borderRadius: '12px',
+                    border: '1px solid #eef2f7',
+                    bgcolor: '#fafafa',
+                    p: { xs: 2, sm: 2.5 }
+                  }}
+                >
+                  <Typography
+                    sx={{
+                      fontFamily: 'Satoshi, sans-serif',
+                      fontSize: '14px',
+                      color: '#6b7280'
+                    }}
+                  >
+                    No work experience added yet. Click “Add” to create one.
+                  </Typography>
+                </Box>
+              ) : (
+                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                  {experienceItems.map((item) => {
+                    const bullets = experienceBullets(item);
+                    const expanded = !!experienceExpanded[item.id];
+                    const visibleBullets = expanded ? bullets : bullets.slice(0, 2);
+
+                    return (
+                      <Box
+                        key={item.id}
+                        sx={{
+                          borderRadius: '12px',
+                          bgcolor: '#fafafa',
+                          border: '1px solid #f1f5f9',
+                          p: { xs: 2, sm: 2.5 },
+                          display: 'grid',
+                          gridTemplateColumns: { xs: '1fr', sm: '1fr auto' },
+                          gap: 1.5
+                        }}
+                      >
+                        <Box sx={{ minWidth: 0 }}>
+                          <Typography
+                            sx={{
+                              fontFamily: 'Satoshi, sans-serif',
+                              fontSize: { xs: '14px', sm: '15px' },
+                              fontWeight: 700,
+                              color: '#0f172a',
+                              mb: '4px'
+                            }}
+                          >
+                            {item.jobTitle}, {item.companyName}
+                          </Typography>
+                          <Typography
+                            sx={{
+                              fontFamily: 'Satoshi, sans-serif',
+                              fontSize: { xs: '12px', sm: '13px' },
+                              color: '#6b7280',
+                              mb: 1
+                            }}
+                          >
+                            {item.companyLocation}
+                            {(item.startDate || item.endDate) && (
+                              <> - ({item.startDate || 'Start'} - {item.endDate || 'Present'})</>
+                            )}
+                          </Typography>
+
+                          {visibleBullets.length > 0 && (
+                            <Box component="ul" sx={{ m: 0, pl: 2, display: 'grid', gap: '6px' }}>
+                              {visibleBullets.map((b, idx) => (
+                                <Box
+                                  key={`${item.id}_${idx}`}
+                                  component="li"
+                                  sx={{
+                                    fontFamily: 'Satoshi, sans-serif',
+                                    fontSize: { xs: '13px', sm: '14px' },
+                                    color: '#111827',
+                                    lineHeight: 1.5
+                                  }}
+                                >
+                                  {b}
+                                </Box>
+                              ))}
+                            </Box>
+                          )}
+
+                          {bullets.length > 2 && (
+                            <Typography
+                              onClick={() => toggleExperienceExpanded(item.id)}
+                              sx={{
+                                mt: 1,
+                                fontFamily: 'Satoshi, sans-serif',
+                                fontSize: '13px',
+                                fontWeight: 600,
+                                color: '#b47a00',
+                                cursor: 'pointer',
+                                width: 'fit-content'
+                              }}
+                            >
+                              {expanded ? 'Show less' : 'Read more'}
+                            </Typography>
+                          )}
+                        </Box>
+
+                        <Box
+                          sx={{
+                            display: 'flex',
+                            gap: 1,
+                            justifyContent: { xs: 'flex-start', sm: 'flex-end' }
+                          }}
+                        >
+                          <IconButton
+                            onClick={() => openExperienceModalForEdit(item)}
+                            sx={{
+                              width: 36,
+                              height: 36,
+                              border: '1.5px solid #DABF67',
+                              bgcolor: '#fff'
+                            }}
+                          >
+                            <EditOutlinedIcon sx={{ fontSize: 18, color: '#1a1a1a' }} />
+                          </IconButton>
+                          <IconButton
+                            onClick={() => deleteExperience(item.id)}
+                            sx={{
+                              width: 36,
+                              height: 36,
+                              border: '1.5px solid #DABF67',
+                              bgcolor: '#fff'
+                            }}
+                          >
+                            <DeleteOutlineRoundedIcon sx={{ fontSize: 19, color: '#1a1a1a' }} />
+                          </IconButton>
+                        </Box>
+                      </Box>
+                    );
+                  })}
+                </Box>
+              )}
             </Box>
           )}
         </Box>
@@ -653,6 +931,237 @@ const PersonalDetailsForm: FC<PersonalDetailsFormProps> = ({
           </Box>
         </Box>
       </Box>
+
+      {/* Work Experience Right Panel */}
+      <Drawer
+        anchor="right"
+        open={isExperienceModalOpen}
+        onClose={closeExperienceModal}
+        PaperProps={{
+          sx: {
+            width: { xs: '100%', sm: 612 },
+            borderTopLeftRadius: { xs: 0, sm: '12px' },
+            borderBottomLeftRadius: { xs: 0, sm: '12px' },
+            borderLeft: { xs: 'none', sm: '1px solid #DFDFDF' }
+          }
+        }}
+      >
+        <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              height: 80,
+              px: 3,
+              borderBottom: '1px solid #DFDFDF'
+            }}
+          >
+            <Typography
+              sx={{
+                fontFamily: 'Satoshi, sans-serif',
+                fontSize: { xs: '16px', sm: '18px' },
+                fontWeight: 700,
+                color: '#04040E'
+              }}
+            >
+              {editingExperienceId ? 'Edit Experience' : 'Add New Experience'}
+            </Typography>
+            <IconButton
+              onClick={closeExperienceModal}
+              sx={{
+                width: 32,
+                height: 32,
+                bgcolor: '#F4F4F4',
+                borderRadius: '8px',
+                '&:hover': { bgcolor: '#ededed' }
+              }}
+            >
+              <CloseRoundedIcon sx={{ color: '#000', fontSize: 20 }} />
+            </IconButton>
+          </Box>
+
+          <Box sx={{ flex: 1, overflowY: 'auto', px: 3, py: 3 }}>
+            <Box
+              sx={{
+                display: 'grid',
+                gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr' },
+                gap: 2
+              }}
+            >
+              <Box>
+                <Typography sx={labelSx}>Job Title</Typography>
+                <TextField
+                  fullWidth
+                  placeholder="Enter designation"
+                  value={experienceDraft.jobTitle}
+                  onChange={(e) => setExperienceDraft((p) => ({ ...p, jobTitle: e.target.value }))}
+                  sx={inputSx}
+                />
+              </Box>
+
+              <Box>
+                <Typography sx={labelSx}>Company Name</Typography>
+                <TextField
+                  fullWidth
+                  placeholder="Enter company name"
+                  value={experienceDraft.companyName}
+                  onChange={(e) =>
+                    setExperienceDraft((p) => ({ ...p, companyName: e.target.value }))
+                  }
+                  sx={inputSx}
+                />
+              </Box>
+
+              <Box sx={{ gridColumn: { xs: '1', sm: '1 / -1' } }}>
+                <Typography sx={labelSx}>Company Location</Typography>
+                <TextField
+                  fullWidth
+                  placeholder="Enter the location where you were primarily based out of"
+                  value={experienceDraft.companyLocation}
+                  onChange={(e) =>
+                    setExperienceDraft((p) => ({ ...p, companyLocation: e.target.value }))
+                  }
+                  sx={inputSx}
+                />
+              </Box>
+
+              <Box>
+                <Typography sx={labelSx}>Start Date</Typography>
+                <TextField
+                  fullWidth
+                  placeholder="e.g. Jan 2022"
+                  value={experienceDraft.startDate}
+                  onChange={(e) =>
+                    setExperienceDraft((p) => ({ ...p, startDate: e.target.value }))
+                  }
+                  sx={inputSx}
+                />
+              </Box>
+
+              <Box>
+                <Typography sx={labelSx}>End Date</Typography>
+                <TextField
+                  fullWidth
+                  placeholder="e.g. Present / Mar 2025"
+                  value={experienceDraft.endDate}
+                  onChange={(e) =>
+                    setExperienceDraft((p) => ({ ...p, endDate: e.target.value }))
+                  }
+                  sx={inputSx}
+                />
+              </Box>
+
+              <Box sx={{ gridColumn: { xs: '1', sm: '1 / -1' } }}>
+                <Typography sx={labelSx}>Achievements</Typography>
+                <TextField
+                  fullWidth
+                  multiline
+                  minRows={3}
+                  placeholder="Mention measurable achievements"
+                  value={experienceDraft.achievements}
+                  onChange={(e) =>
+                    setExperienceDraft((p) => ({ ...p, achievements: e.target.value }))
+                  }
+                  sx={inputSx}
+                />
+              </Box>
+
+              <Box sx={{ gridColumn: { xs: '1', sm: '1 / -1' } }}>
+                <Typography sx={labelSx}>Key Responsibilities</Typography>
+                <TextField
+                  fullWidth
+                  multiline
+                  minRows={3}
+                  placeholder="Describe your work responsibilities"
+                  value={experienceDraft.keyResponsibilities}
+                  onChange={(e) =>
+                    setExperienceDraft((p) => ({ ...p, keyResponsibilities: e.target.value }))
+                  }
+                  sx={inputSx}
+                />
+              </Box>
+            </Box>
+          </Box>
+
+          <Divider sx={{ borderColor: '#DFDFDF' }} />
+
+          <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 1.5, px: 3, py: 2.5 }}>
+            {editingExperienceId ? (
+              <>
+                <Box
+                  onClick={() => {
+                    deleteExperience(editingExperienceId);
+                    closeExperienceModal();
+                  }}
+                  sx={{
+                    ...pillButtonSx,
+                    border: '1.5px solid #DABF67',
+                    color: '#04040E',
+                    bgcolor: '#fff',
+                    '&:hover': { bgcolor: '#fffaf0' }
+                  }}
+                >
+                  Delete
+                </Box>
+                <Box
+                  onClick={saveExperienceDraft}
+                  sx={{
+                    ...pillButtonSx,
+                    bgcolor: '#DABF67',
+                    color: '#04040E',
+                    '&:hover': { bgcolor: '#c9ae56' },
+                    opacity:
+                      experienceDraft.jobTitle.trim() && experienceDraft.companyName.trim()
+                        ? 1
+                        : 0.6,
+                    pointerEvents:
+                      experienceDraft.jobTitle.trim() && experienceDraft.companyName.trim()
+                        ? 'auto'
+                        : 'none'
+                  }}
+                >
+                  Update
+                </Box>
+              </>
+            ) : (
+              <>
+                <Box
+                  onClick={closeExperienceModal}
+                  sx={{
+                    ...pillButtonSx,
+                    border: '1.5px solid #DABF67',
+                    color: '#04040E',
+                    bgcolor: '#fff',
+                    '&:hover': { bgcolor: '#fffaf0' }
+                  }}
+                >
+                  Cancel
+                </Box>
+                <Box
+                  onClick={saveExperienceDraft}
+                  sx={{
+                    ...pillButtonSx,
+                    bgcolor: '#DABF67',
+                    color: '#04040E',
+                    '&:hover': { bgcolor: '#c9ae56' },
+                    opacity:
+                      experienceDraft.jobTitle.trim() && experienceDraft.companyName.trim()
+                        ? 1
+                        : 0.6,
+                    pointerEvents:
+                      experienceDraft.jobTitle.trim() && experienceDraft.companyName.trim()
+                        ? 'auto'
+                        : 'none'
+                  }}
+                >
+                  Add
+                </Box>
+              </>
+            )}
+          </Box>
+        </Box>
+      </Drawer>
     </>
   );
 };
