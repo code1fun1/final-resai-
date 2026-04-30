@@ -52,6 +52,16 @@ const inputSx = {
   }
 };
 
+type PersonalDetailsApiData = {
+  first_name?: string | null;
+  last_name?: string | null;
+  email?: string | null;
+  phone?: string | null;
+  linkedin?: string | null;
+  language?: string | null;
+  profile_pic?: string | null;
+};
+
 type ExperienceItem = {
   id: string;
   jobTitle: string;
@@ -123,7 +133,7 @@ const PersonalDetailsForm: FC<PersonalDetailsFormProps> = ({
     const fetchPersonalDetails = async () => {
       const res = await getPersonal();
       if (res.status === 'success' && res.data) {
-        const d = res.data;
+        const d = res.data as PersonalDetailsApiData;
         if (d.first_name || d.last_name) {
           setFullName(`${d.first_name ?? ''} ${d.last_name ?? ''}`.trim());
         }
