@@ -79,7 +79,9 @@ type PersonalDetailsApiData = {
   full_name?: string | null;
   email?: string | null;
   phone?: string | null;
+  phone_number?: string | null;
   linkedin?: string | null;
+  linkedin_profile?: string | null;
   language?: string | null;
   profile_pic?: string | null;
 };
