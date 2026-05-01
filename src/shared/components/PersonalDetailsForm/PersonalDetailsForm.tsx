@@ -379,7 +379,7 @@ const PersonalDetailsForm: FC<PersonalDetailsFormProps> = ({
     if (res.status === 'success') {
       const savedData = res.data as ApiExperienceItem | undefined;
       const newItem: ExperienceItem = {
-        id: editingExperienceId || savedData?.id || Date.now().toString(),
+        id: editingExperienceId || String(savedData?.id ?? '') || Date.now().toString(),
         jobTitle: experienceDraft.jobTitle.trim(),
         companyName: experienceDraft.companyName.trim(),
         companyLocation: experienceDraft.companyLocation.trim(),
