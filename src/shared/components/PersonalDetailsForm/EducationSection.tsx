@@ -54,12 +54,20 @@ const normalizeEducation = (education: ApiEducation): Education => {
 
 const toEducationPayload = (education: Education) => {
   const [degree, ...fieldParts] = education.degree.split(' in ');
+  // Combine project details and bullet points into a single description
+  const descriptionParts: string[] = [];
+  if (education.project) descriptionParts.push(education.project);
+  if (education.tech) descriptionParts.push(`Technologies: ${education.tech}`);
+  if (education.bullets && education.bullets.length > 0) {
+    descriptionParts.push(education.bullets.join('\n'));
+  }
   return {
     degree: degree.trim(),
     institution_name: education.institution,
     field_of_study: fieldParts.join(' in ').trim(),
     end_date: education.year,
-    description: education.bullets?.join('\n') ?? ''
+    description: descriptionParts.join('\n\n'),
+    score: education.score
   };
 };
 
@@ -203,7 +211,7 @@ const EducationCard = ({ edu, onEdit, onDelete }: EducationCardProps) => {
           </Box>
           <Box
             component="button"
-            onClick={() => onDelete(edu.id)}
+            onClick={() => edu.id !== undefined && onDelete(edu.id)}
             sx={{
               width: 36,
               height: 36,

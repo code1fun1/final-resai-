@@ -153,6 +153,7 @@ export interface EducationPayload {
   start_date?: string;
   end_date?: string;
   description?: string;
+  score?: string;
 }
 
 /** GET /user/profile-tabs/education */

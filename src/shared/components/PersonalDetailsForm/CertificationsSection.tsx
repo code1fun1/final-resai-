@@ -56,7 +56,10 @@ interface Certification {
 
 interface Award {
   id?: number | string;
-  bullets: string[];
+  awardName: string;
+  issuingOrganization: string;
+  awardDate: string;
+  description: string;
 }
 
 interface CertCardProps {
@@ -127,7 +130,7 @@ const CertCard = ({ cert, onEdit, onDelete }: CertCardProps) => (
       </Box>
       <Box
         component="button"
-        onClick={() => onDelete(cert.id)}
+        onClick={() => cert.id !== undefined && onDelete(cert.id)}
         sx={{
           width: 36,
           height: 36,
@@ -161,23 +164,47 @@ const AwardCard = ({ award, onEdit, onDelete }: AwardCardProps) => (
     }}
   >
     <Box sx={{ pr: '88px' }}>
-      <Box
-        component="ul"
+      <Typography
         sx={{
-          pl: '20px',
+          fontWeight: 600,
+          fontSize: '15px',
           color: '#1a1a1a',
-          fontSize: '13.5px',
-          lineHeight: 1.8,
-          fontFamily: 'Satoshi, sans-serif',
-          m: 0
+          mb: '4px',
+          fontFamily: 'Satoshi, sans-serif'
         }}
       >
-        {award.bullets.map((b: string, i: number) => (
-          <li key={i} style={{ marginBottom: '6px' }}>
-            {b}
-          </li>
-        ))}
-      </Box>
+        {award.awardName}
+      </Typography>
+      <Typography
+        sx={{
+          color: '#666',
+          fontSize: '13.5px',
+          mb: '12px',
+          fontFamily: 'Satoshi, sans-serif'
+        }}
+      >
+        {award.issuingOrganization} — {award.awardDate}
+      </Typography>
+      {award.description && (
+        <Box
+          component="ul"
+          sx={{
+            pl: '18px',
+            color: '#444',
+            fontSize: '13.5px',
+            lineHeight: 1.75,
+            fontFamily: 'Satoshi, sans-serif',
+            m: 0
+          }}
+        >
+          {award.description
+            .split('\n')
+            .filter(Boolean)
+            .map((b: string, i: number) => (
+              <li key={i}>{b}</li>
+            ))}
+        </Box>
+      )}
     </Box>
     <Box sx={{ display: 'flex', gap: '8px', position: 'absolute', right: '20px', top: '20px' }}>
       <Box
@@ -201,7 +228,7 @@ const AwardCard = ({ award, onEdit, onDelete }: AwardCardProps) => (
       </Box>
       <Box
         component="button"
-        onClick={() => onDelete(award.id)}
+        onClick={() => award.id !== undefined && onDelete(award.id)}
         sx={{
           width: 36,
           height: 36,
@@ -293,13 +320,10 @@ const normalizeCertification = (cert: ApiCertification): Certification => ({
 
 const normalizeAward = (award: ApiAward): Award => ({
   id: award.id ?? award.award_id,
-  bullets:
-    award.bullets ??
-    [award.award_name, award.issuing_organization, award.award_date, award.description]
-      .filter(Boolean)
-      .join('\n')
-      .split('\n')
-      .filter(Boolean)
+  awardName: award.award_name ?? '',
+  issuingOrganization: award.issuing_organization ?? '',
+  awardDate: award.award_date ?? '',
+  description: award.description ?? ''
 });
 
 export const CertificationsSection = () => {
@@ -370,9 +394,7 @@ export const CertificationsSection = () => {
       if (res.status === 'success')
         setCertList((prev) => [
           ...prev,
-          res.data
-            ? normalizeCertification(res.data as ApiCertification)
-            : { ...savedCert, id: Date.now() }
+          (res.data as Certification) ?? { ...savedCert, id: Date.now() }
         ]);
     }
   };
@@ -393,28 +415,26 @@ export const CertificationsSection = () => {
     if (res.status === 'success') setAwardList((prev) => prev.filter((a) => a.id !== id));
   };
 
-  const handleSaveAward = async (savedAward: Partial<Award>) => {
-    const awardToSave: Award = {
-      id: savedAward.id,
-      bullets: savedAward.bullets ?? []
-    };
+  const handleSaveAward = async (award: Award) => {
     const payload = {
-      award_name: awardToSave.bullets[0] ?? '',
-      description: awardToSave.bullets.join('\n')
+      award_name: award.awardName,
+      issuing_organization: award.issuingOrganization,
+      award_date: award.awardDate,
+      description: award.description
     };
-    if (awardToSave.id) {
-      const res = await updateAward(awardToSave.id, payload);
+    if (award.id) {
+      const res = await updateAward(award.id, payload);
       if (res.status === 'success')
-        setAwardList((prev) => prev.map((a) => (a.id === awardToSave.id ? awardToSave : a)));
+        setAwardList((prev) => prev.map((a) => (a.id === award.id ? award : a)));
     } else {
       const res = await createAward(payload);
       if (res.status === 'success')
         setAwardList((prev) => [
           ...prev,
-          res.data ? normalizeAward(res.data as ApiAward) : { ...awardToSave, id: Date.now() }
+          res.data ? normalizeAward(res.data as ApiAward) : { ...award, id: Date.now() }
         ]);
     }
-  };
+   };
 
   return (
     <Box>

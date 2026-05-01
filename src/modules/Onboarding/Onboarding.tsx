@@ -829,7 +829,7 @@ const Onboarding: React.FC<OnboardingProps> = ({ setLoadWithoutMount }) => {
         if (res.status === API_STATUS.SUCCESS) {
           updateProfileData(res.data, RESPONSE_TYPE.PROFILE, setOnboardingData);
           setActiveSteps(
-            res?.data?.user?.user_step > 5 ? userJobDetailStep : res?.data?.user?.user_step - 2
+           res?.data?.user?.user_step > 5 ? userJobDetailStep : res?.data?.user?.user_step - 2
           );
         }
       } catch (e) {

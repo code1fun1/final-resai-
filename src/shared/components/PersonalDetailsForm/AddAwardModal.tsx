@@ -1,22 +1,10 @@
 import React, { useState, useEffect } from 'react';
 
-// ── Close Icon ─────────────────────────────────────────────────────────────
-
 const CloseIcon = () => (
-  <svg
-    width="20"
-    height="20"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-  >
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
     <path d="M18 6L6 18M6 6l12 12" />
   </svg>
 );
-
-// ── Reusable Field Components ──────────────────────────────────────────────
 
 function Label({ children }: { children: React.ReactNode }) {
   return (
@@ -27,11 +15,44 @@ function Label({ children }: { children: React.ReactNode }) {
         fontWeight: 600,
         color: '#1a1a1a',
         marginBottom: 8,
-        fontFamily: '\'Satoshi\', sans-serif'
+        fontFamily: "'Satoshi', sans-serif"
       }}
     >
       {children}
     </label>
+  );
+}
+
+interface InputProps {
+  placeholder?: string;
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  name: string;
+}
+
+function Input({ placeholder, value, onChange, name }: InputProps) {
+  const [focused, setFocused] = useState(false);
+  return (
+    <input
+      name={name}
+      value={value}
+      onChange={onChange}
+      placeholder={placeholder}
+      onFocus={() => setFocused(true)}
+      onBlur={() => setFocused(false)}
+      style={{
+        width: '100%',
+        padding: '12px 16px',
+        borderRadius: 10,
+        border: `1.5px solid ${focused ? '#C9A84C' : '#e0dbd2'}`,
+        background: 'white',
+        fontSize: 14,
+        color: '#1a1a1a',
+        fontFamily: "'Satoshi', sans-serif",
+        outline: 'none',
+        boxSizing: 'border-box'
+      }}
+    />
   );
 }
 
@@ -62,27 +83,28 @@ function Textarea({ placeholder, value, onChange, name, rows = 5 }: TextareaProp
         background: 'white',
         fontSize: 14,
         color: '#1a1a1a',
-        fontFamily: '\'Satoshi\', sans-serif',
+        fontFamily: "'Satoshi', sans-serif",
         outline: 'none',
         resize: 'vertical',
-        boxSizing: 'border-box',
-        transition: 'border-color 0.15s'
+        boxSizing: 'border-box'
       }}
     />
   );
 }
 
-// ── Initial Form State ─────────────────────────────────────────────────────
-
 const EMPTY_FORM = {
-  achievements: ''
+  awardName: '',
+  issuingOrganization: '',
+  awardDate: '',
+  description: ''
 };
-
-// ── Modal Component ────────────────────────────────────────────────────────
 
 interface AwardFormData {
   id?: number | string;
-  bullets?: string[];
+  awardName: string;
+  issuingOrganization: string;
+  awardDate: string;
+  description: string;
 }
 
 interface AddAwardModalProps {
@@ -104,7 +126,10 @@ export default function AddAwardModal({
     if (isOpen) {
       if (initialData) {
         setForm({
-          achievements: initialData.bullets ? initialData.bullets.join('\n') : ''
+          awardName: initialData.awardName || '',
+          issuingOrganization: initialData.issuingOrganization || '',
+          awardDate: initialData.awardDate || '',
+          description: initialData.description || ''
         });
       } else {
         setForm(EMPTY_FORM);
@@ -114,17 +139,22 @@ export default function AddAwardModal({
 
   if (!isOpen) return null;
 
-  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSaveClick = () => {
-    if (!form.achievements.trim()) return;
+    if (!form.awardName.trim()) return;
+    if (!form.issuingOrganization.trim()) return;
+    if (!form.awardDate.trim()) return;
 
     onSave?.({
       id: initialData?.id,
-      bullets: form.achievements.split('\n').filter(Boolean)
+      awardName: form.awardName.trim(),
+      issuingOrganization: form.issuingOrganization.trim(),
+      awardDate: form.awardDate.trim(),
+      description: form.description.trim()
     });
     setForm(EMPTY_FORM);
     onClose?.();
@@ -163,7 +193,7 @@ export default function AddAwardModal({
           display: 'flex',
           flexDirection: 'column',
           boxShadow: '-8px 0 40px rgba(0,0,0,0.12)',
-          fontFamily: '\'Satoshi\', sans-serif'
+          fontFamily: "'Satoshi', sans-serif"
         }}
       >
         <div
@@ -176,7 +206,7 @@ export default function AddAwardModal({
           }}
         >
           <h2 style={{ fontSize: 22, fontWeight: 700, color: '#1a1a1a', margin: 0 }}>
-            {initialData ? 'Edit Awards & Recognition' : 'Add New Awards & Recognition'}
+            {initialData ? 'Edit Award' : 'Add New Award'}
           </h2>
           <button
             onClick={handleCancel}
@@ -205,13 +235,44 @@ export default function AddAwardModal({
           }}
         >
           <div>
-            <Label>Awards / Recognition</Label>
-            <Textarea
-              name="achievements"
-              value={form.achievements}
+            <Label>Award / Recognition Title</Label>
+            <Input
+              name="awardName"
+              value={form.awardName}
               onChange={handleChange}
-              placeholder="Mention achievements"
-              rows={8}
+              placeholder="e.g. Best Employee of the Year"
+            />
+          </div>
+
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+            <div>
+              <Label>Issuing Organization</Label>
+              <Input
+                name="issuingOrganization"
+                value={form.issuingOrganization}
+                onChange={handleChange}
+                placeholder="e.g. Google"
+              />
+            </div>
+            <div>
+              <Label>Award Date</Label>
+              <Input
+                name="awardDate"
+                value={form.awardDate}
+                onChange={handleChange}
+                placeholder="e.g. 2024 or Jan 2024"
+              />
+            </div>
+          </div>
+
+          <div>
+            <Label>Description / Achievements</Label>
+            <Textarea
+              name="description"
+              value={form.description}
+              onChange={handleChange}
+              placeholder="Mention details of the award, criteria, or achievements (each bullet on new line)"
+              rows={6}
             />
           </div>
         </div>
@@ -232,7 +293,7 @@ export default function AddAwardModal({
               borderRadius: 28,
               border: '1.5px solid #ddd',
               background: 'white',
-              fontFamily: '\'Satoshi\', sans-serif',
+              fontFamily: "'Satoshi', sans-serif",
               fontWeight: 500,
               fontSize: 15,
               cursor: 'pointer',
@@ -247,13 +308,12 @@ export default function AddAwardModal({
               padding: '11px 32px',
               borderRadius: 28,
               border: 'none',
-              background: form.achievements.trim() ? '#C9A84C' : '#e0d9c8',
-              fontFamily: '\'Satoshi\', sans-serif',
+              background: form.awardName.trim() && form.issuingOrganization.trim() && form.awardDate.trim() ? '#C9A84C' : '#e0d9c8',
+              fontFamily: "'Satoshi', sans-serif",
               fontWeight: 600,
               fontSize: 15,
-              cursor: form.achievements.trim() ? 'pointer' : 'not-allowed',
-              color: 'white',
-              transition: 'background 0.2s'
+              cursor: form.awardName.trim() && form.issuingOrganization.trim() && form.awardDate.trim() ? 'pointer' : 'not-allowed',
+              color: 'white'
             }}
           >
             {initialData ? 'Update' : 'Add'}
