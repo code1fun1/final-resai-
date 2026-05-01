@@ -1,7 +1,15 @@
 import React, { useState, useEffect } from 'react';
 
 const CloseIcon = () => (
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+  <svg
+    width="20"
+    height="20"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+  >
     <path d="M18 6L6 18M6 6l12 12" />
   </svg>
 );
@@ -15,7 +23,7 @@ function Label({ children }: { children: React.ReactNode }) {
         fontWeight: 600,
         color: '#1a1a1a',
         marginBottom: 8,
-        fontFamily: "'Satoshi', sans-serif"
+        fontFamily: '\'Satoshi\', sans-serif'
       }}
     >
       {children}
@@ -48,7 +56,7 @@ function Input({ placeholder, value, onChange, name }: InputProps) {
         background: 'white',
         fontSize: 14,
         color: '#1a1a1a',
-        fontFamily: "'Satoshi', sans-serif",
+        fontFamily: '\'Satoshi\', sans-serif',
         outline: 'none',
         boxSizing: 'border-box'
       }}
@@ -83,7 +91,7 @@ function Textarea({ placeholder, value, onChange, name, rows = 5 }: TextareaProp
         background: 'white',
         fontSize: 14,
         color: '#1a1a1a',
-        fontFamily: "'Satoshi', sans-serif",
+        fontFamily: '\'Satoshi\', sans-serif',
         outline: 'none',
         resize: 'vertical',
         boxSizing: 'border-box'
@@ -193,7 +201,7 @@ export default function AddAwardModal({
           display: 'flex',
           flexDirection: 'column',
           boxShadow: '-8px 0 40px rgba(0,0,0,0.12)',
-          fontFamily: "'Satoshi', sans-serif"
+          fontFamily: '\'Satoshi\', sans-serif'
         }}
       >
         <div
@@ -293,7 +301,7 @@ export default function AddAwardModal({
               borderRadius: 28,
               border: '1.5px solid #ddd',
               background: 'white',
-              fontFamily: "'Satoshi', sans-serif",
+              fontFamily: '\'Satoshi\', sans-serif',
               fontWeight: 500,
               fontSize: 15,
               cursor: 'pointer',
@@ -308,11 +316,17 @@ export default function AddAwardModal({
               padding: '11px 32px',
               borderRadius: 28,
               border: 'none',
-              background: form.awardName.trim() && form.issuingOrganization.trim() && form.awardDate.trim() ? '#C9A84C' : '#e0d9c8',
-              fontFamily: "'Satoshi', sans-serif",
+              background:
+                form.awardName.trim() && form.issuingOrganization.trim() && form.awardDate.trim()
+                  ? '#C9A84C'
+                  : '#e0d9c8',
+              fontFamily: '\'Satoshi\', sans-serif',
               fontWeight: 600,
               fontSize: 15,
-              cursor: form.awardName.trim() && form.issuingOrganization.trim() && form.awardDate.trim() ? 'pointer' : 'not-allowed',
+              cursor:
+                form.awardName.trim() && form.issuingOrganization.trim() && form.awardDate.trim()
+                  ? 'pointer'
+                  : 'not-allowed',
               color: 'white'
             }}
           >

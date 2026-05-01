@@ -434,7 +434,7 @@ export const CertificationsSection = () => {
           res.data ? normalizeAward(res.data as ApiAward) : { ...award, id: Date.now() }
         ]);
     }
-   };
+  };
 
   return (
     <Box>

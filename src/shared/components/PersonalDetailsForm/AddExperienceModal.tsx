@@ -353,20 +353,20 @@ export default function AddExperienceModal({
           >
             Cancel
           </button>
-           <button
-             onClick={handleSaveClick}
-             style={{
-               padding: '11px 32px',
-               borderRadius: 28,
-               border: 'none',
-               background: form.jobTitle.trim() && form.companyName.trim() ? '#C9A84C' : '#e0d9c8',
-               fontFamily: '\'Satoshi\', sans-serif',
-               fontWeight: 600,
-               fontSize: 15,
-               cursor: form.jobTitle.trim() && form.companyName.trim() ? 'pointer' : 'not-allowed',
-               color: 'white'
-             }}
-           >
+          <button
+            onClick={handleSaveClick}
+            style={{
+              padding: '11px 32px',
+              borderRadius: 28,
+              border: 'none',
+              background: form.jobTitle.trim() && form.companyName.trim() ? '#C9A84C' : '#e0d9c8',
+              fontFamily: '\'Satoshi\', sans-serif',
+              fontWeight: 600,
+              fontSize: 15,
+              cursor: form.jobTitle.trim() && form.companyName.trim() ? 'pointer' : 'not-allowed',
+              color: 'white'
+            }}
+          >
             {initialData ? 'Update' : 'Add'}
           </button>
         </div>

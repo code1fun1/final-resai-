@@ -20,7 +20,6 @@ import { Dispatch, SetStateAction } from 'react';
 import { OnboardingData, AdditionalData } from '~/modules/Onboarding/Utils/OnboardingUtils';
 import { EducationSection } from './EducationSection';
 import { CertificationsSection } from './CertificationsSection';
-import { ExperienceSection } from './ExperienceSection';
 import {
   createPersonal,
   getPersonal,
@@ -30,6 +29,18 @@ import {
   deleteExperience as deleteExperienceApi,
   getExperience
 } from '~/modules/Onboarding/AdditionalDetails/Utils/ProfileTabsUtils';
+
+type ApiExperienceItem = {
+  id?: number | string;
+  experience_id?: number | string;
+  job_title?: string;
+  company_name?: string;
+  location?: string;
+  start_date?: string;
+  end_date?: string;
+  description?: string;
+  currently_working?: boolean;
+};
 
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
@@ -65,6 +76,7 @@ const inputSx = {
 type PersonalDetailsApiData = {
   first_name?: string | null;
   last_name?: string | null;
+  full_name?: string | null;
   email?: string | null;
   phone?: string | null;
   linkedin?: string | null;
@@ -201,7 +213,7 @@ const PersonalDetailsForm: FC<PersonalDetailsFormProps> = ({
       const res = await getExperience();
       if (res.status === 'success' && Array.isArray(res.data)) {
         setExperienceItems(
-          res.data.map((item: any) => ({
+          res.data.map((item: ApiExperienceItem) => ({
             id: String(item.id ?? item.experience_id),
             jobTitle: item.job_title ?? '',
             companyName: item.company_name ?? '',
@@ -343,7 +355,8 @@ const PersonalDetailsForm: FC<PersonalDetailsFormProps> = ({
   const saveExperienceDraft = async () => {
     if (!experienceDraft.jobTitle.trim() || !experienceDraft.companyName.trim()) return;
 
-    const description = `${experienceDraft.keyResponsibilities}\n${experienceDraft.achievements}`.trim();
+    const description =
+      `${experienceDraft.keyResponsibilities}\n${experienceDraft.achievements}`.trim();
     const payload = {
       job_title: experienceDraft.jobTitle.trim(),
       company_name: experienceDraft.companyName.trim(),
@@ -362,7 +375,7 @@ const PersonalDetailsForm: FC<PersonalDetailsFormProps> = ({
     }
 
     if (res.status === 'success') {
-      const savedData = res.data as any;
+      const savedData = res.data as ApiExperienceItem | undefined;
       const newItem: ExperienceItem = {
         id: editingExperienceId || savedData?.id || Date.now().toString(),
         jobTitle: experienceDraft.jobTitle.trim(),
@@ -374,7 +387,9 @@ const PersonalDetailsForm: FC<PersonalDetailsFormProps> = ({
         keyResponsibilities: experienceDraft.keyResponsibilities.trim()
       };
       if (editingExperienceId) {
-        setExperienceItems((prev) => prev.map((item) => (item.id === editingExperienceId ? newItem : item)));
+        setExperienceItems((prev) =>
+          prev.map((item) => (item.id === editingExperienceId ? newItem : item))
+        );
       } else {
         setExperienceItems((prev) => [newItem, ...prev]);
       }
@@ -854,47 +869,64 @@ const PersonalDetailsForm: FC<PersonalDetailsFormProps> = ({
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
                     InputProps={{
-                        startAdornment: (
-                          <InputAdornment position="start" sx={{ pr: 0 }}>
-                            <Select
-                              value={countryCode}
-                              onChange={handleCountryCodeChange}
-                              variant="standard"
-                              size="small"
-                              sx={{
-                                width: 85,
-                                mr: 1,
-                                '& .MuiSelect-select': { py: 0.5, px: 0.5, fontWeight: 500, fontSize: '13px' },
-                                '& .MuiSelect-standard': { paddingTop: 0, paddingBottom: 0 }
-                              }}
-                            >
-                              {countryCodes.map((cc) => (
-                                <MenuItem key={cc.code} value={cc.code}>
-                                  {cc.code}
-                                </MenuItem>
-                              ))}
-                            </Select>
-                          </InputAdornment>
-                        )
+                      startAdornment: (
+                        <InputAdornment position="start" sx={{ pr: 0 }}>
+                          <Select
+                            value={countryCode}
+                            onChange={handleCountryCodeChange}
+                            variant="standard"
+                            size="small"
+                            sx={{
+                              width: 85,
+                              mr: 1,
+                              '& .MuiSelect-select': {
+                                py: 0.5,
+                                px: 0.5,
+                                fontWeight: 500,
+                                fontSize: '13px'
+                              },
+                              '& .MuiSelect-standard': { paddingTop: 0, paddingBottom: 0 }
+                            }}
+                          >
+                            {countryCodes.map((cc) => (
+                              <MenuItem key={cc.code} value={cc.code}>
+                                {cc.code}
+                              </MenuItem>
+                            ))}
+                          </Select>
+                        </InputAdornment>
+                      )
                     }}
                     sx={inputSx}
                   />
-               </Box>
+                </Box>
 
-               <Box sx={{ gridColumn: { xs: '1', sm: '1 / -1' }, display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
-                 <input
-                   type="checkbox"
-                   id="currentlyWorking"
-                   checked={currentlyWorking}
-                   onChange={(e) => setCurrentlyWorking(e.target.checked)}
-                   style={{ width: 16, height: 16, cursor: 'pointer' }}
-                 />
-                 <Typography component="label" htmlFor="currentlyWorking" sx={{ fontSize: 14, color: '#333', cursor: 'pointer' }}>
-                   Currently working here
-                 </Typography>
-               </Box>
+                <Box
+                  sx={{
+                    gridColumn: { xs: '1', sm: '1 / -1' },
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 1,
+                    mb: 2
+                  }}
+                >
+                  <input
+                    type="checkbox"
+                    id="currentlyWorking"
+                    checked={currentlyWorking}
+                    onChange={(e) => setCurrentlyWorking(e.target.checked)}
+                    style={{ width: 16, height: 16, cursor: 'pointer' }}
+                  />
+                  <Typography
+                    component="label"
+                    htmlFor="currentlyWorking"
+                    sx={{ fontSize: 14, color: '#333', cursor: 'pointer' }}
+                  >
+                    Currently working here
+                  </Typography>
+                </Box>
 
-               <Box sx={{ gridColumn: { xs: '1', sm: '1 / -1' } }}>
+                <Box sx={{ gridColumn: { xs: '1', sm: '1 / -1' } }}>
                   <Typography sx={labelSx}>LinkedIn Profile</Typography>
                   <TextField
                     fullWidth
