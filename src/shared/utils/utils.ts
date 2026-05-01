@@ -18,13 +18,16 @@ const { publicRuntimeConfig: configs = {} } = getConfig() || {};
 
 export const getBaseUrl: () => string = () => {
   const { apiUrl } = configs;
+  // Use the environment variable from .env.local directly
   if (apiUrl) {
     return apiUrl;
   }
+  // Fallback to stored URL if available
   const storedUrl = getStoredApiUrl();
   if (storedUrl) {
     return storedUrl;
   }
+  // Default fallback
   return 'https://dev.resai.co/api/v1/';
 };
 

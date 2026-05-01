@@ -13,7 +13,12 @@ import { Dispatch, SetStateAction } from 'react';
 import { OnboardingData, AdditionalData } from '~/modules/Onboarding/Utils/OnboardingUtils';
 import { EducationSection } from './EducationSection';
 import { CertificationsSection } from './CertificationsSection';
-import { getPersonal } from '~/modules/Onboarding/AdditionalDetails/Utils/ProfileTabsUtils';
+import { ExperienceSection } from './ExperienceSection';
+import {
+  createPersonal,
+  getPersonal,
+  updatePersonal
+} from '~/modules/Onboarding/AdditionalDetails/Utils/ProfileTabsUtils';
 
 interface PersonalDetailsFormProps {
   onSave: Dispatch<SetStateAction<OnboardingData>>;
@@ -42,6 +47,19 @@ const inputSx = {
   }
 };
 
+type PersonalApiData = {
+  first_name?: string;
+  last_name?: string;
+  full_name?: string;
+  email?: string;
+  phone?: string;
+  phone_number?: string;
+  linkedin?: string;
+  linkedin_profile?: string;
+  language?: string;
+  profile_pic?: string;
+};
+
 const PersonalDetailsForm: FC<PersonalDetailsFormProps> = ({
   onSave,
   onBack,
@@ -52,6 +70,7 @@ const PersonalDetailsForm: FC<PersonalDetailsFormProps> = ({
   const [profileImage, setProfileImage] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const hasFetchedPersonal = useRef(false);
+  const hasExistingPersonal = useRef(false);
 
   const [fullName, setFullName] = useState('');
   const [language, setLanguage] = useState('');
@@ -75,13 +94,17 @@ const PersonalDetailsForm: FC<PersonalDetailsFormProps> = ({
     const fetchPersonalDetails = async () => {
       const res = await getPersonal();
       if (res.status === 'success' && res.data) {
-        const d = res.data;
+        const d = (Array.isArray(res.data) ? res.data[0] : res.data) as PersonalApiData | null;
+        if (!d) return;
+        hasExistingPersonal.current = true;
         if (d.first_name || d.last_name) {
           setFullName(`${d.first_name ?? ''} ${d.last_name ?? ''}`.trim());
+        } else if (d.full_name) {
+          setFullName(d.full_name);
         }
         if (d.email) setEmail(d.email);
-        if (d.phone) setPhone(d.phone);
-        if (d.linkedin) setLinkedIn(d.linkedin);
+        if (d.phone || d.phone_number) setPhone(d.phone ?? d.phone_number ?? '');
+        if (d.linkedin || d.linkedin_profile) setLinkedIn(d.linkedin ?? d.linkedin_profile ?? '');
         if (d.language) setLanguage(d.language);
         if (d.profile_pic) setProfileImage(d.profile_pic);
       }
@@ -89,7 +112,28 @@ const PersonalDetailsForm: FC<PersonalDetailsFormProps> = ({
     fetchPersonalDetails();
   }, [activeTab]);
 
-  const handleContinue = () => {
+  const handleContinue = async () => {
+    const [firstName, ...lastNameParts] = fullName.trim().split(/\s+/);
+    const payload = {
+      first_name: firstName ?? '',
+      last_name: lastNameParts.join(' '),
+      email,
+      phone,
+      linkedin: linkedIn,
+      language,
+      profile_pic: profileImage ?? undefined
+    };
+
+    const hasAnyPersonalValue = Object.values(payload).some(Boolean);
+    if (hasAnyPersonalValue) {
+      const res = hasExistingPersonal.current
+        ? await updatePersonal(payload)
+        : await createPersonal(payload);
+      if (res.status === 'success') {
+        hasExistingPersonal.current = true;
+      }
+    }
+
     onSave((prev: OnboardingData) => ({
       ...prev,
       additionalData: {
@@ -571,22 +615,7 @@ const PersonalDetailsForm: FC<PersonalDetailsFormProps> = ({
           {activeTab === 2 && <EducationSection />}
           {activeTab === 3 && <CertificationsSection />}
 
-          {activeTab === 1 && (
-            <Box
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                minHeight: 200
-              }}
-            >
-              <Typography
-                sx={{ fontFamily: 'Satoshi, sans-serif', fontSize: '15px', color: '#9ca3af' }}
-              >
-                Coming soon
-              </Typography>
-            </Box>
-          )}
+          {activeTab === 1 && <ExperienceSection />}
         </Box>
 
         <Divider />

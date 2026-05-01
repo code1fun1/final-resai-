@@ -80,7 +80,7 @@ const EMPTY_FORM = {
 // ── Modal Component ────────────────────────────────────────────────────────
 
 interface CertificationFormData {
-  id?: number;
+  id?: number | string;
   title: string;
   issuer: string;
   year: string;

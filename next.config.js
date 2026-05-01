@@ -26,7 +26,7 @@ module.exports = withBundleAnalyzer({
     apiUrl: process.env.API_URL
   },
   publicRuntimeConfig: {
-    apiUrl: process.env.API_URL,
+    apiUrl: process.env.API_URL || 'https://dev.resai.co/api/v1/',
     GOOGLE_ANALYTICS_MEASUREMENT_ID: process.env.NEXT_PUBLIC_MEASUREMENT_ID,
     REACTIVE_RESUME_BASE_URL: process.env.REACTIVE_RESUME_BASE_URL,
     WEB_ENVIRONMENT: process.env.NODE_ENV_NEXT,

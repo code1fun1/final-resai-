@@ -48,27 +48,27 @@ const TrashIcon = () => (
 );
 
 interface Certification {
-  id?: number;
+  id?: number | string;
   title: string;
   issuer: string;
   year: string;
 }
 
 interface Award {
-  id?: number;
+  id?: number | string;
   bullets: string[];
 }
 
 interface CertCardProps {
   cert: Certification;
   onEdit: (cert: Certification) => void;
-  onDelete: (id: number) => void;
+  onDelete: (id?: number | string) => void;
 }
 
 interface AwardCardProps {
   award: Award;
   onEdit: (award: Award) => void;
-  onDelete: (id: number) => void;
+  onDelete: (id?: number | string) => void;
 }
 
 interface SectionHeaderProps {
@@ -263,6 +263,45 @@ const SectionHeader = ({ title, subtitle, onAdd }: SectionHeaderProps) => (
   </Box>
 );
 
+type ApiCertification = {
+  id?: number | string;
+  certificate_id?: number | string;
+  certificate_name?: string;
+  title?: string;
+  issuing_organization?: string;
+  issuer?: string;
+  issue_date?: string;
+  year?: string;
+};
+
+type ApiAward = {
+  id?: number | string;
+  award_id?: number | string;
+  award_name?: string;
+  issuing_organization?: string;
+  award_date?: string;
+  description?: string;
+  bullets?: string[];
+};
+
+const normalizeCertification = (cert: ApiCertification): Certification => ({
+  id: cert.id ?? cert.certificate_id,
+  title: cert.certificate_name ?? cert.title ?? '',
+  issuer: cert.issuing_organization ?? cert.issuer ?? '',
+  year: cert.issue_date ?? cert.year ?? ''
+});
+
+const normalizeAward = (award: ApiAward): Award => ({
+  id: award.id ?? award.award_id,
+  bullets:
+    award.bullets ??
+    [award.award_name, award.issuing_organization, award.award_date, award.description]
+      .filter(Boolean)
+      .join('\n')
+      .split('\n')
+      .filter(Boolean)
+});
+
 export const CertificationsSection = () => {
   const [certList, setCertList] = useState<Certification[]>([]);
   const [awardList, setAwardList] = useState<Award[]>([]);
@@ -283,13 +322,17 @@ export const CertificationsSection = () => {
     const fetchCerts = async () => {
       setIsLoadingCerts(true);
       const res = await getCertificates();
-      if (res.status === 'success' && Array.isArray(res.data)) setCertList(res.data);
+      if (res.status === 'success' && Array.isArray(res.data)) {
+        setCertList(res.data.map((item) => normalizeCertification(item as ApiCertification)));
+      }
       setIsLoadingCerts(false);
     };
     const fetchAwards = async () => {
       setIsLoadingAwards(true);
       const res = await getAwards();
-      if (res.status === 'success' && Array.isArray(res.data)) setAwardList(res.data);
+      if (res.status === 'success' && Array.isArray(res.data)) {
+        setAwardList(res.data.map((item) => normalizeAward(item as ApiAward)));
+      }
       setIsLoadingAwards(false);
     };
     fetchCerts();
@@ -306,13 +349,18 @@ export const CertificationsSection = () => {
     setIsCertModalOpen(true);
   };
 
-  const handleDeleteCert = async (id: number) => {
+  const handleDeleteCert = async (id?: number | string) => {
+    if (!id) return;
     const res = await deleteCertificate(id);
     if (res.status === 'success') setCertList((prev) => prev.filter((c) => c.id !== id));
   };
 
   const handleSaveCert = async (savedCert: Certification) => {
-    const payload = { title: savedCert.title, issuer: savedCert.issuer, year: savedCert.year };
+    const payload = {
+      certificate_name: savedCert.title,
+      issuing_organization: savedCert.issuer,
+      issue_date: savedCert.year
+    };
     if (savedCert.id) {
       const res = await updateCertificate(savedCert.id, payload);
       if (res.status === 'success')
@@ -320,7 +368,12 @@ export const CertificationsSection = () => {
     } else {
       const res = await createCertificate(payload);
       if (res.status === 'success')
-        setCertList((prev) => [...prev, res.data ?? { ...savedCert, id: Date.now() }]);
+        setCertList((prev) => [
+          ...prev,
+          res.data
+            ? normalizeCertification(res.data as ApiCertification)
+            : { ...savedCert, id: Date.now() }
+        ]);
     }
   };
 
@@ -334,21 +387,32 @@ export const CertificationsSection = () => {
     setIsAwardModalOpen(true);
   };
 
-  const handleDeleteAward = async (id: number) => {
+  const handleDeleteAward = async (id?: number | string) => {
+    if (!id) return;
     const res = await deleteAward(id);
     if (res.status === 'success') setAwardList((prev) => prev.filter((a) => a.id !== id));
   };
 
-  const handleSaveAward = async (savedAward: Award) => {
-    const payload = { description: savedAward.bullets?.join('\n') };
-    if (savedAward.id) {
-      const res = await updateAward(savedAward.id, payload);
+  const handleSaveAward = async (savedAward: Partial<Award>) => {
+    const awardToSave: Award = {
+      id: savedAward.id,
+      bullets: savedAward.bullets ?? []
+    };
+    const payload = {
+      award_name: awardToSave.bullets[0] ?? '',
+      description: awardToSave.bullets.join('\n')
+    };
+    if (awardToSave.id) {
+      const res = await updateAward(awardToSave.id, payload);
       if (res.status === 'success')
-        setAwardList((prev) => prev.map((a) => (a.id === savedAward.id ? savedAward : a)));
+        setAwardList((prev) => prev.map((a) => (a.id === awardToSave.id ? awardToSave : a)));
     } else {
       const res = await createAward(payload);
       if (res.status === 'success')
-        setAwardList((prev) => [...prev, res.data ?? { ...savedAward, id: Date.now() }]);
+        setAwardList((prev) => [
+          ...prev,
+          res.data ? normalizeAward(res.data as ApiAward) : { ...awardToSave, id: Date.now() }
+        ]);
     }
   };
 

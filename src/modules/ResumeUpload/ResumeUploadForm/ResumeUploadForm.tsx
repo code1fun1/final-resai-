@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useState } from 'react';
 import { Box, Button, Divider, TextField, Typography } from '@mui/material';
 import { useStyles } from './ResumeUploadFormStyles';
 import FileUploader from '~/shared/components/FileUploader';
@@ -16,10 +16,11 @@ interface ResumeUploadFormProps {
   spinTimer: number;
   onDelete: () => void;
   fileDetails: FileDetails;
+  hasResumeText: boolean;
 }
 
 const ResumeUploadForm: React.FC<ResumeUploadFormProps> = React.memo(
-  ({ onSave, onCancel, onChange, onDrop, spinTimer, onDelete, fileDetails }) => {
+  ({ onSave, onCancel, onChange, onDrop, spinTimer, onDelete, fileDetails, hasResumeText }) => {
     const styles = useStyles();
     useTranslation(LOCALE_PAGE.RESUME_UPLOAD);
 
@@ -30,21 +31,19 @@ const ResumeUploadForm: React.FC<ResumeUploadFormProps> = React.memo(
 
     const { showSpinner, fileName, errorMessage, fileUploadUrl } = fileDetails;
 
-    const isValidLinksContent = useMemo(() => {
-      if (!additionalLinks.trim()) {
-        setLinksError('');
-        return false;
-      }
-      const result = detectResumeFromText(additionalLinks);
-      if (!result.isResume) {
-        setLinksError('Please enter valid resume content (skills, education, experience, etc.)');
-        return false;
-      }
-      setLinksError('');
-      return true;
-    }, [additionalLinks]);
+    const hasAdditionalLinks = !!additionalLinks.trim();
+    const isValidLinksContent =
+      hasAdditionalLinks && detectResumeFromText(additionalLinks).isResume;
+    const hasUploadedResume = !!fileUploadUrl && hasResumeText;
+    const canContinue = (hasUploadedResume && !showSpinner) || isValidLinksContent;
 
     const handleGetStarted = () => {
+      if (showSpinner) return;
+      if (hasAdditionalLinks && !isValidLinksContent) {
+        setLinksError('Please enter valid resume content (skills, education, experience, etc.)');
+        return;
+      }
+      setLinksError('');
       onSave(additionalLinks);
     };
 
@@ -149,7 +148,10 @@ const ResumeUploadForm: React.FC<ResumeUploadFormProps> = React.memo(
                 'Paste anything !\nyour LinkedIn summary, a previous resume, or just a list of your jobs and skills. We\'ll take it from there.'
               }
               value={additionalLinks}
-              onChange={(e) => setAdditionalLinks(e.target.value)}
+              onChange={(e) => {
+                setAdditionalLinks(e.target.value);
+                if (linksError) setLinksError('');
+              }}
               fullWidth
               multiline
               rows={4}
@@ -173,7 +175,7 @@ const ResumeUploadForm: React.FC<ResumeUploadFormProps> = React.memo(
               variant="contained"
               className={styles.getStartedBtn}
               onClick={handleGetStarted}
-              disabled={!fileUploadUrl && !isValidLinksContent}
+              disabled={!canContinue}
             >
               Get started
             </Button>

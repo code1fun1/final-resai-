@@ -160,43 +160,61 @@ export interface JDFormRequest {
   companyName: string;
   jobDesc: string;
 }
+
+interface JobDescriptionRequest {
+  job_title: string;
+  company: string;
+  description: string;
+}
+
 interface SaveFileReqTypeWithJDForm {
   resume_url: string;
   resume_content: string;
-  designation: null;
-  target_job: null;
+  designation: string | null;
+  target_job: string | null;
   is_onboarding: boolean;
-  // job_description: {
-  //   job_title: string;
-  //   company: string;
-  //   description: string;
-  // };
-  job_description: any; // eslint-disable-line @typescript-eslint/no-explicit-any
+  job_description: JobDescriptionRequest;
 }
+
+interface ApiErrorResponse {
+  error?: { message?: string };
+  message?: string;
+  responseMessage?: { error?: { message?: string } };
+}
+
+const getApiErrorMessage = (errorResponse?: ApiErrorResponse, fallback?: string) =>
+  errorResponse?.error?.message ||
+  errorResponse?.message ||
+  errorResponse?.responseMessage?.error?.message ||
+  fallback ||
+  'Something went wrong. Please try again.';
+
 export const handleSaveFileWithJDForm = async (
   fileUrl: string,
   editorText: string,
   data: JDFormRequest
 ) => {
   const { RESUME_PARSE } = APIS;
+  const jobTitle = data.jobTitle?.trim() || '';
+  const companyName = data.companyName?.trim() || '';
+  const jobDesc = data.jobDesc?.trim() || '';
+  const jobDescription: JobDescriptionRequest = {
+    job_title: jobTitle,
+    company: companyName,
+    description: jobDesc
+  };
+
   const request: RequestBodyType<SaveFileReqTypeWithJDForm> = {
     url: RESUME_PARSE,
     method: API_METHOD.POST,
     body: {
       req_param: {
         resume_url: fileUrl?.split('?')[0],
-        resume_content: editorText,
-        designation: null,
-        target_job: null,
+        resume_content: editorText.trim(),
+        designation: jobTitle || null,
+        target_job: jobTitle || null,
         is_onboarding: false,
-        job_description:
-          data.jobTitle && data.companyName && data.jobDesc
-            ? {
-                job_title: data.jobTitle,
-                company: data.companyName,
-                description: data.jobDesc
-              }
-            : ''
+        job_description: jobDescription
       }
     }
   };
@@ -212,7 +230,7 @@ export const handleSaveFileWithJDForm = async (
     return {
       data: null,
       status: API_STATUS.FAILED,
-      message: errorMessage ? errorMessage?.error?.message : response[1]?.err?.message
+      message: getApiErrorMessage(errorMessage, response[1]?.err?.message)
     };
   }
 };

@@ -81,7 +81,7 @@ const EMPTY_FORM = {
 // ── Modal Component ────────────────────────────────────────────────────────
 
 interface AwardFormData {
-  id?: number;
+  id?: number | string;
   bullets?: string[];
 }
 

@@ -1,6 +1,4 @@
-import React, { useState, useEffect } from 'react';
-
-// ── Close Icon ─────────────────────────────────────────────────────────────
+import React, { useEffect, useState } from 'react';
 
 const CloseIcon = () => (
   <svg
@@ -15,8 +13,6 @@ const CloseIcon = () => (
     <path d="M18 6L6 18M6 6l12 12" />
   </svg>
 );
-
-// ── Reusable Field Components ──────────────────────────────────────────────
 
 function Label({ children }: { children: React.ReactNode }) {
   return (
@@ -62,8 +58,7 @@ function Input({ placeholder, value, onChange, name }: InputProps) {
         color: '#1a1a1a',
         fontFamily: '\'Satoshi\', sans-serif',
         outline: 'none',
-        boxSizing: 'border-box',
-        transition: 'border-color 0.15s'
+        boxSizing: 'border-box'
       }}
     />
   );
@@ -99,78 +94,63 @@ function Textarea({ placeholder, value, onChange, name, rows = 5 }: TextareaProp
         fontFamily: '\'Satoshi\', sans-serif',
         outline: 'none',
         resize: 'vertical',
-        boxSizing: 'border-box',
-        transition: 'border-color 0.15s'
+        boxSizing: 'border-box'
       }}
     />
   );
 }
 
-// ── Initial Form State ─────────────────────────────────────────────────────
-
 const EMPTY_FORM = {
-  degree: '',
-  specialization: '',
-  college: '',
-  graduationYear: '',
-  score: '',
-  projectName: '',
-  technologies: '',
-  projectDescription: ''
+  jobTitle: '',
+  companyName: '',
+  location: '',
+  startDate: '',
+  endDate: '',
+  description: ''
 };
 
-// ── Modal Component ────────────────────────────────────────────────────────
-
-interface EducationFormData {
+export interface ExperienceFormData {
   id?: number | string;
-  degree: string;
-  institution: string;
-  score?: string;
-  year?: string;
-  project?: string;
-  bullets?: string[];
-  tech?: string;
+  jobTitle: string;
+  companyName: string;
+  location?: string;
+  startDate?: string;
+  endDate?: string;
+  description?: string;
+  currentlyWorking?: boolean;
 }
 
-interface AddEducationModalProps {
+interface AddExperienceModalProps {
   isOpen: boolean;
   onClose?: () => void;
-  onSave?: (edu: EducationFormData) => void;
-  initialData?: EducationFormData | null;
+  onSave?: (experience: ExperienceFormData) => void;
+  initialData?: ExperienceFormData | null;
 }
 
-export default function AddEducationModal({
+export default function AddExperienceModal({
   isOpen,
   onClose,
   onSave,
   initialData
-}: AddEducationModalProps) {
+}: AddExperienceModalProps) {
   const [form, setForm] = useState(EMPTY_FORM);
+  const [currentlyWorking, setCurrentlyWorking] = useState(false);
 
   useEffect(() => {
-    if (isOpen) {
-      if (initialData) {
-        let degreeStr = initialData.degree || '';
-        let specStr = '';
-        if (degreeStr.includes(' in ')) {
-          const parts = degreeStr.split(' in ');
-          degreeStr = parts[0];
-          specStr = parts.slice(1).join(' in ');
-        }
-
-        setForm({
-          degree: degreeStr,
-          specialization: specStr,
-          college: initialData.institution || '',
-          graduationYear: initialData.year || '',
-          score: initialData.score || '',
-          projectName: initialData.project || '',
-          technologies: initialData.tech || '',
-          projectDescription: initialData.bullets ? initialData.bullets.join('\n') : ''
-        });
-      } else {
-        setForm(EMPTY_FORM);
-      }
+    if (!isOpen) return;
+    if (initialData) {
+      setForm({
+        jobTitle: initialData.jobTitle || '',
+        companyName: initialData.companyName || '',
+        location: initialData.location || '',
+        startDate: initialData.startDate || '',
+        endDate: initialData.endDate || '',
+        description: initialData.description || ''
+      });
+      setCurrentlyWorking(!!initialData.currentlyWorking);
+    } else {
+      setForm(EMPTY_FORM);
+      setCurrentlyWorking(false);
     }
   }, [isOpen, initialData]);
 
@@ -182,21 +162,16 @@ export default function AddEducationModal({
   };
 
   const handleSaveClick = () => {
-    if (!form.degree.trim()) return;
-
-    const combinedDegree = form.specialization.trim()
-      ? `${form.degree.trim()} in ${form.specialization.trim()}`
-      : form.degree.trim();
-
+    if (!form.jobTitle.trim() && !form.companyName.trim()) return;
     onSave?.({
       id: initialData?.id,
-      degree: combinedDegree,
-      score: form.score,
-      institution: form.college,
-      year: form.graduationYear,
-      project: form.projectName,
-      bullets: form.projectDescription ? form.projectDescription.split('\n').filter(Boolean) : [],
-      tech: form.technologies
+      jobTitle: form.jobTitle.trim(),
+      companyName: form.companyName.trim(),
+      location: form.location.trim(),
+      startDate: form.startDate.trim(),
+      endDate: currentlyWorking ? '' : form.endDate.trim(),
+      description: form.description.trim(),
+      currentlyWorking
     });
     setForm(EMPTY_FORM);
     onClose?.();
@@ -248,7 +223,7 @@ export default function AddEducationModal({
           }}
         >
           <h2 style={{ fontSize: 22, fontWeight: 700, color: '#1a1a1a', margin: 0 }}>
-            {initialData ? 'Edit Education' : 'Add New Education'}
+            {initialData ? 'Edit Work Experience' : 'Add Work Experience'}
           </h2>
           <button
             onClick={handleCancel}
@@ -278,85 +253,78 @@ export default function AddEducationModal({
         >
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
             <div>
-              <Label>Degree / Course</Label>
+              <Label>Job Title</Label>
               <Input
-                name="degree"
-                value={form.degree}
+                name="jobTitle"
+                value={form.jobTitle}
                 onChange={handleChange}
-                placeholder="e.g. B.Tech, MBA"
+                placeholder="e.g. Frontend Developer"
               />
             </div>
             <div>
-              <Label>Specialization</Label>
+              <Label>Company</Label>
               <Input
-                name="specialization"
-                value={form.specialization}
+                name="companyName"
+                value={form.companyName}
                 onChange={handleChange}
-                placeholder="e.g. Computer Science"
+                placeholder="Company name"
               />
             </div>
           </div>
           <div>
-            <Label>College / University</Label>
+            <Label>Location</Label>
             <Input
-              name="college"
-              value={form.college}
+              name="location"
+              value={form.location}
               onChange={handleChange}
-              placeholder="Enter college name"
+              placeholder="e.g. Bengaluru, India"
             />
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
             <div>
-              <Label>Graduation Year</Label>
+              <Label>Start Date</Label>
               <Input
-                name="graduationYear"
-                value={form.graduationYear}
+                name="startDate"
+                value={form.startDate}
                 onChange={handleChange}
-                placeholder="e.g. 2023 or pursuing"
+                placeholder="YYYY-MM-DD or Jan 2023"
               />
             </div>
             <div>
-              <Label>Percentage / CGPA</Label>
+              <Label>End Date</Label>
               <Input
-                name="score"
-                value={form.score}
+                name="endDate"
+                value={form.endDate}
                 onChange={handleChange}
-                placeholder="Enter score"
+                placeholder="YYYY-MM-DD or Present"
               />
             </div>
           </div>
+          <label
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 8,
+              fontSize: 14,
+              color: '#333'
+            }}
+          >
+            <input
+              type="checkbox"
+              checked={currentlyWorking}
+              onChange={(e) => setCurrentlyWorking(e.target.checked)}
+            />
+            Currently working here
+          </label>
           <div>
-            <h3 style={{ fontSize: 17, fontWeight: 700, color: '#1a1a1a', margin: '4px 0 16px' }}>
-              Projects if any
-            </h3>
-            <div style={{ marginBottom: 16 }}>
-              <Label>Project Name</Label>
-              <Input
-                name="projectName"
-                value={form.projectName}
-                onChange={handleChange}
-                placeholder="Enter project title"
-              />
-            </div>
-            <div style={{ marginBottom: 16 }}>
-              <Label>Technologies Used</Label>
-              <Input
-                name="technologies"
-                value={form.technologies}
-                onChange={handleChange}
-                placeholder="e.g. React, SQL, Figma"
-              />
-            </div>
-            <div>
-              <Label>Project Description</Label>
-              <Textarea
-                name="projectDescription"
-                value={form.projectDescription}
-                onChange={handleChange}
-                placeholder="Explain your project briefly"
-                rows={5}
-              />
-            </div>
+            <Label>Description</Label>
+            <Textarea
+              name="description"
+              value={form.description}
+              onChange={handleChange}
+              placeholder="Describe your role and achievements"
+              rows={7}
+            />
           </div>
         </div>
 
@@ -391,13 +359,12 @@ export default function AddEducationModal({
               padding: '11px 32px',
               borderRadius: 28,
               border: 'none',
-              background: form.degree.trim() ? '#C9A84C' : '#e0d9c8',
+              background: form.jobTitle.trim() || form.companyName.trim() ? '#C9A84C' : '#e0d9c8',
               fontFamily: '\'Satoshi\', sans-serif',
               fontWeight: 600,
               fontSize: 15,
-              cursor: form.degree.trim() ? 'pointer' : 'not-allowed',
-              color: 'white',
-              transition: 'background 0.2s'
+              cursor: form.jobTitle.trim() || form.companyName.trim() ? 'pointer' : 'not-allowed',
+              color: 'white'
             }}
           >
             {initialData ? 'Update' : 'Add'}

@@ -10,7 +10,7 @@ import {
 
 // ── Types ──────────────────────────────────────────────────────────────────
 interface Education {
-  id?: number;
+  id?: number | string;
   degree: string;
   institution: string;
   score?: string;
@@ -23,8 +23,45 @@ interface Education {
 interface EducationCardProps {
   edu: Education;
   onEdit: (edu: Education) => void;
-  onDelete: (id: number) => void;
+  onDelete: (id?: number | string) => void;
 }
+
+type ApiEducation = {
+  id?: number | string;
+  education_id?: number | string;
+  degree?: string;
+  institution_name?: string;
+  institution?: string;
+  field_of_study?: string;
+  start_date?: string;
+  end_date?: string;
+  description?: string;
+};
+
+const normalizeEducation = (education: ApiEducation): Education => {
+  const degree = education.field_of_study
+    ? `${education.degree ?? ''} in ${education.field_of_study}`.trim()
+    : (education.degree ?? '');
+
+  return {
+    id: education.id ?? education.education_id,
+    degree,
+    institution: education.institution_name ?? education.institution ?? '',
+    year: education.end_date ?? education.start_date ?? '',
+    bullets: education.description ? education.description.split('\n').filter(Boolean) : []
+  };
+};
+
+const toEducationPayload = (education: Education) => {
+  const [degree, ...fieldParts] = education.degree.split(' in ');
+  return {
+    degree: degree.trim(),
+    institution_name: education.institution,
+    field_of_study: fieldParts.join(' in ').trim(),
+    end_date: education.year,
+    description: education.bullets?.join('\n') ?? ''
+  };
+};
 
 const EditIcon = () => (
   <svg
@@ -204,7 +241,7 @@ export const EducationSection = () => {
       setIsLoading(true);
       const res = await getEducation();
       if (res.status === 'success' && Array.isArray(res.data)) {
-        setEduList(res.data);
+        setEduList(res.data.map((item) => normalizeEducation(item as ApiEducation)));
       }
       setIsLoading(false);
     };
@@ -212,7 +249,8 @@ export const EducationSection = () => {
   }, []);
 
   // ── Handlers ───────────────────────────────────────────────
-  const handleDelete = async (id: number) => {
+  const handleDelete = async (id?: number | string) => {
+    if (!id) return;
     const res = await deleteEducation(id);
     if (res.status === 'success') {
       setEduList((prev) => prev.filter((e) => e.id !== id));
@@ -230,26 +268,18 @@ export const EducationSection = () => {
   };
 
   const handleSaveEducation = async (savedEdu: Education) => {
+    const payload = toEducationPayload(savedEdu);
     if (savedEdu.id) {
-      // Edit existing
-      const payload = {
-        degree: savedEdu.degree,
-        institution_name: savedEdu.institution
-      };
       const res = await updateEducation(savedEdu.id, payload);
       if (res.status === 'success') {
         setEduList((prev) => prev.map((e) => (e.id === savedEdu.id ? savedEdu : e)));
       }
     } else {
-      // Add new
-      const payload = {
-        degree: savedEdu.degree,
-        institution_name: savedEdu.institution
-      };
       const res = await createEducation(payload);
       if (res.status === 'success') {
-        // Use server-returned data if available, otherwise use local
-        const newEntry = res.data ?? { ...savedEdu, id: Date.now() };
+        const newEntry = res.data
+          ? normalizeEducation(res.data as ApiEducation)
+          : { ...savedEdu, id: Date.now() };
         setEduList((prev) => [...prev, newEntry]);
       }
     }

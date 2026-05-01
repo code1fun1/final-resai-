@@ -97,7 +97,10 @@ export interface ExperiencePayload {
   job_title?: string;
   company_name?: string;
   location?: string;
-  // TODO: Add more fields when backend confirms (e.g. start_date, end_date, description)
+  start_date?: string;
+  end_date?: string;
+  description?: string;
+  currently_working?: boolean;
 }
 
 /** GET /user/profile-tabs/experience */
@@ -146,7 +149,10 @@ export const deleteExperience = async (id: number | string) => {
 export interface EducationPayload {
   degree?: string;
   institution_name?: string;
-  // TODO: Add more fields when backend confirms (e.g. year, score, specialization)
+  field_of_study?: string;
+  start_date?: string;
+  end_date?: string;
+  description?: string;
 }
 
 /** GET /user/profile-tabs/education */
@@ -186,13 +192,16 @@ export const deleteEducation = async (id: number | string) => {
 
 // ════════════════════════════════════════════════════════════════
 // CERTIFICATE TAB
-// TODO: Confirm exact field names from backend (not in Postman yet)
+// Payload confirmed from Postman collection
 // ════════════════════════════════════════════════════════════════
 
 export interface CertificatePayload {
-  title?: string;
-  issuer?: string;
-  year?: string;
+  certificate_name?: string;
+  issuing_organization?: string;
+  issue_date?: string;
+  expiration_date?: string;
+  credential_id?: string;
+  credential_url?: string;
 }
 
 /** GET /user/profile-tabs/certificate */
@@ -235,10 +244,13 @@ export const deleteCertificate = async (id: number | string) => {
 
 // ════════════════════════════════════════════════════════════════
 // AWARD TAB
-// TODO: Confirm exact field names from backend (not in Postman yet)
+// Payload confirmed from Postman collection
 // ════════════════════════════════════════════════════════════════
 
 export interface AwardPayload {
+  award_name?: string;
+  issuing_organization?: string;
+  award_date?: string;
   description?: string;
 }
 
